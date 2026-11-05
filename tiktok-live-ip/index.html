@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TikTok 直播带货的 IP 要求：上行带宽和抖动到底怎么算</title>
+<meta name="description" content="直播和短视频走的是完全不同的两条链路，短视频能缓存，直播不能。">
+<link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/tiktok-live-ip/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="库珀网络">
+<meta property="og:title" content="TikTok 直播带货的 IP 要求：上行带宽和抖动到底怎么算">
+<meta property="og:description" content="直播和短视频走的是完全不同的两条链路，短视频能缓存，直播不能。">
+<meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/tiktok-live-ip/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="author" content="库珀网络">
+<style>
+:root{--bg:#0a1018;--panel:#111a26;--line:#1e2b3d;--text:#e8eef6;--dim:#8fa3b8;--accent:#00d6d6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+header{border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:44px}
+header .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.logo{font-size:20px;font-weight:700;color:var(--accent);text-decoration:none;letter-spacing:.5px}
+nav a{color:var(--dim);text-decoration:none;margin-left:20px;font-size:15px}
+nav a:hover{color:var(--accent)}
+.crumb{color:var(--dim);font-size:14px;margin-bottom:18px}
+.crumb a{color:var(--dim);text-decoration:none}
+.crumb a:hover{color:var(--accent)}
+h1{font-size:34px;line-height:1.35;margin:0 0 20px;letter-spacing:-.3px}
+h2{font-size:23px;margin:46px 0 16px;padding-left:14px;border-left:4px solid var(--accent)}
+h3{font-size:19px;margin:30px 0 12px;color:var(--accent)}
+p{margin:0 0 18px;color:#c5d3e2}
+.lead{font-size:19px;color:var(--text);background:var(--panel);border-left:4px solid var(--accent);padding:20px 24px;margin:0 0 32px;border-radius:0 6px 6px 0}
+ul,ol{margin:0 0 20px 24px;color:#c5d3e2}
+li{margin-bottom:10px}
+code{background:#1a2432;color:#5ce1e6;padding:2px 7px;border-radius:4px;font-size:15px;font-family:ui-monospace,Menlo,monospace}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px;overflow-x:auto;margin:0 0 22px}
+pre code{background:none;padding:0;color:#a8e6ea;font-size:14px;line-height:1.7;white-space:pre}
+.note{background:#0f1a24;border:1px solid var(--line);border-left:4px solid #4a7c8c;border-radius:0 6px 6px 0;padding:16px 20px;margin:0 0 24px;color:#a9bccd;font-size:16px}
+.meta{color:var(--dim);font-size:14px;margin-bottom:28px}
+.video{position:relative;padding-bottom:56.25%;height:0;margin:0 0 38px;background:var(--panel);border-radius:10px;overflow:hidden}
+.video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.video .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:15px}
+.toc{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 24px;margin:0 0 34px}
+.toc b{display:block;color:var(--accent);margin-bottom:10px;font-size:15px}
+.toc a{display:block;color:#9fd8dd;text-decoration:none;font-size:15px;margin-bottom:6px}
+.toc a:hover{text-decoration:underline}
+.cta{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:46px 0}
+.cta h3{margin-top:0}
+.faq{margin:14px 0 0}
+.faq details{border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin-bottom:10px;background:var(--panel)}
+.faq summary{cursor:pointer;color:var(--text);font-weight:600;font-size:16px}
+.faq p{margin:12px 0 0;font-size:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin:24px 0 34px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;text-decoration:none;color:inherit;transition:border-color .2s}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;color:var(--accent);font-size:15px;margin-bottom:8px}
+.card span{color:var(--dim);font-size:14px;line-height:1.65}
+table{width:100%;border-collapse:collapse;margin:0 0 26px;font-size:15px}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#16202e;color:var(--accent);font-weight:600}
+td{color:#c5d3e2}
+.rel{margin:56px 0 0;padding-top:28px;border-top:1px solid var(--line)}
+.rel h3{margin-bottom:16px}
+.rel a{display:block;color:#9fd8dd;text-decoration:none;margin-bottom:10px;font-size:16px}
+.rel a:hover{text-decoration:underline}
+.rel .kw{color:var(--dim);font-size:14px}
+footer{border-top:1px solid var(--line);margin-top:72px;padding:32px 0;color:var(--dim);font-size:14px}
+footer a{color:#00d6d6;text-decoration:none}
+.tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
+@media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "TikTok 直播带货的 IP 要求：上行带宽和抖动到底怎么算", "description": "直播和短视频走的是完全不同的两条链路，短视频能缓存，直播不能。", "inLanguage": "zh-CN", "keywords": "TikTok直播, 直播带宽, 上行带宽, 抖动, 独享静态IP, 直播卡顿, 跨境网络", "articleSection": "直播", "wordCount": 1760, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/tiktok-live-ip/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "直播"}, {"@type": "ListItem", "position": 3, "name": "TikTok直播IP", "item": "https://proxy86-singbox.github.io/kuber-network/tiktok-live-ip/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "上行带宽怎么算是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "算法很简单。先定你 OBS 里的推流码率，一零八零 p 三十帧一般是四千五到六千 kbps，一零八零 p 六十帧要到八千。然后加冗余，冗余按码率的百分之五十算。也就是说六千码率，你上行至少要九兆。留这一半是给瞬时峰值和重传的，不留，一遇到网络波动立刻掉帧。"}}, {"@type": "Question", "name": "抖动比延迟更致命是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "第二个指标是抖动。延迟两百毫秒其实能播，观众最多觉得互动慢半拍。但抖动一旦超过八十毫秒，画面就会一顿一顿。因为直播的接收端缓冲只有一两秒，抖动把它吃完了就开始卡。所以测一条线路，你看的不该是平均延迟，而是延迟的最大值和最小值差多少。"}}, {"@type": "Question", "name": "直播 IP 必须静态独享", "acceptedAnswer": {"@type": "Answer", "text": "第三点，直播用的 IP 必须是静态的、独享的。静态是因为推流过程中 IP 一变，连接直接断，观众看到的就是直播结束。独享是因为共享 IP 上别人在跑什么你控制不了，平台的风控会把整个 IP 上的行为算在一起。你推流一切正常，号却被压流量，问题就在这。"}}, {"@type": "Question", "name": "开播前十分钟测三项", "acceptedAnswer": {"@type": "Answer", "text": "具体怎么测。开播前十分钟做三件事。第一，用测速工具看上行实测值，要稳定在你码率的一点五倍以上。第二，连续 ping 你的落地网关三百个包，看丢包率和最大延迟。第三，OBS 里开统计面板，看 dropped frames 这个数字，只要开播五分钟内它开始涨，说明这条链路撑不住当前码率。"}}, {"@type": "Question", "name": "卡顿出现在两分半说明什么", "acceptedAnswer": {"@type": "Answer", "text": "有个很典型的故障特征。如果直播每次卡顿都出现在开播两分半左右，那不是网络突然变差，是缓冲被慢慢吃空了。原因通常是码率设太高，或者链路的实际带宽比你以为的低。处理办法不是换线路，先把码率降百分之三十再试。降完不卡了，就是带宽问题，不是线路问题。"}}, {"@type": "Question", "name": "该怎么配是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "配置上的建议是这样。一条独享静态 IP 走专线回国方向给直播用，码率按实测上行的六成设，OBS 的输出模式选固定码率，别选动态。手机端直播的话，先确认手机连的是软路由下发的那条线，不是自动切到了本地网络。这一步错了，你后面所有测试都没意义。"}}]}]}</script>
+</head>
+<body>
+<header><div class="wrap">
+<a class="logo" href="/kuber-network/">库珀网络</a>
+<nav><a href="/kuber-network/duxiang-static-ip/">静态IP</a><a href="/kuber-network/cn2-huiguo/">CN2回国</a><a href="/kuber-network/softrouter-l2tp/">软路由</a><a href="/kuber-network/yanghao-ip/">养号IP</a><a href="/kuber-network/tiktok-live-ip/">直播IP</a><a href="/kuber-network/#all">全部文档</a></nav>
+</div></header>
+<main class="wrap">
+<div class="crumb"><a href="/kuber-network/">库珀网络</a> › <span>直播</span> › <span>TikTok直播IP</span></div>
+<h1>TikTok 直播带货的 IP 要求：上行带宽和抖动到底怎么算</h1>
+<div class="meta"><span class="tag">直播</span><span class="tag">TikTok直播IP</span><span class="tag">P0</span>更新于 2026-11-05</div>
+<p class="lead">先说一个很多人搞混的事。短视频是上传完就结束了，中间可以重传、可以排队，网络抖一下你根本感觉不到。直播不行，直播是持续的实时上行，这一秒的数据掉队了，观众那边就是黑一下、卡一下。所以你养短视频号用的那套网络，未必撑得住直播。</p>
+<div class="video"><div class="ph">视频制作中</div></div>
+<h2>上行带宽怎么算</h2>
+<p>算法很简单。先定你 OBS 里的推流码率，一零八零 p 三十帧一般是四千五到六千 kbps，一零八零 p 六十帧要到八千。然后加冗余，冗余按码率的百分之五十算。也就是说六千码率，你上行至少要九兆。</p>
+<p>留这一半是给瞬时峰值和重传的，不留，一遇到网络波动立刻掉帧。</p>
+<h2>抖动比延迟更致命</h2>
+<p>第二个指标是抖动。延迟两百毫秒其实能播，观众最多觉得互动慢半拍。但抖动一旦超过八十毫秒，画面就会一顿一顿。因为直播的接收端缓冲只有一两秒，抖动把它吃完了就开始卡。所以测一条线路，你看的不该是平均延迟，而是延迟的最大值和最小值差多少。</p>
+<h2>直播 IP 必须静态独享</h2>
+<p>第三点，直播用的 IP 必须是静态的、独享的。静态是因为推流过程中 IP 一变，连接直接断，观众看到的就是直播结束。独享是因为共享 IP 上别人在跑什么你控制不了，平台的风控会把整个 IP 上的行为算在一起。</p>
+<p>你推流一切正常，号却被压流量，问题就在这。</p>
+<h2>开播前十分钟测三项</h2>
+<p>具体怎么测。开播前十分钟做三件事。第一，用测速工具看上行实测值，要稳定在你码率的一点五倍以上。第二，连续 ping 你的落地网关三百个包，看丢包率和最大延迟。第三，OBS 里开统计面板，看 dropped frames 这个数字，只要开播五分钟内它开始涨，说明这条链路撑不住当前码率。</p>
+<h2>卡顿出现在两分半说明什么</h2>
+<p>有个很典型的故障特征。如果直播每次卡顿都出现在开播两分半左右，那不是网络突然变差，是缓冲被慢慢吃空了。原因通常是码率设太高，或者链路的实际带宽比你以为的低。处理办法不是换线路，先把码率降百分之三十再试。</p>
+<p>降完不卡了，就是带宽问题，不是线路问题。</p>
+<h2>该怎么配</h2>
+<p>配置上的建议是这样。一条独享静态 IP 走专线回国方向给直播用，码率按实测上行的六成设，OBS 的输出模式选固定码率，别选动态。手机端直播的话，先确认手机连的是软路由下发的那条线，不是自动切到了本地网络。</p>
+<p>这一步错了，你后面所有测试都没意义。</p>
+<h2 id="faq">常见问题</h2><div class="faq">
+<details><summary>上行带宽怎么算是怎么回事？</summary><p>算法很简单。先定你 OBS 里的推流码率，一零八零 p 三十帧一般是四千五到六千 kbps，一零八零 p 六十帧要到八千。然后加冗余，冗余按码率的百分之五十算。也就是说六千码率，你上行至少要九兆。留这一半是给瞬时峰值和重传的，不留，一遇到网络波动立刻掉帧。</p></details>
+<details><summary>抖动比延迟更致命是怎么回事？</summary><p>第二个指标是抖动。延迟两百毫秒其实能播，观众最多觉得互动慢半拍。但抖动一旦超过八十毫秒，画面就会一顿一顿。因为直播的接收端缓冲只有一两秒，抖动把它吃完了就开始卡。所以测一条线路，你看的不该是平均延迟，而是延迟的最大值和最小值差多少。</p></details>
+<details><summary>直播 IP 必须静态独享</summary><p>第三点，直播用的 IP 必须是静态的、独享的。静态是因为推流过程中 IP 一变，连接直接断，观众看到的就是直播结束。独享是因为共享 IP 上别人在跑什么你控制不了，平台的风控会把整个 IP 上的行为算在一起。你推流一切正常，号却被压流量，问题就在这。</p></details>
+<details><summary>开播前十分钟测三项</summary><p>具体怎么测。开播前十分钟做三件事。第一，用测速工具看上行实测值，要稳定在你码率的一点五倍以上。第二，连续 ping 你的落地网关三百个包，看丢包率和最大延迟。第三，OBS 里开统计面板，看 dropped frames 这个数字，只要开播五分钟内它开始涨，说明这条链路撑不住当前码率。</p></details>
+<details><summary>卡顿出现在两分半说明什么</summary><p>有个很典型的故障特征。如果直播每次卡顿都出现在开播两分半左右，那不是网络突然变差，是缓冲被慢慢吃空了。原因通常是码率设太高，或者链路的实际带宽比你以为的低。处理办法不是换线路，先把码率降百分之三十再试。降完不卡了，就是带宽问题，不是线路问题。</p></details>
+<details><summary>该怎么配是怎么回事？</summary><p>配置上的建议是这样。一条独享静态 IP 走专线回国方向给直播用，码率按实测上行的六成设，OBS 的输出模式选固定码率，别选动态。手机端直播的话，先确认手机连的是软路由下发的那条线，不是自动切到了本地网络。这一步错了，你后面所有测试都没意义。</p></details>
+</div>
+<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="rel"><h3>相关内容</h3><a href="/kuber-network/ecommerce-shop-ip/">电商店铺IP<span class="kw"> · 亚马逊多店铺 IP 隔离：一个店铺一个 IP 到底怎么做</span></a><a href="/kuber-network/duxiang-static-ip/">独享静态IP<span class="kw"> · 独享静态IP 怎么选？养号前必须知道的 5 个判断标准</span></a><a href="/kuber-network/ip-guanlian/">IP被关联<span class="kw"> · IP 被关联了怎么办？三个补救动作和一个预防方案</span></a><a href="/kuber-network/l2tp-vs-vless/">L2TP和VLESS区别<span class="kw"> · L2TP 还是 VLESS？一张表讲清该用哪个</span></a><a href="/kuber-network/fingerprint-browser-ip/">指纹浏览器IP<span class="kw"> · 指纹浏览器配独享 IP：六个必须对齐的环境参数</span></a><a href="/kuber-network/ip-chunjingdu/">IP纯净度检测<span class="kw"> · 怎么判断你的 IP 干不干净？三个维度，三个工具</span></a><a href="/kuber-network/ip-subnet-link/">IP段关联<span class="kw"> · 同 C 段 IP 会不会被关联：机房段的连带风险怎么判断</span></a><a href="/kuber-network/xiaohuojian-vless/">小火箭VLESS配置<span class="kw"> · Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误</span></a></div>
+</main>
+<footer><div class="wrap">
+
+库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转<br>
+L2TP · VLESS · 软路由组网 · 东南亚自有中转仓<br><br>
+<a href="https://t.me/huiguo_staticip">Telegram 频道</a> · <a href="https://t.me/huiguo_chat">技术交流群</a><br>
+<span style="opacity:.7">文档最后更新 2026-11-05</span>
+</div></footer>
+</body>
+</html>

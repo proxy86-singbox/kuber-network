@@ -4,69 +4,86 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误</title>
-<meta name="description" content="这期讲小火箭配 VLESS。现在主流两种配法，VLESS 加 TCP 加 TLS，和 VLESS 加 WS 加 TLS。前者性能好，后者伪装性强。看你网络环境选。">
+<meta name="description" content="小火箭配 VLESS 的完整参数，以及 TLS 握手失败、403 错误的排查方法。">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/xiaohuojian-vless/">
 <meta property="og:type" content="article">
+<meta property="og:site_name" content="库珀网络">
 <meta property="og:title" content="Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误">
-<meta property="og:description" content="这期讲小火箭配 VLESS。现在主流两种配法，VLESS 加 TCP 加 TLS，和 VLESS 加 WS 加 TLS。前者性能好，后者伪装性强。看你网络环境选。">
-<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:description" content="小火箭配 VLESS 的完整参数，以及 TLS 握手失败、403 错误的排查方法。">
+<meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/xiaohuojian-vless/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="author" content="库珀网络">
 <style>
 :root{--bg:#0a1018;--panel:#111a26;--line:#1e2b3d;--text:#e8eef6;--dim:#8fa3b8;--accent:#00d6d6}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px}
-.wrap{max-width:820px;margin:0 auto;padding:0 24px}
-header{border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:48px}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+header{border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:44px}
 header .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .logo{font-size:20px;font-weight:700;color:var(--accent);text-decoration:none;letter-spacing:.5px}
 nav a{color:var(--dim);text-decoration:none;margin-left:20px;font-size:15px}
 nav a:hover{color:var(--accent)}
+.crumb{color:var(--dim);font-size:14px;margin-bottom:18px}
+.crumb a{color:var(--dim);text-decoration:none}
+.crumb a:hover{color:var(--accent)}
 h1{font-size:34px;line-height:1.35;margin:0 0 20px;letter-spacing:-.3px}
-h2{font-size:23px;margin:44px 0 16px;padding-left:14px;border-left:4px solid var(--accent)}
-h3{font-size:19px;margin:28px 0 12px;color:var(--accent)}
+h2{font-size:23px;margin:46px 0 16px;padding-left:14px;border-left:4px solid var(--accent)}
+h3{font-size:19px;margin:30px 0 12px;color:var(--accent)}
 p{margin:0 0 18px;color:#c5d3e2}
-.lead{font-size:19px;color:var(--text);background:var(--panel);border-left:4px solid var(--accent);padding:20px 24px;margin:0 0 36px;border-radius:0 6px 6px 0}
+.lead{font-size:19px;color:var(--text);background:var(--panel);border-left:4px solid var(--accent);padding:20px 24px;margin:0 0 32px;border-radius:0 6px 6px 0}
 ul,ol{margin:0 0 20px 24px;color:#c5d3e2}
 li{margin-bottom:10px}
 code{background:#1a2432;color:#5ce1e6;padding:2px 7px;border-radius:4px;font-size:15px;font-family:ui-monospace,Menlo,monospace}
 pre{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px;overflow-x:auto;margin:0 0 22px}
-pre code{background:none;padding:0;color:#a8e6ea;font-size:14px;line-height:1.7}
-.meta{color:var(--dim);font-size:14px;margin-bottom:32px}
-.video{position:relative;padding-bottom:56.25%;height:0;margin:0 0 40px;background:var(--panel);border-radius:10px;overflow:hidden}
+pre code{background:none;padding:0;color:#a8e6ea;font-size:14px;line-height:1.7;white-space:pre}
+.note{background:#0f1a24;border:1px solid var(--line);border-left:4px solid #4a7c8c;border-radius:0 6px 6px 0;padding:16px 20px;margin:0 0 24px;color:#a9bccd;font-size:16px}
+.meta{color:var(--dim);font-size:14px;margin-bottom:28px}
+.video{position:relative;padding-bottom:56.25%;height:0;margin:0 0 38px;background:var(--panel);border-radius:10px;overflow:hidden}
 .video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
 .video .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:15px}
-.cta{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:48px 0}
+.toc{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 24px;margin:0 0 34px}
+.toc b{display:block;color:var(--accent);margin-bottom:10px;font-size:15px}
+.toc a{display:block;color:#9fd8dd;text-decoration:none;font-size:15px;margin-bottom:6px}
+.toc a:hover{text-decoration:underline}
+.cta{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:46px 0}
 .cta h3{margin-top:0}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:28px 0}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px;text-decoration:none;color:inherit;transition:border-color .2s}
+.faq{margin:14px 0 0}
+.faq details{border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin-bottom:10px;background:var(--panel)}
+.faq summary{cursor:pointer;color:var(--text);font-weight:600;font-size:16px}
+.faq p{margin:12px 0 0;font-size:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin:24px 0 34px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;text-decoration:none;color:inherit;transition:border-color .2s}
 .card:hover{border-color:var(--accent)}
-.card b{display:block;color:var(--accent);font-size:16px;margin-bottom:8px}
-.card span{color:var(--dim);font-size:14px}
+.card b{display:block;color:var(--accent);font-size:15px;margin-bottom:8px}
+.card span{color:var(--dim);font-size:14px;line-height:1.65}
+table{width:100%;border-collapse:collapse;margin:0 0 26px;font-size:15px}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#16202e;color:var(--accent);font-weight:600}
+td{color:#c5d3e2}
 .rel{margin:56px 0 0;padding-top:28px;border-top:1px solid var(--line)}
 .rel h3{margin-bottom:16px}
 .rel a{display:block;color:#9fd8dd;text-decoration:none;margin-bottom:10px;font-size:16px}
 .rel a:hover{text-decoration:underline}
+.rel .kw{color:var(--dim);font-size:14px}
 footer{border-top:1px solid var(--line);margin-top:72px;padding:32px 0;color:var(--dim);font-size:14px}
+footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
-@media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}}
+@media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误", "description": "这期讲小火箭配 VLESS。现在主流两种配法，VLESS 加 TCP 加 TLS，和 VLESS 加 WS 加 TLS。前者性能好，后者伪装性强。看你网络环境选。", "inLanguage": "zh-CN", "dateModified": "2026-11-05", "author": {"@type": "Organization", "name": "库珀网络"}, "mainEntityOfPage": "https://proxy86-singbox.github.io/kuber-network/xiaohuojian-vless/"}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "参数清单", "acceptedAnswer": {"@type": "Answer", "text": "手动添加的话，参数是这样。类型选 VLESS。地址填服务商给的域名或者IP。端口，TLS 一般是四百四十三。UUID 填服务商提供的那串。传输选 WS 或者 TCP。TLS 开启，SNI 填域名。如果选 WS，路径填服务商给的路径，一般带斜杠。"}}, {"@type": "Question", "name": "错误一 端口和TLS不匹配", "acceptedAnswer": {"@type": "Answer", "text": "第一个常见错误，端口填八十但开了 TLS。八十是明文HTTP端口，TLS 走四百四十三。这两个配错，直接连不上，而且不会给你明确报错，就是一直转圈。"}}, {"@type": "Question", "name": "错误二 SNI不一致", "acceptedAnswer": {"@type": "Answer", "text": "第二个错误，SNI 和地址不一致。SNI 是 TLS 握手时告诉服务器你要访问哪个域名。如果地址填IP但SNI填域名，或者反过来，TLS 握手就会失败。原则是，SNI 必须和证书上的域名一致。"}}]}, {"@type": "VideoObject", "name": "Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误", "description": "这期讲小火箭配 VLESS。现在主流两种配法，VLESS 加 TCP 加 TLS，和 VLESS 加 WS 加 TLS。前者性能好，后者伪装性强。看你网络环境选。", "embedUrl": "https://www.youtube.com/embed/KO5gfVrPGnY"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误", "description": "小火箭配 VLESS 的完整参数，以及 TLS 握手失败、403 错误的排查方法。", "inLanguage": "zh-CN", "keywords": "小火箭, Shadowrocket, VLESS, 配置, TLS, 代理, iOS", "articleSection": "代理协议", "wordCount": 3294, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/xiaohuojian-vless/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "代理协议"}, {"@type": "ListItem", "position": 3, "name": "小火箭VLESS配置", "item": "https://proxy86-singbox.github.io/kuber-network/xiaohuojian-vless/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "小火箭的 VLESS 节点可以手动添加吗？", "acceptedAnswer": {"@type": "Answer", "text": "可以，但建议用分享链接或订阅导入。手动添加要填七项（类型、地址、端口、UUID、传输、TLS、SNI/路径），任何一项偏差都会导致连接失败且没有明确报错。手抄时最容易错的是 UUID 的大小写和 WS 路径开头的斜杠。"}}, {"@type": "Question", "name": "为什么延迟测试通过，但网页打不开？", "acceptedAnswer": {"@type": "Answer", "text": "延迟测试只验证 TCP 可达，不验证 TLS 与业务路径。网页打不开但延迟通，按顺序查：SNI 是否与证书域名一致、WS 路径是否正确、分流规则是否把这个域名分到了直连、DNS 是否解析异常。四项里 SNI 与路径错最常见。"}}, {"@type": "Question", "name": "VLESS 需要开 UDP 吗？", "acceptedAnswer": {"@type": "Answer", "text": "看用途。需要语音、游戏、QUIC 加速时开；只浏览网页时可以关。部分服务端不提供 UDP 转发，客户端开着会导致 QUIC 请求失败后回退变慢，表现为「打开网页有半秒卡顿」。不确定时先关，需要时再开。"}}, {"@type": "Question", "name": "SNI 到底该填什么？", "acceptedAnswer": {"@type": "Answer", "text": "填服务端证书上的域名。地址填域名时可以不填（客户端默认用地址）；地址填 IP 时必填，否则握手会因证书域名不匹配而失败。填一个无关的大站域名在普通 TLS 场景下一定失败，那种玩法属于 Reality 的用法，不要混用。"}}, {"@type": "Question", "name": "WS 和 TCP 两种传输怎么选？", "acceptedAnswer": {"@type": "Answer", "text": "能直连 443 且不需要 CDN 时选 TCP，性能更好。需要套 CDN（隐藏真实 IP、抗封锁）或服务端只提供 WS 时选 WS。WS 的代价是多一层帧封装，吞吐略低，但穿透性更强。"}}, {"@type": "Question", "name": "订阅链接失效了怎么办？", "acceptedAnswer": {"@type": "Answer", "text": "先判断是订阅地址失效还是节点失效：用浏览器打开订阅链接，能返回 base64 或配置文本说明订阅正常，问题在节点；返回 404/403 说明订阅地址变了，找服务商要新的。不要因为订阅失效就重置客户端，那会丢掉本地分流规则。"}}, {"@type": "Question", "name": "小火箭的分流规则会拖慢速度吗？", "acceptedAnswer": {"@type": "Answer", "text": "规则匹配的开销很小，通常不影响速度。真正影响速度的是「规则没命中导致走了错误路径」——比如国内站点被分到代理，绕一圈香港再回来。优化方向是让 GEOIP,CN,DIRECT 生效，而不是减少规则数量。"}}, {"@type": "Question", "name": "iOS 上挂代理很耗电，有办法缓解吗？", "acceptedAnswer": {"@type": "Answer", "text": "有。用快捷指令做场景化开关（例如只在打开特定 App 时开启），比常驻省电很多。另外关闭不必要的 UDP 转发、减少规则数量、避免使用脚本型规则，都能降低常驻开销。"}}, {"@type": "Question", "name": "同一个节点，手机能用、电脑不能用，为什么？", "acceptedAnswer": {"@type": "Answer", "text": "问题在客户端配置而不是节点。常见差异：电脑客户端的 TLS 设置（是否允许不安全证书、是否启用 uTLS）、系统时间偏差（TLS 对时间敏感，偏差超过几分钟会握手失败）、系统代理是否真的生效（部分软件不走系统代理）。"}}, {"@type": "Question", "name": "VLESS 和 Trojan 怎么选？", "acceptedAnswer": {"@type": "Answer", "text": "两者都是「伪装成 HTTPS」的思路。VLESS 的优势是无状态、开销低、可与 Reality 组合，生态更活跃；Trojan 的优势是配置简单、兼容性好。新部署优先 VLESS，已有 Trojan 稳定运行的不必迁移。"}}]}, {"@type": "VideoObject", "name": "Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误", "description": "小火箭配 VLESS 的完整参数，以及 TLS 握手失败、403 错误的排查方法。", "embedUrl": "https://www.youtube.com/embed/KO5gfVrPGnY", "uploadDate": "2026-11-05", "thumbnailUrl": "https://i.ytimg.com/vi/KO5gfVrPGnY/maxresdefault.jpg"}]}</script>
 </head>
 <body>
 <header><div class="wrap">
-<a class="logo" href="/">库珀网络</a>
-<nav>
-<a href="/">首页</a>
-<a href="/duxiang-static-ip/">静态IP</a>
-<a href="/cn2-huiguo/">CN2回国</a>
-<a href="/softrouter-l2tp/">软路由</a>
-<a href="/yanghao-ip/">养号IP</a>
-</nav>
+<a class="logo" href="/kuber-network/">库珀网络</a>
+<nav><a href="/kuber-network/duxiang-static-ip/">静态IP</a><a href="/kuber-network/cn2-huiguo/">CN2回国</a><a href="/kuber-network/softrouter-l2tp/">软路由</a><a href="/kuber-network/yanghao-ip/">养号IP</a><a href="/kuber-network/tiktok-live-ip/">直播IP</a><a href="/kuber-network/#all">全部文档</a></nav>
 </div></header>
 <main class="wrap">
+<div class="crumb"><a href="/kuber-network/">库珀网络</a> › <span>代理协议</span> › <span>小火箭VLESS配置</span></div>
 <h1>Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误</h1>
-<div class="meta"><span class="tag">小火箭</span><span class="tag">小火箭VLESS配置</span>更新于 2026-11-05</div>
+<div class="meta"><span class="tag">代理协议</span><span class="tag">小火箭VLESS配置</span><span class="tag">P0</span>更新于 2026-11-05</div>
 <p class="lead">这期讲小火箭配 VLESS。现在主流两种配法，VLESS 加 TCP 加 TLS，和 VLESS 加 WS 加 TLS。前者性能好，后者伪装性强。看你网络环境选。</p>
-<div class="video"><iframe src="https://www.youtube.com/embed/KO5gfVrPGnY" title="Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误" allowfullscreen loading="lazy"></iframe></div>
+<div class="video"><iframe src="https://www.youtube.com/embed/KO5gfVrPGnY" title="Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误" loading="lazy" allowfullscreen allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"></iframe></div>
 <h2>参数清单</h2>
 <p>手动添加的话，参数是这样。类型选 VLESS。地址填服务商给的域名或者IP。端口，TLS 一般是四百四十三。UUID 填服务商提供的那串。传输选 WS 或者 TCP。TLS 开启，SNI 填域名。</p>
 <p>如果选 WS，路径填服务商给的路径，一般带斜杠。</p>
@@ -78,12 +95,72 @@ footer{border-top:1px solid var(--line);margin-top:72px;padding:32px 0;color:var
 <p>第三个错误，WS 路径少了开头的斜杠。服务商给的是斜杠 abc，你填成 abc，少一个斜杠，服务器返回四百零三。这个错误特别隐蔽，因为小火箭里看起来填对了。</p>
 <h2>验证方法</h2>
 <p>配好之后先做延迟测试，不通就检查这三项。通了再看能不能打开网页。如果延迟通但网页打不开，多半是分流规则问题，把规则改成全局试试。</p>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
-<div class="rel"><h3>相关内容</h3><a href="/duxiang-static-ip/">独享静态IP 怎么选？养号前必须知道的 5 个判断标准</a><a href="/yanghao-ip/">养号IP 完全指南：为什么必须独享静态，三个平台视角讲透</a><a href="/cn2-huiguo/">香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少</a><a href="/softrouter-l2tp/">iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</a></div>
+<h2 id="h1">VLESS 是什么，为什么现在主流</h2>
+<p>VLESS 是 Xray 项目里的无状态传输协议，本质是「把一段加密的 TCP 流伪装成正常的 TLS 流量」。它不自己做加密（加密交给 TLS），只负责把目标地址、UUID 这类元信息打包进一个极简的头部，因此开销比 VMess 更低，握手更快。</p>
+<p>三种主流组合，选哪种取决于你所在网络的管理强度：</p>
+<table><thead><tr><th>组合</th><th>特征</th><th>适用网络</th><th>性能</th></tr></thead><tbody><tr><td>VLESS + TCP + TLS</td><td>纯 TLS 长连接</td><td>一般网络</td><td>最好</td></tr><tr><td>VLESS + WS + TLS</td><td>走 WebSocket，可套 CDN</td><td>需要 CDN 中转、需要伪装成网站</td><td>稍差</td></tr><tr><td>VLESS + Reality</td><td>借用真实网站的 TLS 指纹，不需要自己的证书</td><td>管理严格的网络</td><td>好</td></tr></tbody></table>
+<h2 id="h2">参数表：每一项填什么</h2>
+<table><thead><tr><th>字段</th><th>填什么</th><th>说明</th></tr></thead><tbody><tr><td>类型</td><td>VLESS</td><td>不是 VMess，不是 Trojan</td></tr><tr><td>地址</td><td>服务商给的域名或 IP</td><td>有 CDN 时必须填 CDN 域名</td></tr><tr><td>端口</td><td>443（TLS）或 80（明文）</td><td>与服务端一致</td></tr><tr><td>UUID</td><td>服务商给的那串</td><td>大小写敏感，不能有多余空格</td></tr><tr><td>传输</td><td>TCP 或 WS</td><td>与服务端一致</td></tr><tr><td>TLS</td><td>开启（443 端口）</td><td>关闭则无法握手</td></tr><tr><td>SNI</td><td>证书上的域名</td><td>必须与证书匹配</td></tr><tr><td>路径</td><td>WS 模式下的 path，通常以 / 开头</td><td>少一个斜杠就 403</td></tr><tr><td>flow</td><td>一般留空，或 xtls-rprx-vision</td><td>仅 Reality/Vision 用</td></tr></tbody></table>
+<h2 id="h3">错误一：端口与 TLS 状态不匹配</h2>
+<p>表现：一直转圈，最终提示连接超时，没有任何错误详情。</p>
+<p>原因有两种：开了 TLS 但端口填 80，或者关了 TLS 但端口填 443。80 是明文 HTTP 端口，绝大部分服务端不在这个端口上跑 TLS，握手直接失败；443 上关掉 TLS 则服务端期待 TLS 握手而客户端发的是明文，同样失败。</p>
+<p>正确对应关系：</p>
+<ol><li>443 → TLS 开</li><li>80 → TLS 关（仅当服务端确实在 80 上跑明文，少见）</li><li>自定义高端口 → 看服务端配置，不要猜</li></ol>
+<h2 id="h4">错误二：SNI 与地址不一致</h2>
+<p>表现：能握手但立刻断开，或者握手成功但访问任何网站都失败。</p>
+<p>SNI（Server Name Indication）是 TLS 握手时客户端告诉服务器「我要访问哪个域名」的字段。服务端用 SNI 来选择证书。SNI 与证书域名不一致，握手会失败或被中间设备标记。</p>
+<p>规则很硬：</p>
+<ul><li>地址填域名时，SNI 可以是同一个域名，也可以留空（客户端会默认使用地址）</li><li>地址填 IP 但服务端用的是域名证书时，SNI 必须显式填那个域名</li><li>地址填 CDN 域名时，SNI 填 CDN 的域名</li></ul>
+<p>一个常见的错误做法是「SNI 随便填个大站的域名」，这在 Reality 场景里有意义，在普通 TLS 场景里必然失败，因为服务端出示的证书对不上。</p>
+<h2 id="h5">错误三：WS 路径少了开头的斜杠</h2>
+<p>表现：延迟测试可能显示通（TCP 能建连），但打开网页返回 403 或 404。</p>
+<p>服务端配置的路径是 `/abc`，客户端填成 `abc`，请求的 URI 就变成 `/abcabc` 或者干脆是非法 URI，服务端直接拒绝。</p>
+<p>这个错误难发现，是因为小火箭的输入框看起来「填对了」，肉眼很难区分 `abc` 和 `/abc`。建议直接从服务商的分享链接导入，而不是手抄参数——手抄出错的概率比想象中高得多。</p>
+<p>排查时可以直接在浏览器里验证：</p>
+<pre><code># 应该返回 400/426 之类的协议层错误，而不是 404
+curl -I &quot;https://你的域名/你的路径&quot;</code></pre>
+<p>返回 404 说明路径不对（服务端没这个 location）；返回 400 或 426 说明路径对上了，只是缺少 WebSocket 升级头，这是正常的。</p>
+<h2 id="h6">分流规则怎么配</h2>
+<p>小火箭配置成功后，默认是全局代理，所有流量都走。这在日常使用里既浪费带宽又拖慢国内访问。正确做法是按规则分流。</p>
+<table><thead><tr><th>规则类型</th><th>写法示例</th><th>用途</th></tr></thead><tbody><tr><td>DOMAIN-SUFFIX</td><td>DOMAIN-SUFFIX,google.com,PROXY</td><td>按域名后缀</td></tr><tr><td>DOMAIN-KEYWORD</td><td>DOMAIN-KEYWORD,youtube,PROXY</td><td>按关键词</td></tr><tr><td>IP-CIDR</td><td>IP-CIDR,8.8.8.8/32,PROXY</td><td>按 IP 段</td></tr><tr><td>GEOIP</td><td>GEOIP,CN,DIRECT</td><td>国内 IP 直连</td></tr><tr><td>FINAL</td><td>FINAL,PROXY</td><td>兜底</td></tr></tbody></table>
+<p>推荐顺序是：先把需要代理的域名和 IP 段列出来放前面，再加 GEOIP,CN,DIRECT 兜底直连，最后 FINAL,PROXY。顺序错了会出现「国内网站也走代理」或者「需要的站点没走代理」。</p>
+<h2 id="h7">验证流程</h2>
+<p>配好之后按这个顺序验，能快速定位问题层：</p>
+<ol><li>延迟测试：小火箭里点节点做测试，通说明 TCP 可达</li><li>网页测试：打开一个境外站点，能开说明 TLS 与路径都对</li><li>IP 回显：访问 IP 查询站点，显示的出口是不是节点 IP</li><li>DNS 泄漏：检查 DNS 是否与出口同区域</li><li>分流测试：同时打开一个国内站点和一个境外站点，看是否各自直连/走代理</li></ol>
+<p>延迟通但网页打不开，八成是分流规则或 DNS 问题；延迟不通，八成是端口/TLS/路径三选一。</p>
+<h2 id="h8">三个补充细节</h2>
+<ul><li>UDP 转发：部分服务端不开 UDP，表现为游戏、语音、QUIC 不可用。客户端里把 UDP 关掉反而更稳，避免 QUIC 走代理失败后回退慢。</li><li>订阅更新：用订阅链接而不是手抄，服务商换 IP 时自动同步。订阅链接本身要定期检查是否失效。</li><li>电量与耗电：iOS 上长时间挂代理会显著耗电，按需开启（用快捷指令做场景化开关）比常驻更实际。</li></ul>
+<h2 id="h9">和 Clash / v2rayN 的差异</h2>
+<p>参数逻辑完全一样，差别在客户端实现：小火箭的优势是 iOS 上规则引擎成熟、支持脚本；Clash 系优势是规则生态与多平台统一；v2rayN 优势是 Windows 上调试信息全。三个客户端用同一个节点，效果应当一致——如果只有一个不通，问题在客户端配置而不是节点。</p>
+<h2 id="h10">Reality 和普通 TLS 的差别</h2>
+<p>普通 TLS 的问题是：证书由你自己签发或申请，中间设备只要看到「一个不知名域名的证书」，就能据此做判定。Reality 的做法是不自己签证书，而是借用真实大站的 TLS 握手特征——客户端连你，握手过程却看起来像在访问那个真实站点。</p>
+<p>配置要点三条：</p>
+<ol><li>服务端的 `dest` 指向一个真实的、支持 TLS 1.3 的站点（且该站点在你所在网络可访问）</li><li>客户端的 SNI 填那个真实站点的域名，fingerprint 与 dest 的实际 TLS 指纹一致（chrome 通常够用）</li><li>不要同时开 WS——Reality 与 WS 的组合既没有收益，还增加失败点</li></ol>
+<p>Reality 的代价是配置容错低：`dest` 选了一个握手特征不匹配的站点，表现是「能连上但立刻断」，且日志里不会有明显错误。</p>
+<h2 id="h11">返回码速查</h2>
+<p>排查时先看返回码，能少走很多弯路：</p>
+<table><thead><tr><th>现象</th><th>含义</th><th>处理</th></tr></thead><tbody><tr><td>403</td><td>路径对不上，或服务端拒绝了该 URI</td><td>检查 WS 路径，注意开头斜杠</td></tr><tr><td>404</td><td>服务端没有这个 location</td><td>路径或域名错</td></tr><tr><td>426 Upgrade Required</td><td>路径对了，缺 WebSocket 升级头</td><td>客户端问题，不是服务端问题</td></tr><tr><td>连上即断</td><td>TLS 握手完成但应用层被拒</td><td>UUID 错，或 flow 配置不匹配</td></tr><tr><td>一直转圈</td><td>TCP 都连不上</td><td>端口、防火墙、IP 不可达</td></tr></tbody></table>
+<h2 id="faq">常见问题</h2><div class="faq">
+<details><summary>小火箭的 VLESS 节点可以手动添加吗？</summary><p>可以，但建议用分享链接或订阅导入。手动添加要填七项（类型、地址、端口、UUID、传输、TLS、SNI/路径），任何一项偏差都会导致连接失败且没有明确报错。手抄时最容易错的是 UUID 的大小写和 WS 路径开头的斜杠。</p></details>
+<details><summary>为什么延迟测试通过，但网页打不开？</summary><p>延迟测试只验证 TCP 可达，不验证 TLS 与业务路径。网页打不开但延迟通，按顺序查：SNI 是否与证书域名一致、WS 路径是否正确、分流规则是否把这个域名分到了直连、DNS 是否解析异常。四项里 SNI 与路径错最常见。</p></details>
+<details><summary>VLESS 需要开 UDP 吗？</summary><p>看用途。需要语音、游戏、QUIC 加速时开；只浏览网页时可以关。部分服务端不提供 UDP 转发，客户端开着会导致 QUIC 请求失败后回退变慢，表现为「打开网页有半秒卡顿」。不确定时先关，需要时再开。</p></details>
+<details><summary>SNI 到底该填什么？</summary><p>填服务端证书上的域名。地址填域名时可以不填（客户端默认用地址）；地址填 IP 时必填，否则握手会因证书域名不匹配而失败。填一个无关的大站域名在普通 TLS 场景下一定失败，那种玩法属于 Reality 的用法，不要混用。</p></details>
+<details><summary>WS 和 TCP 两种传输怎么选？</summary><p>能直连 443 且不需要 CDN 时选 TCP，性能更好。需要套 CDN（隐藏真实 IP、抗封锁）或服务端只提供 WS 时选 WS。WS 的代价是多一层帧封装，吞吐略低，但穿透性更强。</p></details>
+<details><summary>订阅链接失效了怎么办？</summary><p>先判断是订阅地址失效还是节点失效：用浏览器打开订阅链接，能返回 base64 或配置文本说明订阅正常，问题在节点；返回 404/403 说明订阅地址变了，找服务商要新的。不要因为订阅失效就重置客户端，那会丢掉本地分流规则。</p></details>
+<details><summary>小火箭的分流规则会拖慢速度吗？</summary><p>规则匹配的开销很小，通常不影响速度。真正影响速度的是「规则没命中导致走了错误路径」——比如国内站点被分到代理，绕一圈香港再回来。优化方向是让 GEOIP,CN,DIRECT 生效，而不是减少规则数量。</p></details>
+<details><summary>iOS 上挂代理很耗电，有办法缓解吗？</summary><p>有。用快捷指令做场景化开关（例如只在打开特定 App 时开启），比常驻省电很多。另外关闭不必要的 UDP 转发、减少规则数量、避免使用脚本型规则，都能降低常驻开销。</p></details>
+<details><summary>同一个节点，手机能用、电脑不能用，为什么？</summary><p>问题在客户端配置而不是节点。常见差异：电脑客户端的 TLS 设置（是否允许不安全证书、是否启用 uTLS）、系统时间偏差（TLS 对时间敏感，偏差超过几分钟会握手失败）、系统代理是否真的生效（部分软件不走系统代理）。</p></details>
+<details><summary>VLESS 和 Trojan 怎么选？</summary><p>两者都是「伪装成 HTTPS」的思路。VLESS 的优势是无状态、开销低、可与 Reality 组合，生态更活跃；Trojan 的优势是配置简单、兼容性好。新部署优先 VLESS，已有 Trojan 稳定运行的不必迁移。</p></details>
+</div>
+<div class="toc"><b>本篇目录</b><a href="#h1">VLESS 是什么，为什么现在主流</a><a href="#h2">参数表：每一项填什么</a><a href="#h3">错误一：端口与 TLS 状态不匹配</a><a href="#h4">错误二：SNI 与地址不一致</a><a href="#h5">错误三：WS 路径少了开头的斜杠</a><a href="#h6">分流规则怎么配</a><a href="#h7">验证流程</a><a href="#h8">三个补充细节</a><a href="#h9">和 Clash / v2rayN 的差异</a><a href="#h10">Reality 和普通 TLS 的差别</a><a href="#h11">返回码速查</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="rel"><h3>相关内容</h3><a href="/kuber-network/shadowrocket-rules/">小火箭分流规则<span class="kw"> · 小火箭分流规则：按域名和按 IP 到底差在哪</span></a><a href="/kuber-network/vless-node-params/">VLESS节点参数<span class="kw"> · VLESS 节点参数逐项解释：哪几项必填，哪几项填错就连不上</span></a><a href="/kuber-network/l2tp-vs-vless/">L2TP和VLESS区别<span class="kw"> · L2TP 还是 VLESS？一张表讲清该用哪个</span></a><a href="/kuber-network/openwrt-vless/">OpenWrtVLESS<span class="kw"> · OpenWrt 上跑 VLESS：客户端参数和透明代理模式怎么选</span></a><a href="/kuber-network/proxy-battery-disconnect/">代理耗电断连<span class="kw"> · iOS 上代理耗电和后台断连：MTU 和心跳怎么调</span></a><a href="/kuber-network/softrouter-dns/">软路由DNS<span class="kw"> · 软路由 DNS 怎么设：解析走本地还是走专线</span></a><a href="/kuber-network/softrouter-l2tp/">软路由IP<span class="kw"> · iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</span></a><a href="/kuber-network/ip-chunjingdu/">IP纯净度检测<span class="kw"> · 怎么判断你的 IP 干不干净？三个维度，三个工具</span></a></div>
 </main>
 <footer><div class="wrap">
+
 库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转<br>
-L2TP · VLESS · 软路由组网 · 东南亚自有中转仓<br><br><a href="https://t.me/huiguo_staticip" style="color:#00d6d6;text-decoration:none">Telegram 频道</a> · <a href="https://t.me/huiguo_chat" style="color:#00d6d6;text-decoration:none">技术交流群</a>
+L2TP · VLESS · 软路由组网 · 东南亚自有中转仓<br><br>
+<a href="https://t.me/huiguo_staticip">Telegram 频道</a> · <a href="https://t.me/huiguo_chat">技术交流群</a><br>
+<span style="opacity:.7">文档最后更新 2026-11-05</span>
 </div></footer>
 </body>
 </html>

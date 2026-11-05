@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MTU 和分片：网页打得开但图片加载不出来是怎么回事</title>
+<meta name="description" content="这种故障最容易被误判成网站问题，其实是链路 MTU 不匹配。">
+<link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/mtu-fragmentation/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="库珀网络">
+<meta property="og:title" content="MTU 和分片：网页打得开但图片加载不出来是怎么回事">
+<meta property="og:description" content="这种故障最容易被误判成网站问题，其实是链路 MTU 不匹配。">
+<meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/mtu-fragmentation/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="author" content="库珀网络">
+<style>
+:root{--bg:#0a1018;--panel:#111a26;--line:#1e2b3d;--text:#e8eef6;--dim:#8fa3b8;--accent:#00d6d6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+header{border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:44px}
+header .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.logo{font-size:20px;font-weight:700;color:var(--accent);text-decoration:none;letter-spacing:.5px}
+nav a{color:var(--dim);text-decoration:none;margin-left:20px;font-size:15px}
+nav a:hover{color:var(--accent)}
+.crumb{color:var(--dim);font-size:14px;margin-bottom:18px}
+.crumb a{color:var(--dim);text-decoration:none}
+.crumb a:hover{color:var(--accent)}
+h1{font-size:34px;line-height:1.35;margin:0 0 20px;letter-spacing:-.3px}
+h2{font-size:23px;margin:46px 0 16px;padding-left:14px;border-left:4px solid var(--accent)}
+h3{font-size:19px;margin:30px 0 12px;color:var(--accent)}
+p{margin:0 0 18px;color:#c5d3e2}
+.lead{font-size:19px;color:var(--text);background:var(--panel);border-left:4px solid var(--accent);padding:20px 24px;margin:0 0 32px;border-radius:0 6px 6px 0}
+ul,ol{margin:0 0 20px 24px;color:#c5d3e2}
+li{margin-bottom:10px}
+code{background:#1a2432;color:#5ce1e6;padding:2px 7px;border-radius:4px;font-size:15px;font-family:ui-monospace,Menlo,monospace}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px;overflow-x:auto;margin:0 0 22px}
+pre code{background:none;padding:0;color:#a8e6ea;font-size:14px;line-height:1.7;white-space:pre}
+.note{background:#0f1a24;border:1px solid var(--line);border-left:4px solid #4a7c8c;border-radius:0 6px 6px 0;padding:16px 20px;margin:0 0 24px;color:#a9bccd;font-size:16px}
+.meta{color:var(--dim);font-size:14px;margin-bottom:28px}
+.video{position:relative;padding-bottom:56.25%;height:0;margin:0 0 38px;background:var(--panel);border-radius:10px;overflow:hidden}
+.video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.video .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:15px}
+.toc{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 24px;margin:0 0 34px}
+.toc b{display:block;color:var(--accent);margin-bottom:10px;font-size:15px}
+.toc a{display:block;color:#9fd8dd;text-decoration:none;font-size:15px;margin-bottom:6px}
+.toc a:hover{text-decoration:underline}
+.cta{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:46px 0}
+.cta h3{margin-top:0}
+.faq{margin:14px 0 0}
+.faq details{border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin-bottom:10px;background:var(--panel)}
+.faq summary{cursor:pointer;color:var(--text);font-weight:600;font-size:16px}
+.faq p{margin:12px 0 0;font-size:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin:24px 0 34px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;text-decoration:none;color:inherit;transition:border-color .2s}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;color:var(--accent);font-size:15px;margin-bottom:8px}
+.card span{color:var(--dim);font-size:14px;line-height:1.65}
+table{width:100%;border-collapse:collapse;margin:0 0 26px;font-size:15px}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#16202e;color:var(--accent);font-weight:600}
+td{color:#c5d3e2}
+.rel{margin:56px 0 0;padding-top:28px;border-top:1px solid var(--line)}
+.rel h3{margin-bottom:16px}
+.rel a{display:block;color:#9fd8dd;text-decoration:none;margin-bottom:10px;font-size:16px}
+.rel a:hover{text-decoration:underline}
+.rel .kw{color:var(--dim);font-size:14px}
+footer{border-top:1px solid var(--line);margin-top:72px;padding:32px 0;color:var(--dim);font-size:14px}
+footer a{color:#00d6d6;text-decoration:none}
+.tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
+@media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "MTU 和分片：网页打得开但图片加载不出来是怎么回事", "description": "这种故障最容易被误判成网站问题，其实是链路 MTU 不匹配。", "inLanguage": "zh-CN", "keywords": "MTU, 分片, 网络故障, L2TP, 排错, 隧道, TCP", "articleSection": "排障", "wordCount": 1258, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/mtu-fragmentation/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "排障"}, {"@type": "ListItem", "position": 3, "name": "MTU分片", "item": "https://proxy86-singbox.github.io/kuber-network/mtu-fragmentation/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "典型症状清单是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "对照这几条。网页文字能显示，图片加载一半卡住。能登录，但上传附件失败。能打开首页，点进详情页白屏。ping 得通，网页打不开。这些症状的共同点是小包通过、大包丢失。符合这个特征，基本可以判定是 MTU。"}}, {"@type": "Question", "name": "怎么测出合适的值是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "用 ping 的分片禁止参数测。从一四七二开始，每次减八，目标是你落地端的网关。哪一次开始能通，那个值加上二十八个字节的头，就是你的可用 MTU。常见的结果是一四零零到一四五零之间。实测出来再填，别照抄别人的数字。"}}, {"@type": "Question", "name": "改哪几个地方是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "要改的地方可能有三处。隧道接口本身的 MTU，局域网网卡的 MTU，还有路由器上的分片修正设置。三处对齐了才有效。只改一处，包在转发的某一跳还是会被丢。改完清一下连接状态，让新连接用新的值。"}}, {"@type": "Question", "name": "改完怎么验是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "验三件事。第一，之前打不开的图片页面现在能不能完整加载。第二，上传一个大文件试试，能不能一次成功。第三，连续访问十分钟，看有没有间歇性卡顿。三件都过，说明改对了。如果只有一部分改善，说明还有一处没对齐。"}}, {"@type": "Question", "name": "别把 MTU 当万能药", "acceptedAnswer": {"@type": "Answer", "text": "提醒一下。MTU 不匹配的症状很典型，但不要把所有的时通时不通都归到 MTU 上。丢包、DNS 解析失败、连接数超限，症状都可能类似。先用 ping 测出结果，确认了再改。没测就改，改完你会更混乱。"}}]}]}</script>
+</head>
+<body>
+<header><div class="wrap">
+<a class="logo" href="/kuber-network/">库珀网络</a>
+<nav><a href="/kuber-network/duxiang-static-ip/">静态IP</a><a href="/kuber-network/cn2-huiguo/">CN2回国</a><a href="/kuber-network/softrouter-l2tp/">软路由</a><a href="/kuber-network/yanghao-ip/">养号IP</a><a href="/kuber-network/tiktok-live-ip/">直播IP</a><a href="/kuber-network/#all">全部文档</a></nav>
+</div></header>
+<main class="wrap">
+<div class="crumb"><a href="/kuber-network/">库珀网络</a> › <span>排障</span> › <span>MTU分片</span></div>
+<h1>MTU 和分片：网页打得开但图片加载不出来是怎么回事</h1>
+<div class="meta"><span class="tag">排障</span><span class="tag">MTU分片</span><span class="tag">P2</span>更新于 2026-11-05</div>
+<p class="lead">MTU 是一个数据包最大能有多大，以太网默认是一五零零字节。走隧道的时候，外层要加包头，可用空间就少了几十字节。隧道两端的 MTU 如果没对齐，大包过不去，就会被丢弃或者分片。这就是为什么小请求能通、大文件不通。</p>
+<div class="video"><div class="ph">视频制作中</div></div>
+<h2>典型症状清单</h2>
+<p>对照这几条。网页文字能显示，图片加载一半卡住。能登录，但上传附件失败。能打开首页，点进详情页白屏。ping 得通，网页打不开。这些症状的共同点是小包通过、大包丢失。符合这个特征，基本可以判定是 MTU。</p>
+<h2>怎么测出合适的值</h2>
+<p>用 ping 的分片禁止参数测。从一四七二开始，每次减八，目标是你落地端的网关。哪一次开始能通，那个值加上二十八个字节的头，就是你的可用 MTU。常见的结果是一四零零到一四五零之间。</p>
+<p>实测出来再填，别照抄别人的数字。</p>
+<h2>改哪几个地方</h2>
+<p>要改的地方可能有三处。隧道接口本身的 MTU，局域网网卡的 MTU，还有路由器上的分片修正设置。三处对齐了才有效。只改一处，包在转发的某一跳还是会被丢。改完清一下连接状态，让新连接用新的值。</p>
+<h2>改完怎么验</h2>
+<p>验三件事。第一，之前打不开的图片页面现在能不能完整加载。第二，上传一个大文件试试，能不能一次成功。第三，连续访问十分钟，看有没有间歇性卡顿。三件都过，说明改对了。如果只有一部分改善，说明还有一处没对齐。</p>
+<h2>别把 MTU 当万能药</h2>
+<p>提醒一下。MTU 不匹配的症状很典型，但不要把所有的时通时不通都归到 MTU 上。丢包、DNS 解析失败、连接数超限，症状都可能类似。先用 ping 测出结果，确认了再改。没测就改，改完你会更混乱。</p>
+<h2 id="faq">常见问题</h2><div class="faq">
+<details><summary>典型症状清单是怎么回事？</summary><p>对照这几条。网页文字能显示，图片加载一半卡住。能登录，但上传附件失败。能打开首页，点进详情页白屏。ping 得通，网页打不开。这些症状的共同点是小包通过、大包丢失。符合这个特征，基本可以判定是 MTU。</p></details>
+<details><summary>怎么测出合适的值是怎么回事？</summary><p>用 ping 的分片禁止参数测。从一四七二开始，每次减八，目标是你落地端的网关。哪一次开始能通，那个值加上二十八个字节的头，就是你的可用 MTU。常见的结果是一四零零到一四五零之间。实测出来再填，别照抄别人的数字。</p></details>
+<details><summary>改哪几个地方是怎么回事？</summary><p>要改的地方可能有三处。隧道接口本身的 MTU，局域网网卡的 MTU，还有路由器上的分片修正设置。三处对齐了才有效。只改一处，包在转发的某一跳还是会被丢。改完清一下连接状态，让新连接用新的值。</p></details>
+<details><summary>改完怎么验是怎么回事？</summary><p>验三件事。第一，之前打不开的图片页面现在能不能完整加载。第二，上传一个大文件试试，能不能一次成功。第三，连续访问十分钟，看有没有间歇性卡顿。三件都过，说明改对了。如果只有一部分改善，说明还有一处没对齐。</p></details>
+<details><summary>别把 MTU 当万能药</summary><p>提醒一下。MTU 不匹配的症状很典型，但不要把所有的时通时不通都归到 MTU 上。丢包、DNS 解析失败、连接数超限，症状都可能类似。先用 ping 测出结果，确认了再改。没测就改，改完你会更混乱。</p></details>
+</div>
+<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="rel"><h3>相关内容</h3><a href="/kuber-network/l2tp-disconnect/">L2TP掉线<span class="kw"> · L2TP 频繁掉线：七个原因和正确的排查顺序</span></a><a href="/kuber-network/proxy-battery-disconnect/">代理耗电断连<span class="kw"> · iOS 上代理耗电和后台断连：MTU 和心跳怎么调</span></a><a href="/kuber-network/mikrotik-huiguo/">MikroTik回国<span class="kw"> · MikroTik RouterOS 配 L2TP 回国：命令行完整流程</span></a><a href="/kuber-network/openwrt-huiguo/">OpenWrt回国<span class="kw"> · OpenWrt 配 L2TP 回国：装包、建接口、防火墙三步走通</span></a><a href="/kuber-network/l2tp-vs-vless/">L2TP和VLESS区别<span class="kw"> · L2TP 还是 VLESS？一张表讲清该用哪个</span></a><a href="/kuber-network/softrouter-l2tp/">软路由IP<span class="kw"> · iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</span></a><a href="/kuber-network/peak-hour-throttle/">晚高峰限速<span class="kw"> · 晚高峰限速的三种表现和鉴别方法</span></a><a href="/kuber-network/huiguo-bandwidth/">回国带宽测算<span class="kw"> · 回国带宽怎么算：几个人几台设备到底要多少兆</span></a></div>
+</main>
+<footer><div class="wrap">
+
+库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转<br>
+L2TP · VLESS · 软路由组网 · 东南亚自有中转仓<br><br>
+<a href="https://t.me/huiguo_staticip">Telegram 频道</a> · <a href="https://t.me/huiguo_chat">技术交流群</a><br>
+<span style="opacity:.7">文档最后更新 2026-11-05</span>
+</div></footer>
+</body>
+</html>

@@ -4,69 +4,86 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</title>
-<meta name="description" content="这期讲 iKuai 软路由怎么用 L2TP 拨号回国。为什么选 L2TP？因为路由器原生支持，不用装任何客户端，全屋设备自动走。电视盒子、Switch、iPad、智能音箱，一台台配太麻烦，L2TP 一次搞定。">
+<meta name="description" content="一步一步配置 iKuai 用 L2TP 拨号回国，全屋设备不用装客户端。">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/softrouter-l2tp/">
 <meta property="og:type" content="article">
+<meta property="og:site_name" content="库珀网络">
 <meta property="og:title" content="iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走">
-<meta property="og:description" content="这期讲 iKuai 软路由怎么用 L2TP 拨号回国。为什么选 L2TP？因为路由器原生支持，不用装任何客户端，全屋设备自动走。电视盒子、Switch、iPad、智能音箱，一台台配太麻烦，L2TP 一次搞定。">
-<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:description" content="一步一步配置 iKuai 用 L2TP 拨号回国，全屋设备不用装客户端。">
+<meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/softrouter-l2tp/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="author" content="库珀网络">
 <style>
 :root{--bg:#0a1018;--panel:#111a26;--line:#1e2b3d;--text:#e8eef6;--dim:#8fa3b8;--accent:#00d6d6}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px}
-.wrap{max-width:820px;margin:0 auto;padding:0 24px}
-header{border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:48px}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+header{border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:44px}
 header .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .logo{font-size:20px;font-weight:700;color:var(--accent);text-decoration:none;letter-spacing:.5px}
 nav a{color:var(--dim);text-decoration:none;margin-left:20px;font-size:15px}
 nav a:hover{color:var(--accent)}
+.crumb{color:var(--dim);font-size:14px;margin-bottom:18px}
+.crumb a{color:var(--dim);text-decoration:none}
+.crumb a:hover{color:var(--accent)}
 h1{font-size:34px;line-height:1.35;margin:0 0 20px;letter-spacing:-.3px}
-h2{font-size:23px;margin:44px 0 16px;padding-left:14px;border-left:4px solid var(--accent)}
-h3{font-size:19px;margin:28px 0 12px;color:var(--accent)}
+h2{font-size:23px;margin:46px 0 16px;padding-left:14px;border-left:4px solid var(--accent)}
+h3{font-size:19px;margin:30px 0 12px;color:var(--accent)}
 p{margin:0 0 18px;color:#c5d3e2}
-.lead{font-size:19px;color:var(--text);background:var(--panel);border-left:4px solid var(--accent);padding:20px 24px;margin:0 0 36px;border-radius:0 6px 6px 0}
+.lead{font-size:19px;color:var(--text);background:var(--panel);border-left:4px solid var(--accent);padding:20px 24px;margin:0 0 32px;border-radius:0 6px 6px 0}
 ul,ol{margin:0 0 20px 24px;color:#c5d3e2}
 li{margin-bottom:10px}
 code{background:#1a2432;color:#5ce1e6;padding:2px 7px;border-radius:4px;font-size:15px;font-family:ui-monospace,Menlo,monospace}
 pre{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px;overflow-x:auto;margin:0 0 22px}
-pre code{background:none;padding:0;color:#a8e6ea;font-size:14px;line-height:1.7}
-.meta{color:var(--dim);font-size:14px;margin-bottom:32px}
-.video{position:relative;padding-bottom:56.25%;height:0;margin:0 0 40px;background:var(--panel);border-radius:10px;overflow:hidden}
+pre code{background:none;padding:0;color:#a8e6ea;font-size:14px;line-height:1.7;white-space:pre}
+.note{background:#0f1a24;border:1px solid var(--line);border-left:4px solid #4a7c8c;border-radius:0 6px 6px 0;padding:16px 20px;margin:0 0 24px;color:#a9bccd;font-size:16px}
+.meta{color:var(--dim);font-size:14px;margin-bottom:28px}
+.video{position:relative;padding-bottom:56.25%;height:0;margin:0 0 38px;background:var(--panel);border-radius:10px;overflow:hidden}
 .video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
 .video .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:15px}
-.cta{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:48px 0}
+.toc{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 24px;margin:0 0 34px}
+.toc b{display:block;color:var(--accent);margin-bottom:10px;font-size:15px}
+.toc a{display:block;color:#9fd8dd;text-decoration:none;font-size:15px;margin-bottom:6px}
+.toc a:hover{text-decoration:underline}
+.cta{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:46px 0}
 .cta h3{margin-top:0}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:28px 0}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px;text-decoration:none;color:inherit;transition:border-color .2s}
+.faq{margin:14px 0 0}
+.faq details{border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin-bottom:10px;background:var(--panel)}
+.faq summary{cursor:pointer;color:var(--text);font-weight:600;font-size:16px}
+.faq p{margin:12px 0 0;font-size:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin:24px 0 34px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;text-decoration:none;color:inherit;transition:border-color .2s}
 .card:hover{border-color:var(--accent)}
-.card b{display:block;color:var(--accent);font-size:16px;margin-bottom:8px}
-.card span{color:var(--dim);font-size:14px}
+.card b{display:block;color:var(--accent);font-size:15px;margin-bottom:8px}
+.card span{color:var(--dim);font-size:14px;line-height:1.65}
+table{width:100%;border-collapse:collapse;margin:0 0 26px;font-size:15px}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#16202e;color:var(--accent);font-weight:600}
+td{color:#c5d3e2}
 .rel{margin:56px 0 0;padding-top:28px;border-top:1px solid var(--line)}
 .rel h3{margin-bottom:16px}
 .rel a{display:block;color:#9fd8dd;text-decoration:none;margin-bottom:10px;font-size:16px}
 .rel a:hover{text-decoration:underline}
+.rel .kw{color:var(--dim);font-size:14px}
 footer{border-top:1px solid var(--line);margin-top:72px;padding:32px 0;color:var(--dim);font-size:14px}
+footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
-@media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}}
+@media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走", "description": "这期讲 iKuai 软路由怎么用 L2TP 拨号回国。为什么选 L2TP？因为路由器原生支持，不用装任何客户端，全屋设备自动走。电视盒子、Switch、iPad、智能音箱，一台台配太麻烦，L2TP 一次搞定。", "inLanguage": "zh-CN", "dateModified": "2026-11-05", "author": {"@type": "Organization", "name": "库珀网络"}, "mainEntityOfPage": "https://proxy86-singbox.github.io/kuber-network/softrouter-l2tp/"}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "第一步 新增 WAN 口", "acceptedAnswer": {"@type": "Answer", "text": "第一步，网络设置，内外网设置，新增一个 WAN 口。如果你的软路由只有一个物理网口空闲，就选基于物理网卡的混合模式。如果有空闲网口，直接选物理网卡。"}}, {"@type": "Question", "name": "第二步 填 L2TP 参数", "acceptedAnswer": {"@type": "Answer", "text": "第二步，接入方式选 L2TP。填服务器地址、用户名、密码，这三个是服务商给你的。服务器地址可以是域名也可以是IP。填完之后先别急着保存。"}}, {"@type": "Question", "name": "第三步 关键的那个勾", "acceptedAnswer": {"@type": "Answer", "text": "第三步，高级设置里有个选项叫使用默认网关，必须勾上。这个是最容易漏的一步。不勾的话，拨号是成功的，状态显示已连接，但流量根本不走隧道。很多人卡在这里一整天。"}}]}, {"@type": "VideoObject", "name": "iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走", "description": "这期讲 iKuai 软路由怎么用 L2TP 拨号回国。为什么选 L2TP？因为路由器原生支持，不用装任何客户端，全屋设备自动走。电视盒子、Switch、iPad、智能音箱，一台台配太麻烦，L2TP 一次搞定。", "embedUrl": "https://www.youtube.com/embed/SFAalM_pl0s"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走", "description": "一步一步配置 iKuai 用 L2TP 拨号回国，全屋设备不用装客户端。", "inLanguage": "zh-CN", "keywords": "软路由, iKuai, 爱快, L2TP, 回国, 分流, 路由器", "articleSection": "软路由", "wordCount": 3770, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/softrouter-l2tp/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "软路由"}, {"@type": "ListItem", "position": 3, "name": "软路由IP", "item": "https://proxy86-singbox.github.io/kuber-network/softrouter-l2tp/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "iKuai 里勾了「使用默认网关」还是上不了网，怎么办？", "acceptedAnswer": {"@type": "Answer", "text": "按顺序查四项：一，分流策略里是否有「目的地址为国内则走主 WAN」的规则把流量抢回去了；二，MTU 是否过大，试 1400；三，隧道对端是否能 ping 通（iKuai 的系统工具里测）；四，DNS 是否还指向旧的主 WAN 的 DNS。四项里第二、四项最常见。"}}, {"@type": "Question", "name": "L2TP 必须配 IPsec 吗？", "acceptedAnswer": {"@type": "Answer", "text": "不是必须，但纯 L2TP 没有加密，只能提供隧道不提供保密。多数服务商启用 L2TP over IPsec（UDP 500/4500 做密钥协商，ESP 承载数据）。配了 IPsec 时，预共享密钥必须与服务端一致，留空会导致「拨号无响应」而不是明确报错。"}}, {"@type": "Question", "name": "为什么拨号显示已连接，但所有网站都打不开？", "acceptedAnswer": {"@type": "Answer", "text": "九成是「使用默认网关」没勾。不勾时，这条 WAN 只注册一条到对端的明细路由，默认路由仍指向主 WAN，隧道实际上只用于访问对端本身。另一个可能是隧道分配到的地址与内网网段冲突，检查对端给的地址段是否与你 LAN 段重叠。"}}, {"@type": "Question", "name": "软路由跑 L2TP，速度只有几十兆是什么原因？", "acceptedAnswer": {"@type": "Answer", "text": "三个方向：CPU 单核跑满（加密开销在单核上，查看 CPU 占用是否某个核 100%）；未开启硬件加速（iKuai 的转发加速选项）；MTU 与 TCP 窗口配合不佳导致单流受限（用多线程测速对比验证）。先看 CPU，再看加速，最后看 MTU。"}}, {"@type": "Question", "name": "分流规则怎么配才不会让国内网站变慢？", "acceptedAnswer": {"@type": "Answer", "text": "用「目的地址」维度做策略路由：国内运营商地址库 → 主 WAN 直连；其余 → L2TP。不要用「域名」维度在路由器层做（路由器看不到 HTTPS 的域名）。配完后用两个 curl 验证：不带参数应回显本地 IP，指定隧道接口应回显隧道 IP。"}}, {"@type": "Question", "name": "L2TP 会固定时间掉线，是什么问题？", "acceptedAnswer": {"@type": "Answer", "text": "两类原因：服务商的维护窗口（看掉线时间是否每天一致，向服务商核对）；运营商对长连接 UDP 的会话老化（表现为 24 小时左右必断，重拨即恢复）。后者可以在 iKuai 里开启线路检测 + 自动重拨来缓解。"}}, {"@type": "Question", "name": "能同时用两条 L2TP 做负载均衡吗？", "acceptedAnswer": {"@type": "Answer", "text": "可以做多 WAN 负载，但对同一目标站点的会话会被分散到两条链路，导致登录态异常（平台看到 IP 在跳）。养号场景不要做负载均衡，只做主备：一条主用，一条待命，主链路故障时切换。"}}, {"@type": "Question", "name": "iKuai 能不能跑 VLESS？", "acceptedAnswer": {"@type": "Answer", "text": "可以。iKuai 本身不带 VLESS 客户端，常见做法是用 Docker 跑 sing-box 或 Xray，把入站设为透明代理，再在 iKuai 里把需要代理的流量指向这个容器。配置比 L2TP 复杂，收益是抗封锁与精细分流。轻量方案是旁路由跑 OpenWrt + passwall。"}}, {"@type": "Question", "name": "电视盒子、Switch 这类设备需要单独配置吗？", "acceptedAnswer": {"@type": "Answer", "text": "不需要。L2TP 在路由器上拨号，NAT 后的所有终端自动继承，包括电视盒子、Switch、智能音箱。唯一要注意的是分流策略要按「目的地址」判断，否则会出现「盒子里的国内视频 App 也走隧道，加载变慢」。"}}, {"@type": "Question", "name": "重启软路由后不自动重连，怎么修？", "acceptedAnswer": {"@type": "Answer", "text": "检查两点：WAN 口是否设置为开机自动拨号；线路检测是否开启（部分版本在没有检测的情况下，首次拨号失败后不会重试）。另外确认配置已保存到启动项——iKuai 的部分设置在未点击「保存并应用」时只存在于内存。"}}]}, {"@type": "VideoObject", "name": "iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走", "description": "一步一步配置 iKuai 用 L2TP 拨号回国，全屋设备不用装客户端。", "embedUrl": "https://www.youtube.com/embed/SFAalM_pl0s", "uploadDate": "2026-11-05", "thumbnailUrl": "https://i.ytimg.com/vi/SFAalM_pl0s/maxresdefault.jpg"}]}</script>
 </head>
 <body>
 <header><div class="wrap">
-<a class="logo" href="/">库珀网络</a>
-<nav>
-<a href="/">首页</a>
-<a href="/duxiang-static-ip/">静态IP</a>
-<a href="/cn2-huiguo/">CN2回国</a>
-<a href="/softrouter-l2tp/">软路由</a>
-<a href="/yanghao-ip/">养号IP</a>
-</nav>
+<a class="logo" href="/kuber-network/">库珀网络</a>
+<nav><a href="/kuber-network/duxiang-static-ip/">静态IP</a><a href="/kuber-network/cn2-huiguo/">CN2回国</a><a href="/kuber-network/softrouter-l2tp/">软路由</a><a href="/kuber-network/yanghao-ip/">养号IP</a><a href="/kuber-network/tiktok-live-ip/">直播IP</a><a href="/kuber-network/#all">全部文档</a></nav>
 </div></header>
 <main class="wrap">
+<div class="crumb"><a href="/kuber-network/">库珀网络</a> › <span>软路由</span> › <span>软路由IP</span></div>
 <h1>iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</h1>
-<div class="meta"><span class="tag">软路由</span><span class="tag">软路由IP</span>更新于 2026-11-05</div>
+<div class="meta"><span class="tag">软路由</span><span class="tag">软路由IP</span><span class="tag">P0</span>更新于 2026-11-05</div>
 <p class="lead">这期讲 iKuai 软路由怎么用 L2TP 拨号回国。为什么选 L2TP？因为路由器原生支持，不用装任何客户端，全屋设备自动走。电视盒子、Switch、iPad、智能音箱，一台台配太麻烦，L2TP 一次搞定。</p>
-<div class="video"><iframe src="https://www.youtube.com/embed/SFAalM_pl0s" title="iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走" allowfullscreen loading="lazy"></iframe></div>
+<div class="video"><iframe src="https://www.youtube.com/embed/SFAalM_pl0s" title="iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走" loading="lazy" allowfullscreen allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"></iframe></div>
 <h2>第一步 新增 WAN 口</h2>
 <p>第一步，网络设置，内外网设置，新增一个 WAN 口。如果你的软路由只有一个物理网口空闲，就选基于物理网卡的混合模式。如果有空闲网口，直接选物理网卡。</p>
 <h2>第二步 填 L2TP 参数</h2>
@@ -77,12 +94,88 @@ footer{border-top:1px solid var(--line);margin-top:72px;padding:32px 0;color:var
 <p>第四步，分流设置。把国内IP段设为直连，其余走 L2TP。不分流的话，你访问国内网站也绕一圈，反而变慢。iKuai 自带运营商地址库，直接用就行。</p>
 <h2>常见错误</h2>
 <p>常见错误有三个。第一，拨号成功但上不了网，检查默认网关有没有勾。第二，能上网但国内网站变慢，检查分流规则。第三，连接一直断开，L2TP 走 UDP 五百和一千七百零一端口，部分网络环境会拦，这时候改用 VLESS。</p>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
-<div class="rel"><h3>相关内容</h3><a href="/duxiang-static-ip/">独享静态IP 怎么选？养号前必须知道的 5 个判断标准</a><a href="/yanghao-ip/">养号IP 完全指南：为什么必须独享静态，三个平台视角讲透</a><a href="/cn2-huiguo/">香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少</a><a href="/xiaohuojian-vless/">Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误</a></div>
+<h2 id="h1">为什么软路由要选 L2TP</h2>
+<p>家里设备一多，逐台装客户端这件事就不可行了。电视盒子、Switch、iPad、智能音箱、扫地机器人，这些东西有的不能装客户端，有的装了也不会用。</p>
+<p>L2TP 的价值是「路由器拨号、全屋共享」：软路由作为一台设备拨出去，NAT 后面的所有终端自动继承这条隧道，不需要任何客户端，不需要任何配置。这就是它在家庭场景里不可替代的原因。</p>
+<p>VLESS 更适合单机精细控制，两者的分工在「L2TP 还是 VLESS」那篇里讲透了。这篇只讲 iKuai 上怎么把 L2TP 跑通。</p>
+<h2 id="h2">开拨之前的准备清单</h2>
+<table><thead><tr><th>项目</th><th>需要的信息</th><th>来源</th></tr></thead><tbody><tr><td>服务器地址</td><td>域名或 IP</td><td>服务商</td></tr><tr><td>账号 / 密码</td><td>L2TP 用户名与密码</td><td>服务商</td></tr><tr><td>预共享密钥</td><td>部分服务商用 IPsec 时需要</td><td>服务商</td></tr><tr><td>空闲网口</td><td>至少一个（或用混合模式）</td><td>你自己看机器</td></tr><tr><td>分流地址库</td><td>iKuai 自带运营商地址库</td><td>系统内置</td></tr><tr><td>MTU 值</td><td>通常 1400-1450</td><td>实测确定</td></tr></tbody></table>
+<h2 id="h3">完整配置步骤</h2>
+<h3>第一步：新增一个 WAN 口</h3>
+<p>路径是「网络设置 → 内外网设置 → 点击空闲网口 → 接入方式」。两种接法：</p>
+<ul><li>有物理空口：直接绑定物理网卡，最稳，性能最好</li><li>只有一个网口空闲或做了单臂路由：选「基于物理网卡的混合模式」，在这个网口上同时跑 PPPoE 和 L2TP</li></ul>
+<p>混合模式要注意：一个网口上跑多条链路时，iKuai 用 VLAN 或 MAC 区分，配置好后在「物理网卡」列表里能看到多个虚拟接口。如果这里配错，表现是拨号一直重试但没有任何日志。</p>
+<h3>第二步：接入方式选 L2TP，填参数</h3>
+<table><thead><tr><th>字段</th><th>填什么</th><th>常见错误</th></tr></thead><tbody><tr><td>服务器地址</td><td>域名或 IP，域名更好（换 IP 不用改配置）</td><td>填了带端口的地址</td></tr><tr><td>用户名</td><td>服务商给的账号</td><td>前后多了空格</td></tr><tr><td>密码</td><td>服务商给的密码</td><td>特殊字符在网页端被转义</td></tr><tr><td>预共享密钥</td><td>若服务商启用 IPsec</td><td>留空但服务端要求，表现为「无响应」</td></tr></tbody></table>
+<p>这里的顺序值得强调：先保存为一个不启用的 WAN，再去高级设置里改选项，最后启用。因为部分 iKuai 版本在启用状态下改高级选项，会有配置不生效的情况。</p>
+<h3>第三步：勾上「使用默认网关」——最容易漏的一步</h3>
+<p>高级设置里有「使用默认网关」这个勾选项，必须勾上。</p>
+<p>不勾的后果非常典型：拨号显示已连接、拿到对端分配的地址、日志里一切正常，但流量完全不进隧道。很多人卡在这一步一整天，因为所有状态指示都是绿的。</p>
+<p>原理很简单：不勾「使用默认网关」时，这条 WAN 只注册了一条明细路由（只有对端网段走它），默认路由仍然指向主 WAN。你的终端访问互联网走的是主 WAN，隧道只被用来访问隧道对端本身。</p>
+<p>如果确实需要「只让部分设备走隧道」，那就保持不勾，改为在分流里用源地址策略指定设备。这是进阶用法，先把默认网关跑通再折腾。</p>
+<h3>第四步：设置 MTU</h3>
+<p>L2TP 的封装会增加额外开销（L2TP 头 + PPP 头 + 可能的 IPsec ESP 头）。默认 1500 的 MTU 在多数跨境链路上会导致大包被丢，表现是：</p>
+<ol><li>ping 小包正常</li><li>打开网页首页能出，图片加载到一半卡住</li><li>SSH 能连上但传输大文件时挂起</li></ol>
+<p>正确做法是测出路径 MTU：</p>
+<pre><code># Linux / macOS 上带 DF 标志逐步减小包长，找到不分片的最大值
+ping -c 3 -D -s 1400 你的隧道对端地址
+ping -c 3 -D -s 1372 你的隧道对端地址</code></pre>
+<p>找到不分片的最大包长后减 28（IP+ICMP 头）就是可用 MTU。实战中直接设 1400 或 1420 都能解决绝大多数问题。iKuai 里的位置在 WAN 口的高级设置里。</p>
+<h3>第五步：分流</h3>
+<p>不分流是最常见的性能问题。所有流量都走隧道，访问国内网站也要绕一圈香港，结果比直连更慢。</p>
+<p>iKuai 的分流逻辑是「策略路由」：</p>
+<ul><li>目的地址属于国内运营商地址库 → 走主 WAN（直连）</li><li>其余 → 走 L2TP 隧道</li></ul>
+<p>配置路径在「流控分流 → 分流设置 → 端口分流/域名分流」。国内地址库用系统自带的即可，iKuai 会定期更新。</p>
+<p>分流之后要做验证，方法是同时开两个窗口：</p>
+<pre><code># 应该显示你的国内直连 IP
+curl -s https://myip.ipip.net
+# 应该显示隧道出口 IP
+curl -s --interface ppp0 https://myip.ipip.net</code></pre>
+<p>如果两个结果都是隧道 IP，说明分流没生效；如果都是直连 IP，说明默认网关没勾或隧道没起来。</p>
+<h3>第六步：掉线自动重连与双 WAN 主备</h3>
+<p>L2TP 走 UDP，跨境链路上偶发丢包会导致隧道假死（状态显示已连接但实际不通）。两个配置能显著改善：</p>
+<ul><li>开启「线路检测」，用 ping 或 HTTP 探测隧道对端，连续失败自动重拨</li><li>配置主备：主 WAN 是本地宽带，备 WAN 是 L2TP，主 WAN 断线时自动切换</li></ul>
+<p>假死和断线的区别：假死时接口状态是 up，但业务不通。检测方式要选「业务探测」而不是「接口状态」。</p>
+<h2 id="h4">排障矩阵</h2>
+<table><thead><tr><th>症状</th><th>最可能的原因</th><th>处理</th></tr></thead><tbody><tr><td>拨号失败，日志无响应</td><td>UDP 500/4500/1701 被上游拦</td><td>换端口或用 VLESS 替代</td></tr><tr><td>拨号成功但无法上网</td><td>默认网关未勾</td><td>高级设置勾上</td></tr><tr><td>能上网但国内网站变慢</td><td>未配置分流</td><td>加国内地址库直连策略</td></tr><tr><td>网页加载一半卡住</td><td>MTU 过大</td><td>调到 1400</td></tr><tr><td>每晚固定时间断开</td><td>服务商维护窗口或运营商 QoS</td><td>查日志时间点，与服务商核对</td></tr><tr><td>速度只有几 Mbps</td><td>单核转发瓶颈或加密开销</td><td>检查 CPU 占用，开启硬件加速</td></tr><tr><td>部分设备不通</td><td>该设备走了错误的策略路由</td><td>用源地址策略单独指定</td></tr></tbody></table>
+<h2 id="h5">安全加固（很多人跳过）</h2>
+<p>软路由一旦被当成跳板，损失比账号更大。三条必做：</p>
+<ul><li>关闭 WAN 侧的管理页面访问（「系统设置 → 远程访问」里限制来源）</li><li>改掉默认的管理端口和默认密码，管理密码 16 位以上</li><li>关闭 UPnP，除非确实需要（它会把你内网的端口暴露出去）</li></ul>
+<h2 id="h6">什么时候该放弃 L2TP 换 VLESS</h2>
+<p>三个信号：</p>
+<ol><li>拨号经常失败，日志显示对端无响应——UDP 被拦，换协议比调参数有效</li><li>需要按应用分流（比如只有某个 App 走隧道），L2TP 做不到</li><li>所在网络对 L2TP 特征有识别（部分企业网、校园网）</li></ol>
+<p>替换方案是软路由上跑 VLESS/VMess 客户端插件（OpenWrt 用 passwall/shellcrash，iKuai 用 docker 跑 sing-box），逻辑一样是「路由器拨出去、全屋共享」，只是协议换了。</p>
+<h2 id="h7">配置完成后的验证清单</h2>
+<ul><li>隧道接口状态 up，且持续 30 分钟不掉</li><li>国内网站直连（curl 回显为本地 IP）</li><li>境外网站走隧道（curl 回显为隧道 IP）</li><li>大文件下载不中断（验证 MTU）</li><li>晚高峰 21:00 复测一次延迟与丢包</li><li>重启软路由后自动重连</li></ul>
+<h2 id="h8">状态灯全绿但业务不通，先看这三个日志</h2>
+<p>iKuai 的 L2TP 问题多数不需要抓包，看三处日志就能定位：</p>
+<ol><li>系统日志里的 pppd 记录：出现 `LCP: timeout sending Config-Requests` 说明对端没回应（端口被拦或地址错）；出现 `CHAP authentication failed` 说明账号密码不对</li><li>线路检测记录：显示接口 up 但探测失败，属于典型的隧道假死</li><li>防火墙日志：出现大量来自隧道地址段的丢弃记录，说明策略路由或 NAT 规则把回程流量挡了</li></ol>
+<p>隧道假死和真断线的区别值得记住：假死时接口状态是 up，系统以为一切正常，但业务不通。所以线路检测必须选「业务探测」（ping 或 HTTP），选「接口状态」等于没检测。</p>
+<h2 id="h9">转发性能的瓶颈在哪</h2>
+<p>软路由跑 L2TP 时，性能瓶颈通常在三个地方，按出现频率排：</p>
+<ol><li>单核加密：IPsec 的加密在单核上完成，N 核 CPU 也只有一核在跑，200Mbps 左右就会看到某一核满载</li><li>内存带宽：小包转发场景（大量短连接）比大包更吃内存带宽</li><li>网卡队列：虚拟化环境里网卡中断集中在单队列，需要开多队列或启用 virtio 优化</li></ol>
+<p>判断方法很简单：跑满速时看 `top` 里是否有单核 100%。是单核满 → 加密瓶颈；是全程空闲但速度上不去 → 上游限速或 TCP 窗口问题。</p>
+<h2 id="faq">常见问题</h2><div class="faq">
+<details><summary>iKuai 里勾了「使用默认网关」还是上不了网，怎么办？</summary><p>按顺序查四项：一，分流策略里是否有「目的地址为国内则走主 WAN」的规则把流量抢回去了；二，MTU 是否过大，试 1400；三，隧道对端是否能 ping 通（iKuai 的系统工具里测）；四，DNS 是否还指向旧的主 WAN 的 DNS。四项里第二、四项最常见。</p></details>
+<details><summary>L2TP 必须配 IPsec 吗？</summary><p>不是必须，但纯 L2TP 没有加密，只能提供隧道不提供保密。多数服务商启用 L2TP over IPsec（UDP 500/4500 做密钥协商，ESP 承载数据）。配了 IPsec 时，预共享密钥必须与服务端一致，留空会导致「拨号无响应」而不是明确报错。</p></details>
+<details><summary>为什么拨号显示已连接，但所有网站都打不开？</summary><p>九成是「使用默认网关」没勾。不勾时，这条 WAN 只注册一条到对端的明细路由，默认路由仍指向主 WAN，隧道实际上只用于访问对端本身。另一个可能是隧道分配到的地址与内网网段冲突，检查对端给的地址段是否与你 LAN 段重叠。</p></details>
+<details><summary>软路由跑 L2TP，速度只有几十兆是什么原因？</summary><p>三个方向：CPU 单核跑满（加密开销在单核上，查看 CPU 占用是否某个核 100%）；未开启硬件加速（iKuai 的转发加速选项）；MTU 与 TCP 窗口配合不佳导致单流受限（用多线程测速对比验证）。先看 CPU，再看加速，最后看 MTU。</p></details>
+<details><summary>分流规则怎么配才不会让国内网站变慢？</summary><p>用「目的地址」维度做策略路由：国内运营商地址库 → 主 WAN 直连；其余 → L2TP。不要用「域名」维度在路由器层做（路由器看不到 HTTPS 的域名）。配完后用两个 curl 验证：不带参数应回显本地 IP，指定隧道接口应回显隧道 IP。</p></details>
+<details><summary>L2TP 会固定时间掉线，是什么问题？</summary><p>两类原因：服务商的维护窗口（看掉线时间是否每天一致，向服务商核对）；运营商对长连接 UDP 的会话老化（表现为 24 小时左右必断，重拨即恢复）。后者可以在 iKuai 里开启线路检测 + 自动重拨来缓解。</p></details>
+<details><summary>能同时用两条 L2TP 做负载均衡吗？</summary><p>可以做多 WAN 负载，但对同一目标站点的会话会被分散到两条链路，导致登录态异常（平台看到 IP 在跳）。养号场景不要做负载均衡，只做主备：一条主用，一条待命，主链路故障时切换。</p></details>
+<details><summary>iKuai 能不能跑 VLESS？</summary><p>可以。iKuai 本身不带 VLESS 客户端，常见做法是用 Docker 跑 sing-box 或 Xray，把入站设为透明代理，再在 iKuai 里把需要代理的流量指向这个容器。配置比 L2TP 复杂，收益是抗封锁与精细分流。轻量方案是旁路由跑 OpenWrt + passwall。</p></details>
+<details><summary>电视盒子、Switch 这类设备需要单独配置吗？</summary><p>不需要。L2TP 在路由器上拨号，NAT 后的所有终端自动继承，包括电视盒子、Switch、智能音箱。唯一要注意的是分流策略要按「目的地址」判断，否则会出现「盒子里的国内视频 App 也走隧道，加载变慢」。</p></details>
+<details><summary>重启软路由后不自动重连，怎么修？</summary><p>检查两点：WAN 口是否设置为开机自动拨号；线路检测是否开启（部分版本在没有检测的情况下，首次拨号失败后不会重试）。另外确认配置已保存到启动项——iKuai 的部分设置在未点击「保存并应用」时只存在于内存。</p></details>
+</div>
+<div class="toc"><b>本篇目录</b><a href="#h1">为什么软路由要选 L2TP</a><a href="#h2">开拨之前的准备清单</a><a href="#h3">完整配置步骤</a><a href="#h4">排障矩阵</a><a href="#h5">安全加固（很多人跳过）</a><a href="#h6">什么时候该放弃 L2TP 换 VLESS</a><a href="#h7">配置完成后的验证清单</a><a href="#h8">状态灯全绿但业务不通，先看这三个日志</a><a href="#h9">转发性能的瓶颈在哪</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="rel"><h3>相关内容</h3><a href="/kuber-network/openwrt-huiguo/">OpenWrt回国<span class="kw"> · OpenWrt 配 L2TP 回国：装包、建接口、防火墙三步走通</span></a><a href="/kuber-network/mikrotik-huiguo/">MikroTik回国<span class="kw"> · MikroTik RouterOS 配 L2TP 回国：命令行完整流程</span></a><a href="/kuber-network/softrouter-split/">软路由分流<span class="kw"> · 回国分流策略：哪些流量该走专线，哪些必须留本地</span></a><a href="/kuber-network/ikuai-multiwan/">iKuai多线<span class="kw"> · iKuai 双 WAN 加专线：策略路由的优先级怎么排</span></a><a href="/kuber-network/softrouter-dns/">软路由DNS<span class="kw"> · 软路由 DNS 怎么设：解析走本地还是走专线</span></a><a href="/kuber-network/l2tp-vs-vless/">L2TP和VLESS区别<span class="kw"> · L2TP 还是 VLESS？一张表讲清该用哪个</span></a><a href="/kuber-network/openwrt-vless/">OpenWrtVLESS<span class="kw"> · OpenWrt 上跑 VLESS：客户端参数和透明代理模式怎么选</span></a><a href="/kuber-network/l2tp-disconnect/">L2TP掉线<span class="kw"> · L2TP 频繁掉线：七个原因和正确的排查顺序</span></a></div>
 </main>
 <footer><div class="wrap">
+
 库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转<br>
-L2TP · VLESS · 软路由组网 · 东南亚自有中转仓<br><br><a href="https://t.me/huiguo_staticip" style="color:#00d6d6;text-decoration:none">Telegram 频道</a> · <a href="https://t.me/huiguo_chat" style="color:#00d6d6;text-decoration:none">技术交流群</a>
+L2TP · VLESS · 软路由组网 · 东南亚自有中转仓<br><br>
+<a href="https://t.me/huiguo_staticip">Telegram 频道</a> · <a href="https://t.me/huiguo_chat">技术交流群</a><br>
+<span style="opacity:.7">文档最后更新 2026-11-05</span>
 </div></footer>
 </body>
 </html>

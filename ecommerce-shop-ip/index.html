@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>亚马逊多店铺 IP 隔离：一个店铺一个 IP 到底怎么做</title>
+<meta name="description" content="平台判关联不只看 IP，是 IP 加设备加浏览器加收款四件事一起看。">
+<link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/ecommerce-shop-ip/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="库珀网络">
+<meta property="og:title" content="亚马逊多店铺 IP 隔离：一个店铺一个 IP 到底怎么做">
+<meta property="og:description" content="平台判关联不只看 IP，是 IP 加设备加浏览器加收款四件事一起看。">
+<meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/ecommerce-shop-ip/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="author" content="库珀网络">
+<style>
+:root{--bg:#0a1018;--panel:#111a26;--line:#1e2b3d;--text:#e8eef6;--dim:#8fa3b8;--accent:#00d6d6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+header{border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:44px}
+header .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.logo{font-size:20px;font-weight:700;color:var(--accent);text-decoration:none;letter-spacing:.5px}
+nav a{color:var(--dim);text-decoration:none;margin-left:20px;font-size:15px}
+nav a:hover{color:var(--accent)}
+.crumb{color:var(--dim);font-size:14px;margin-bottom:18px}
+.crumb a{color:var(--dim);text-decoration:none}
+.crumb a:hover{color:var(--accent)}
+h1{font-size:34px;line-height:1.35;margin:0 0 20px;letter-spacing:-.3px}
+h2{font-size:23px;margin:46px 0 16px;padding-left:14px;border-left:4px solid var(--accent)}
+h3{font-size:19px;margin:30px 0 12px;color:var(--accent)}
+p{margin:0 0 18px;color:#c5d3e2}
+.lead{font-size:19px;color:var(--text);background:var(--panel);border-left:4px solid var(--accent);padding:20px 24px;margin:0 0 32px;border-radius:0 6px 6px 0}
+ul,ol{margin:0 0 20px 24px;color:#c5d3e2}
+li{margin-bottom:10px}
+code{background:#1a2432;color:#5ce1e6;padding:2px 7px;border-radius:4px;font-size:15px;font-family:ui-monospace,Menlo,monospace}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px;overflow-x:auto;margin:0 0 22px}
+pre code{background:none;padding:0;color:#a8e6ea;font-size:14px;line-height:1.7;white-space:pre}
+.note{background:#0f1a24;border:1px solid var(--line);border-left:4px solid #4a7c8c;border-radius:0 6px 6px 0;padding:16px 20px;margin:0 0 24px;color:#a9bccd;font-size:16px}
+.meta{color:var(--dim);font-size:14px;margin-bottom:28px}
+.video{position:relative;padding-bottom:56.25%;height:0;margin:0 0 38px;background:var(--panel);border-radius:10px;overflow:hidden}
+.video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.video .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:15px}
+.toc{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 24px;margin:0 0 34px}
+.toc b{display:block;color:var(--accent);margin-bottom:10px;font-size:15px}
+.toc a{display:block;color:#9fd8dd;text-decoration:none;font-size:15px;margin-bottom:6px}
+.toc a:hover{text-decoration:underline}
+.cta{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:46px 0}
+.cta h3{margin-top:0}
+.faq{margin:14px 0 0}
+.faq details{border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin-bottom:10px;background:var(--panel)}
+.faq summary{cursor:pointer;color:var(--text);font-weight:600;font-size:16px}
+.faq p{margin:12px 0 0;font-size:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin:24px 0 34px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;text-decoration:none;color:inherit;transition:border-color .2s}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;color:var(--accent);font-size:15px;margin-bottom:8px}
+.card span{color:var(--dim);font-size:14px;line-height:1.65}
+table{width:100%;border-collapse:collapse;margin:0 0 26px;font-size:15px}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#16202e;color:var(--accent);font-weight:600}
+td{color:#c5d3e2}
+.rel{margin:56px 0 0;padding-top:28px;border-top:1px solid var(--line)}
+.rel h3{margin-bottom:16px}
+.rel a{display:block;color:#9fd8dd;text-decoration:none;margin-bottom:10px;font-size:16px}
+.rel a:hover{text-decoration:underline}
+.rel .kw{color:var(--dim);font-size:14px}
+footer{border-top:1px solid var(--line);margin-top:72px;padding:32px 0;color:var(--dim);font-size:14px}
+footer a{color:#00d6d6;text-decoration:none}
+.tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
+@media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "亚马逊多店铺 IP 隔离：一个店铺一个 IP 到底怎么做", "description": "平台判关联不只看 IP，是 IP 加设备加浏览器加收款四件事一起看。", "inLanguage": "zh-CN", "keywords": "亚马逊, 多店铺, IP隔离, 店铺关联, 独享静态IP, 指纹浏览器, 电商", "articleSection": "电商", "wordCount": 1755, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/ecommerce-shop-ip/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "电商"}, {"@type": "ListItem", "position": 3, "name": "电商店铺IP", "item": "https://proxy86-singbox.github.io/kuber-network/ecommerce-shop-ip/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "一店一 IP 的最小实现", "acceptedAnswer": {"@type": "Answer", "text": "最小可用方案是这样。每个店铺配一个独享静态 IP，这个 IP 只给这个店铺用，别的任何事情都不要拿它去干。配一个独立的浏览器环境，环境里的时区、语言、分辨率跟 IP 归属地对齐。一台设备只登一个店，或者用虚拟机做硬件层隔离。这三条做到，日常操作的关联风险就压下去了。"}}, {"@type": "Question", "name": "登录顺序为什么关键", "acceptedAnswer": {"@type": "Answer", "text": "有个细节很多人做错。正确的顺序是先连上这个店铺专属的线路，确认出口 IP 对了，再打开浏览器进后台。错的做法是先开浏览器，登录页面加载完了才连线路。这时候页面已经用你的本地 IP 请求过一轮了，平台那边就多了一条不属于这个店铺的访问记录。一次两次没事，次数多了就是异常。"}}, {"@type": "Question", "name": "后台白名单怎么设是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "大部分电商后台都有登录 IP 白名单或者异地登录提醒。开了白名单，只有你填的那个 IP 能登，别人拿到密码也进不来。填的时候注意，如果线路是动态出口就别开这个功能，会把自己锁在外面。开了白名单之后，IP 就真的不能再换了，所以一开始就要选静态的。"}}, {"@type": "Question", "name": "IP 段的风险是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "还有一个坑是 IP 段。同一批买来的 IP，经常是同一个机房同一个段里的。平台的风控在看单个 IP 之外，也会看这个段历史上出过什么事。段里如果有人做过违规操作，整个段会被降权。所以店铺数量多的时候，尽量让 IP 分散在不同段、不同的运营商，别全挤在一个机房。"}}, {"@type": "Question", "name": "上线前的自检清单是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "上线前过一遍这五条。一，出口 IP 是不是你分配的那个，用 IP 查询网站确认。二，时区和 IP 归属地是不是一致。三，WebRTC 有没有泄漏真实 IP，这个在浏览器指纹检测网站上能看到。四，DNS 解析走的是不是这条线路。五，同一台设备上有没有别的店铺的登录痕迹，包括 Cookie 和收藏夹。五条都过，再登号。"}}, {"@type": "Question", "name": "出了问题先别急着重置", "acceptedAnswer": {"@type": "Answer", "text": "最后提醒一句。店铺一旦被要求验证，先别急着换 IP 重登，那样只会让记录更乱。正确做法是停下来，先确认触发原因，是 IP 变了，还是指纹变了，还是设备换了。搞清楚原因再动，换错方向就是二次触发。"}}]}]}</script>
+</head>
+<body>
+<header><div class="wrap">
+<a class="logo" href="/kuber-network/">库珀网络</a>
+<nav><a href="/kuber-network/duxiang-static-ip/">静态IP</a><a href="/kuber-network/cn2-huiguo/">CN2回国</a><a href="/kuber-network/softrouter-l2tp/">软路由</a><a href="/kuber-network/yanghao-ip/">养号IP</a><a href="/kuber-network/tiktok-live-ip/">直播IP</a><a href="/kuber-network/#all">全部文档</a></nav>
+</div></header>
+<main class="wrap">
+<div class="crumb"><a href="/kuber-network/">库珀网络</a> › <span>电商</span> › <span>电商店铺IP</span></div>
+<h1>亚马逊多店铺 IP 隔离：一个店铺一个 IP 到底怎么做</h1>
+<div class="meta"><span class="tag">电商</span><span class="tag">电商店铺IP</span><span class="tag">P0</span>更新于 2026-11-05</div>
+<p class="lead">平台判两个店铺是不是同一个人在操作，看四样东西。IP 和 IP 段，浏览器指纹，设备特征，还有收款和物流信息。四个维度里，只要有两个撞上，基本就判定关联。很多人只盯着 IP，结果指纹没换，一样出事。所以隔离是一个组合动作，不是买个 IP 就完事。</p>
+<div class="video"><div class="ph">视频制作中</div></div>
+<h2>一店一 IP 的最小实现</h2>
+<p>最小可用方案是这样。每个店铺配一个独享静态 IP，这个 IP 只给这个店铺用，别的任何事情都不要拿它去干。配一个独立的浏览器环境，环境里的时区、语言、分辨率跟 IP 归属地对齐。一台设备只登一个店，或者用虚拟机做硬件层隔离。</p>
+<p>这三条做到，日常操作的关联风险就压下去了。</p>
+<h2>登录顺序为什么关键</h2>
+<p>有个细节很多人做错。正确的顺序是先连上这个店铺专属的线路，确认出口 IP 对了，再打开浏览器进后台。错的做法是先开浏览器，登录页面加载完了才连线路。这时候页面已经用你的本地 IP 请求过一轮了，平台那边就多了一条不属于这个店铺的访问记录。</p>
+<p>一次两次没事，次数多了就是异常。</p>
+<h2>后台白名单怎么设</h2>
+<p>大部分电商后台都有登录 IP 白名单或者异地登录提醒。开了白名单，只有你填的那个 IP 能登，别人拿到密码也进不来。填的时候注意，如果线路是动态出口就别开这个功能，会把自己锁在外面。</p>
+<p>开了白名单之后，IP 就真的不能再换了，所以一开始就要选静态的。</p>
+<h2>IP 段的风险</h2>
+<p>还有一个坑是 IP 段。同一批买来的 IP，经常是同一个机房同一个段里的。平台的风控在看单个 IP 之外，也会看这个段历史上出过什么事。段里如果有人做过违规操作，整个段会被降权。所以店铺数量多的时候，尽量让 IP 分散在不同段、不同的运营商，别全挤在一个机房。</p>
+<h2>上线前的自检清单</h2>
+<p>上线前过一遍这五条。一，出口 IP 是不是你分配的那个，用 IP 查询网站确认。二，时区和 IP 归属地是不是一致。三，WebRTC 有没有泄漏真实 IP，这个在浏览器指纹检测网站上能看到。</p>
+<p>四，DNS 解析走的是不是这条线路。五，同一台设备上有没有别的店铺的登录痕迹，包括 Cookie 和收藏夹。五条都过，再登号。</p>
+<h2>出了问题先别急着重置</h2>
+<p>最后提醒一句。店铺一旦被要求验证，先别急着换 IP 重登，那样只会让记录更乱。正确做法是停下来，先确认触发原因，是 IP 变了，还是指纹变了，还是设备换了。搞清楚原因再动，换错方向就是二次触发。</p>
+<h2 id="faq">常见问题</h2><div class="faq">
+<details><summary>一店一 IP 的最小实现</summary><p>最小可用方案是这样。每个店铺配一个独享静态 IP，这个 IP 只给这个店铺用，别的任何事情都不要拿它去干。配一个独立的浏览器环境，环境里的时区、语言、分辨率跟 IP 归属地对齐。一台设备只登一个店，或者用虚拟机做硬件层隔离。这三条做到，日常操作的关联风险就压下去了。</p></details>
+<details><summary>登录顺序为什么关键</summary><p>有个细节很多人做错。正确的顺序是先连上这个店铺专属的线路，确认出口 IP 对了，再打开浏览器进后台。错的做法是先开浏览器，登录页面加载完了才连线路。这时候页面已经用你的本地 IP 请求过一轮了，平台那边就多了一条不属于这个店铺的访问记录。一次两次没事，次数多了就是异常。</p></details>
+<details><summary>后台白名单怎么设是怎么回事？</summary><p>大部分电商后台都有登录 IP 白名单或者异地登录提醒。开了白名单，只有你填的那个 IP 能登，别人拿到密码也进不来。填的时候注意，如果线路是动态出口就别开这个功能，会把自己锁在外面。开了白名单之后，IP 就真的不能再换了，所以一开始就要选静态的。</p></details>
+<details><summary>IP 段的风险是怎么回事？</summary><p>还有一个坑是 IP 段。同一批买来的 IP，经常是同一个机房同一个段里的。平台的风控在看单个 IP 之外，也会看这个段历史上出过什么事。段里如果有人做过违规操作，整个段会被降权。所以店铺数量多的时候，尽量让 IP 分散在不同段、不同的运营商，别全挤在一个机房。</p></details>
+<details><summary>上线前的自检清单是怎么回事？</summary><p>上线前过一遍这五条。一，出口 IP 是不是你分配的那个，用 IP 查询网站确认。二，时区和 IP 归属地是不是一致。三，WebRTC 有没有泄漏真实 IP，这个在浏览器指纹检测网站上能看到。四，DNS 解析走的是不是这条线路。五，同一台设备上有没有别的店铺的登录痕迹，包括 Cookie 和收藏夹。五条都过，再登号。</p></details>
+<details><summary>出了问题先别急着重置</summary><p>最后提醒一句。店铺一旦被要求验证，先别急着换 IP 重登，那样只会让记录更乱。正确做法是停下来，先确认触发原因，是 IP 变了，还是指纹变了，还是设备换了。搞清楚原因再动，换错方向就是二次触发。</p></details>
+</div>
+<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="rel"><h3>相关内容</h3><a href="/kuber-network/tiktok-live-ip/">TikTok直播IP<span class="kw"> · TikTok 直播带货的 IP 要求：上行带宽和抖动到底怎么算</span></a><a href="/kuber-network/fingerprint-browser-ip/">指纹浏览器IP<span class="kw"> · 指纹浏览器配独享 IP：六个必须对齐的环境参数</span></a><a href="/kuber-network/ip-guanlian/">IP被关联<span class="kw"> · IP 被关联了怎么办？三个补救动作和一个预防方案</span></a><a href="/kuber-network/duxiang-static-ip/">独享静态IP<span class="kw"> · 独享静态IP 怎么选？养号前必须知道的 5 个判断标准</span></a><a href="/kuber-network/ip-subnet-link/">IP段关联<span class="kw"> · 同 C 段 IP 会不会被关联：机房段的连带风险怎么判断</span></a><a href="/kuber-network/l2tp-vs-vless/">L2TP和VLESS区别<span class="kw"> · L2TP 还是 VLESS？一张表讲清该用哪个</span></a><a href="/kuber-network/yanghao-ip-change/">养号IP更换<span class="kw"> · 养号期间 IP 能不能换：三种必须换和三种不能换</span></a><a href="/kuber-network/ip-chunjingdu/">IP纯净度检测<span class="kw"> · 怎么判断你的 IP 干不干净？三个维度，三个工具</span></a></div>
+</main>
+<footer><div class="wrap">
+
+库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转<br>
+L2TP · VLESS · 软路由组网 · 东南亚自有中转仓<br><br>
+<a href="https://t.me/huiguo_staticip">Telegram 频道</a> · <a href="https://t.me/huiguo_chat">技术交流群</a><br>
+<span style="opacity:.7">文档最后更新 2026-11-05</span>
+</div></footer>
+</body>
+</html>

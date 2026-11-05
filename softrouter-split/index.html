@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>回国分流策略：哪些流量该走专线，哪些必须留本地</title>
+<meta name="description" content="全屋所有流量都塞进专线是最常见的浪费，专线带宽是钱，本地带宽也是钱。">
+<link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/softrouter-split/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="库珀网络">
+<meta property="og:title" content="回国分流策略：哪些流量该走专线，哪些必须留本地">
+<meta property="og:description" content="全屋所有流量都塞进专线是最常见的浪费，专线带宽是钱，本地带宽也是钱。">
+<meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/softrouter-split/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="author" content="库珀网络">
+<style>
+:root{--bg:#0a1018;--panel:#111a26;--line:#1e2b3d;--text:#e8eef6;--dim:#8fa3b8;--accent:#00d6d6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+header{border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:44px}
+header .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.logo{font-size:20px;font-weight:700;color:var(--accent);text-decoration:none;letter-spacing:.5px}
+nav a{color:var(--dim);text-decoration:none;margin-left:20px;font-size:15px}
+nav a:hover{color:var(--accent)}
+.crumb{color:var(--dim);font-size:14px;margin-bottom:18px}
+.crumb a{color:var(--dim);text-decoration:none}
+.crumb a:hover{color:var(--accent)}
+h1{font-size:34px;line-height:1.35;margin:0 0 20px;letter-spacing:-.3px}
+h2{font-size:23px;margin:46px 0 16px;padding-left:14px;border-left:4px solid var(--accent)}
+h3{font-size:19px;margin:30px 0 12px;color:var(--accent)}
+p{margin:0 0 18px;color:#c5d3e2}
+.lead{font-size:19px;color:var(--text);background:var(--panel);border-left:4px solid var(--accent);padding:20px 24px;margin:0 0 32px;border-radius:0 6px 6px 0}
+ul,ol{margin:0 0 20px 24px;color:#c5d3e2}
+li{margin-bottom:10px}
+code{background:#1a2432;color:#5ce1e6;padding:2px 7px;border-radius:4px;font-size:15px;font-family:ui-monospace,Menlo,monospace}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px;overflow-x:auto;margin:0 0 22px}
+pre code{background:none;padding:0;color:#a8e6ea;font-size:14px;line-height:1.7;white-space:pre}
+.note{background:#0f1a24;border:1px solid var(--line);border-left:4px solid #4a7c8c;border-radius:0 6px 6px 0;padding:16px 20px;margin:0 0 24px;color:#a9bccd;font-size:16px}
+.meta{color:var(--dim);font-size:14px;margin-bottom:28px}
+.video{position:relative;padding-bottom:56.25%;height:0;margin:0 0 38px;background:var(--panel);border-radius:10px;overflow:hidden}
+.video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.video .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:15px}
+.toc{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 24px;margin:0 0 34px}
+.toc b{display:block;color:var(--accent);margin-bottom:10px;font-size:15px}
+.toc a{display:block;color:#9fd8dd;text-decoration:none;font-size:15px;margin-bottom:6px}
+.toc a:hover{text-decoration:underline}
+.cta{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:46px 0}
+.cta h3{margin-top:0}
+.faq{margin:14px 0 0}
+.faq details{border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin-bottom:10px;background:var(--panel)}
+.faq summary{cursor:pointer;color:var(--text);font-weight:600;font-size:16px}
+.faq p{margin:12px 0 0;font-size:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin:24px 0 34px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;text-decoration:none;color:inherit;transition:border-color .2s}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;color:var(--accent);font-size:15px;margin-bottom:8px}
+.card span{color:var(--dim);font-size:14px;line-height:1.65}
+table{width:100%;border-collapse:collapse;margin:0 0 26px;font-size:15px}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#16202e;color:var(--accent);font-weight:600}
+td{color:#c5d3e2}
+.rel{margin:56px 0 0;padding-top:28px;border-top:1px solid var(--line)}
+.rel h3{margin-bottom:16px}
+.rel a{display:block;color:#9fd8dd;text-decoration:none;margin-bottom:10px;font-size:16px}
+.rel a:hover{text-decoration:underline}
+.rel .kw{color:var(--dim);font-size:14px}
+footer{border-top:1px solid var(--line);margin-top:72px;padding:32px 0;color:var(--dim);font-size:14px}
+footer a{color:#00d6d6;text-decoration:none}
+.tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
+@media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "回国分流策略：哪些流量该走专线，哪些必须留本地", "description": "全屋所有流量都塞进专线是最常见的浪费，专线带宽是钱，本地带宽也是钱。", "inLanguage": "zh-CN", "keywords": "软路由, 分流, 策略路由, 回国加速, 游戏加速, 域名分流, 带宽", "articleSection": "软路由", "wordCount": 1445, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/softrouter-split/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "软路由"}, {"@type": "ListItem", "position": 3, "name": "软路由分流", "item": "https://proxy86-singbox.github.io/kuber-network/softrouter-split/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "三张表怎么定是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "分三类。第一类必走专线：国内电商后台、国内社交平台的管理端、国内的支付和银行、国内的直播推流。第二类走本地：本地的视频网站、系统更新、软件下载、云盘同步。第三类看情况：游戏和视频通话，看你对延迟和抖动的敏感度。三张表先列出来，再往设备上写规则。"}}, {"@type": "Question", "name": "域名分流还是地址分流", "acceptedAnswer": {"@type": "Answer", "text": "域名分流的优点是精准，缺点是维护成本，平台换个域名你可能就漏了。地址分流的优点是稳定，缺点是颗粒度粗，一个网段里可能混着你要和不要的地址。实际做法是以域名为主、地址为辅，主力平台用域名规则，补充规则用地址段，两条并行。"}}, {"@type": "Question", "name": "游戏 UDP 要单独处理", "acceptedAnswer": {"@type": "Answer", "text": "游戏走的是 UDP，规则里如果只按域名和 TCP 端口匹配，游戏流量会漏掉。表现就是网页能开，游戏还在用本地线路，延迟三百多。处理办法是把游戏的服务端地址段也加进规则，或者干脆把游戏设备的全部流量打标走专线。设备级的分流比应用级省事。"}}, {"@type": "Question", "name": "分流错了的表现是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "几个典型表现。网页打不开但 ping 得通，说明域名解析没跟着线路走。能开网页但视频一直转圈，说明视频的 CDN 域名没命中规则。登录后台总是要验证，说明你的出口地址在两条线路之间来回切，这种情况最危险，一定要把规则做互斥。"}}, {"@type": "Question", "name": "规则要互斥是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "最后一条原则，规则互斥。同一个目标地址，不能出现两个规则都命中、优先级不同的情况。流量一会儿走这条一会儿走那条，平台看到的是 IP 在跳，这比固定在一个不干净的 IP 上还糟。写完规则之后，把规则列表按顺序看一遍，确认没有重叠。"}}]}]}</script>
+</head>
+<body>
+<header><div class="wrap">
+<a class="logo" href="/kuber-network/">库珀网络</a>
+<nav><a href="/kuber-network/duxiang-static-ip/">静态IP</a><a href="/kuber-network/cn2-huiguo/">CN2回国</a><a href="/kuber-network/softrouter-l2tp/">软路由</a><a href="/kuber-network/yanghao-ip/">养号IP</a><a href="/kuber-network/tiktok-live-ip/">直播IP</a><a href="/kuber-network/#all">全部文档</a></nav>
+</div></header>
+<main class="wrap">
+<div class="crumb"><a href="/kuber-network/">库珀网络</a> › <span>软路由</span> › <span>软路由分流</span></div>
+<h1>回国分流策略：哪些流量该走专线，哪些必须留本地</h1>
+<div class="meta"><span class="tag">软路由</span><span class="tag">软路由分流</span><span class="tag">P1</span>更新于 2026-11-05</div>
+<p class="lead">两个原因。第一，专线带宽有限，几十兆的专线塞满全屋流量，晚高峰一定卡。第二，很多流量本来就是本地的，视频会议、本地流媒体、系统更新，这些走本地又快又不占专线。分流的目的是把有限的高质量带宽留给真正需要的场景。</p>
+<div class="video"><div class="ph">视频制作中</div></div>
+<h2>三张表怎么定</h2>
+<p>分三类。第一类必走专线：国内电商后台、国内社交平台的管理端、国内的支付和银行、国内的直播推流。第二类走本地：本地的视频网站、系统更新、软件下载、云盘同步。第三类看情况：游戏和视频通话，看你对延迟和抖动的敏感度。</p>
+<p>三张表先列出来，再往设备上写规则。</p>
+<h2>域名分流还是地址分流</h2>
+<p>域名分流的优点是精准，缺点是维护成本，平台换个域名你可能就漏了。地址分流的优点是稳定，缺点是颗粒度粗，一个网段里可能混着你要和不要的地址。实际做法是以域名为主、地址为辅，主力平台用域名规则，补充规则用地址段，两条并行。</p>
+<h2>游戏 UDP 要单独处理</h2>
+<p>游戏走的是 UDP，规则里如果只按域名和 TCP 端口匹配，游戏流量会漏掉。表现就是网页能开，游戏还在用本地线路，延迟三百多。处理办法是把游戏的服务端地址段也加进规则，或者干脆把游戏设备的全部流量打标走专线。</p>
+<p>设备级的分流比应用级省事。</p>
+<h2>分流错了的表现</h2>
+<p>几个典型表现。网页打不开但 ping 得通，说明域名解析没跟着线路走。能开网页但视频一直转圈，说明视频的 CDN 域名没命中规则。登录后台总是要验证，说明你的出口地址在两条线路之间来回切，这种情况最危险，一定要把规则做互斥。</p>
+<h2>规则要互斥</h2>
+<p>最后一条原则，规则互斥。同一个目标地址，不能出现两个规则都命中、优先级不同的情况。流量一会儿走这条一会儿走那条，平台看到的是 IP 在跳，这比固定在一个不干净的 IP 上还糟。写完规则之后，把规则列表按顺序看一遍，确认没有重叠。</p>
+<h2 id="faq">常见问题</h2><div class="faq">
+<details><summary>三张表怎么定是怎么回事？</summary><p>分三类。第一类必走专线：国内电商后台、国内社交平台的管理端、国内的支付和银行、国内的直播推流。第二类走本地：本地的视频网站、系统更新、软件下载、云盘同步。第三类看情况：游戏和视频通话，看你对延迟和抖动的敏感度。三张表先列出来，再往设备上写规则。</p></details>
+<details><summary>域名分流还是地址分流</summary><p>域名分流的优点是精准，缺点是维护成本，平台换个域名你可能就漏了。地址分流的优点是稳定，缺点是颗粒度粗，一个网段里可能混着你要和不要的地址。实际做法是以域名为主、地址为辅，主力平台用域名规则，补充规则用地址段，两条并行。</p></details>
+<details><summary>游戏 UDP 要单独处理</summary><p>游戏走的是 UDP，规则里如果只按域名和 TCP 端口匹配，游戏流量会漏掉。表现就是网页能开，游戏还在用本地线路，延迟三百多。处理办法是把游戏的服务端地址段也加进规则，或者干脆把游戏设备的全部流量打标走专线。设备级的分流比应用级省事。</p></details>
+<details><summary>分流错了的表现是怎么回事？</summary><p>几个典型表现。网页打不开但 ping 得通，说明域名解析没跟着线路走。能开网页但视频一直转圈，说明视频的 CDN 域名没命中规则。登录后台总是要验证，说明你的出口地址在两条线路之间来回切，这种情况最危险，一定要把规则做互斥。</p></details>
+<details><summary>规则要互斥是怎么回事？</summary><p>最后一条原则，规则互斥。同一个目标地址，不能出现两个规则都命中、优先级不同的情况。流量一会儿走这条一会儿走那条，平台看到的是 IP 在跳，这比固定在一个不干净的 IP 上还糟。写完规则之后，把规则列表按顺序看一遍，确认没有重叠。</p></details>
+</div>
+<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="rel"><h3>相关内容</h3><a href="/kuber-network/mikrotik-huiguo/">MikroTik回国<span class="kw"> · MikroTik RouterOS 配 L2TP 回国：命令行完整流程</span></a><a href="/kuber-network/openwrt-huiguo/">OpenWrt回国<span class="kw"> · OpenWrt 配 L2TP 回国：装包、建接口、防火墙三步走通</span></a><a href="/kuber-network/softrouter-dns/">软路由DNS<span class="kw"> · 软路由 DNS 怎么设：解析走本地还是走专线</span></a><a href="/kuber-network/ikuai-multiwan/">iKuai多线<span class="kw"> · iKuai 双 WAN 加专线：策略路由的优先级怎么排</span></a><a href="/kuber-network/softrouter-l2tp/">软路由IP<span class="kw"> · iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</span></a><a href="/kuber-network/openwrt-vless/">OpenWrtVLESS<span class="kw"> · OpenWrt 上跑 VLESS：客户端参数和透明代理模式怎么选</span></a><a href="/kuber-network/huiguo-bandwidth/">回国带宽测算<span class="kw"> · 回国带宽怎么算：几个人几台设备到底要多少兆</span></a><a href="/kuber-network/l2tp-vs-vless/">L2TP和VLESS区别<span class="kw"> · L2TP 还是 VLESS？一张表讲清该用哪个</span></a></div>
+</main>
+<footer><div class="wrap">
+
+库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转<br>
+L2TP · VLESS · 软路由组网 · 东南亚自有中转仓<br><br>
+<a href="https://t.me/huiguo_staticip">Telegram 频道</a> · <a href="https://t.me/huiguo_chat">技术交流群</a><br>
+<span style="opacity:.7">文档最后更新 2026-11-05</span>
+</div></footer>
+</body>
+</html>

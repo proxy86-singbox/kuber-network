@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+
 Sitemap: https://proxy86-singbox.github.io/kuber-network/sitemap.xml

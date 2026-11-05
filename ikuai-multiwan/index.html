@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>iKuai 双 WAN 加专线：策略路由的优先级怎么排</title>
+<meta name="description" content="iKuai 里最常出错的地方不是拨号，是多线路由的优先级打架。">
+<link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/ikuai-multiwan/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="库珀网络">
+<meta property="og:title" content="iKuai 双 WAN 加专线：策略路由的优先级怎么排">
+<meta property="og:description" content="iKuai 里最常出错的地方不是拨号，是多线路由的优先级打架。">
+<meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/ikuai-multiwan/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="author" content="库珀网络">
+<style>
+:root{--bg:#0a1018;--panel:#111a26;--line:#1e2b3d;--text:#e8eef6;--dim:#8fa3b8;--accent:#00d6d6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+header{border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:44px}
+header .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.logo{font-size:20px;font-weight:700;color:var(--accent);text-decoration:none;letter-spacing:.5px}
+nav a{color:var(--dim);text-decoration:none;margin-left:20px;font-size:15px}
+nav a:hover{color:var(--accent)}
+.crumb{color:var(--dim);font-size:14px;margin-bottom:18px}
+.crumb a{color:var(--dim);text-decoration:none}
+.crumb a:hover{color:var(--accent)}
+h1{font-size:34px;line-height:1.35;margin:0 0 20px;letter-spacing:-.3px}
+h2{font-size:23px;margin:46px 0 16px;padding-left:14px;border-left:4px solid var(--accent)}
+h3{font-size:19px;margin:30px 0 12px;color:var(--accent)}
+p{margin:0 0 18px;color:#c5d3e2}
+.lead{font-size:19px;color:var(--text);background:var(--panel);border-left:4px solid var(--accent);padding:20px 24px;margin:0 0 32px;border-radius:0 6px 6px 0}
+ul,ol{margin:0 0 20px 24px;color:#c5d3e2}
+li{margin-bottom:10px}
+code{background:#1a2432;color:#5ce1e6;padding:2px 7px;border-radius:4px;font-size:15px;font-family:ui-monospace,Menlo,monospace}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px;overflow-x:auto;margin:0 0 22px}
+pre code{background:none;padding:0;color:#a8e6ea;font-size:14px;line-height:1.7;white-space:pre}
+.note{background:#0f1a24;border:1px solid var(--line);border-left:4px solid #4a7c8c;border-radius:0 6px 6px 0;padding:16px 20px;margin:0 0 24px;color:#a9bccd;font-size:16px}
+.meta{color:var(--dim);font-size:14px;margin-bottom:28px}
+.video{position:relative;padding-bottom:56.25%;height:0;margin:0 0 38px;background:var(--panel);border-radius:10px;overflow:hidden}
+.video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.video .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:15px}
+.toc{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 24px;margin:0 0 34px}
+.toc b{display:block;color:var(--accent);margin-bottom:10px;font-size:15px}
+.toc a{display:block;color:#9fd8dd;text-decoration:none;font-size:15px;margin-bottom:6px}
+.toc a:hover{text-decoration:underline}
+.cta{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:46px 0}
+.cta h3{margin-top:0}
+.faq{margin:14px 0 0}
+.faq details{border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin-bottom:10px;background:var(--panel)}
+.faq summary{cursor:pointer;color:var(--text);font-weight:600;font-size:16px}
+.faq p{margin:12px 0 0;font-size:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin:24px 0 34px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;text-decoration:none;color:inherit;transition:border-color .2s}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;color:var(--accent);font-size:15px;margin-bottom:8px}
+.card span{color:var(--dim);font-size:14px;line-height:1.65}
+table{width:100%;border-collapse:collapse;margin:0 0 26px;font-size:15px}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#16202e;color:var(--accent);font-weight:600}
+td{color:#c5d3e2}
+.rel{margin:56px 0 0;padding-top:28px;border-top:1px solid var(--line)}
+.rel h3{margin-bottom:16px}
+.rel a{display:block;color:#9fd8dd;text-decoration:none;margin-bottom:10px;font-size:16px}
+.rel a:hover{text-decoration:underline}
+.rel .kw{color:var(--dim);font-size:14px}
+footer{border-top:1px solid var(--line);margin-top:72px;padding:32px 0;color:var(--dim);font-size:14px}
+footer a{color:#00d6d6;text-decoration:none}
+.tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
+@media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "iKuai 双 WAN 加专线：策略路由的优先级怎么排", "description": "iKuai 里最常出错的地方不是拨号，是多线路由的优先级打架。", "inLanguage": "zh-CN", "keywords": "iKuai, 多线路由, 策略路由, 负载均衡, 软路由, 回国专线, 健康检查", "articleSection": "软路由", "wordCount": 1461, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/ikuai-multiwan/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "软路由"}, {"@type": "ListItem", "position": 3, "name": "iKuai多线", "item": "https://proxy86-singbox.github.io/kuber-network/ikuai-multiwan/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "优先级怎么排是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "实际排法是这样。域名分流放在最前面，把需要走专线的几个平台域名列进去。端口分流放第二层，把特定内网设备整个打到你想要的线路上。多线负载放最后，只处理剩下的普通流量。注意域名分流里的规则不要写太宽，写宽了整个域名后缀都走专线，专线带宽会被吃干。"}}, {"@type": "Question", "name": "健康检查别关是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "健康检查是很多人关掉的功能，觉得它占资源。关掉之后线路断了系统不知道，还在往断了的线上派流量，表现就是间歇性断网。开的时候注意两点，检查地址用对端的网关或者一个稳定的公网地址，间隔设十秒，连续失败三次才切换，避免抖动造成的误切。"}}, {"@type": "Question", "name": "怎么验证走对了是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "验证要看两头。第一头，在设备上查出口地址，确认是专线落地端的。第二头，在 iKuai 的线路监控里看这条线的实时流量，访问的时候流量应该涨。如果设备查到的出口对了但流量监控不涨，说明你的规则命中的是别的路径，回去查规则顺序。"}}, {"@type": "Question", "name": "DNS 和策略要一起配", "acceptedAnswer": {"@type": "Answer", "text": "iKuai 里 DNS 设置和多线策略是分开的两块，容易只配一半。域名分流做了，但 DNS 还是用本地运营商解析，解析出来的地址可能被调度到本地就近的节点，这个节点恰好不认你的专线出口，就出问题。做法是给走专线的那部分查询指定落地端的 DNS。"}}, {"@type": "Question", "name": "一个稳妥的落地顺序", "acceptedAnswer": {"@type": "Answer", "text": "配置顺序建议这样。先只配本地宽带，确认全屋正常。再加专线拨号，确认能拨上。然后加一条最简单的域名分流，测一个域名。通了再往上加规则。一次性把规则全写完再调，出问题你根本不知道是哪条规则。"}}]}]}</script>
+</head>
+<body>
+<header><div class="wrap">
+<a class="logo" href="/kuber-network/">库珀网络</a>
+<nav><a href="/kuber-network/duxiang-static-ip/">静态IP</a><a href="/kuber-network/cn2-huiguo/">CN2回国</a><a href="/kuber-network/softrouter-l2tp/">软路由</a><a href="/kuber-network/yanghao-ip/">养号IP</a><a href="/kuber-network/tiktok-live-ip/">直播IP</a><a href="/kuber-network/#all">全部文档</a></nav>
+</div></header>
+<main class="wrap">
+<div class="crumb"><a href="/kuber-network/">库珀网络</a> › <span>软路由</span> › <span>iKuai多线</span></div>
+<h1>iKuai 双 WAN 加专线：策略路由的优先级怎么排</h1>
+<div class="meta"><span class="tag">软路由</span><span class="tag">iKuai多线</span><span class="tag">P1</span>更新于 2026-11-05</div>
+<p class="lead">典型配置是三条线：本地宽带做主出口，一条专线走回国方向，可能还有一条备用宽带。iKuai 里对应的策略有三种：多线负载、端口分流、域名分流。这三种的优先级是固定的，域名分流最高，端口分流次之，多线负载最后。搞清楚这个顺序，很多问题就明白了。</p>
+<div class="video"><div class="ph">视频制作中</div></div>
+<h2>优先级怎么排</h2>
+<p>实际排法是这样。域名分流放在最前面，把需要走专线的几个平台域名列进去。端口分流放第二层，把特定内网设备整个打到你想要的线路上。多线负载放最后，只处理剩下的普通流量。注意域名分流里的规则不要写太宽，写宽了整个域名后缀都走专线，专线带宽会被吃干。</p>
+<h2>健康检查别关</h2>
+<p>健康检查是很多人关掉的功能，觉得它占资源。关掉之后线路断了系统不知道，还在往断了的线上派流量，表现就是间歇性断网。开的时候注意两点，检查地址用对端的网关或者一个稳定的公网地址，间隔设十秒，连续失败三次才切换，避免抖动造成的误切。</p>
+<h2>怎么验证走对了</h2>
+<p>验证要看两头。第一头，在设备上查出口地址，确认是专线落地端的。第二头，在 iKuai 的线路监控里看这条线的实时流量，访问的时候流量应该涨。如果设备查到的出口对了但流量监控不涨，说明你的规则命中的是别的路径，回去查规则顺序。</p>
+<h2>DNS 和策略要一起配</h2>
+<p>iKuai 里 DNS 设置和多线策略是分开的两块，容易只配一半。域名分流做了，但 DNS 还是用本地运营商解析，解析出来的地址可能被调度到本地就近的节点，这个节点恰好不认你的专线出口，就出问题。</p>
+<p>做法是给走专线的那部分查询指定落地端的 DNS。</p>
+<h2>一个稳妥的落地顺序</h2>
+<p>配置顺序建议这样。先只配本地宽带，确认全屋正常。再加专线拨号，确认能拨上。然后加一条最简单的域名分流，测一个域名。通了再往上加规则。一次性把规则全写完再调，出问题你根本不知道是哪条规则。</p>
+<h2 id="faq">常见问题</h2><div class="faq">
+<details><summary>优先级怎么排是怎么回事？</summary><p>实际排法是这样。域名分流放在最前面，把需要走专线的几个平台域名列进去。端口分流放第二层，把特定内网设备整个打到你想要的线路上。多线负载放最后，只处理剩下的普通流量。注意域名分流里的规则不要写太宽，写宽了整个域名后缀都走专线，专线带宽会被吃干。</p></details>
+<details><summary>健康检查别关是怎么回事？</summary><p>健康检查是很多人关掉的功能，觉得它占资源。关掉之后线路断了系统不知道，还在往断了的线上派流量，表现就是间歇性断网。开的时候注意两点，检查地址用对端的网关或者一个稳定的公网地址，间隔设十秒，连续失败三次才切换，避免抖动造成的误切。</p></details>
+<details><summary>怎么验证走对了是怎么回事？</summary><p>验证要看两头。第一头，在设备上查出口地址，确认是专线落地端的。第二头，在 iKuai 的线路监控里看这条线的实时流量，访问的时候流量应该涨。如果设备查到的出口对了但流量监控不涨，说明你的规则命中的是别的路径，回去查规则顺序。</p></details>
+<details><summary>DNS 和策略要一起配</summary><p>iKuai 里 DNS 设置和多线策略是分开的两块，容易只配一半。域名分流做了，但 DNS 还是用本地运营商解析，解析出来的地址可能被调度到本地就近的节点，这个节点恰好不认你的专线出口，就出问题。做法是给走专线的那部分查询指定落地端的 DNS。</p></details>
+<details><summary>一个稳妥的落地顺序</summary><p>配置顺序建议这样。先只配本地宽带，确认全屋正常。再加专线拨号，确认能拨上。然后加一条最简单的域名分流，测一个域名。通了再往上加规则。一次性把规则全写完再调，出问题你根本不知道是哪条规则。</p></details>
+</div>
+<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="rel"><h3>相关内容</h3><a href="/kuber-network/softrouter-split/">软路由分流<span class="kw"> · 回国分流策略：哪些流量该走专线，哪些必须留本地</span></a><a href="/kuber-network/mikrotik-huiguo/">MikroTik回国<span class="kw"> · MikroTik RouterOS 配 L2TP 回国：命令行完整流程</span></a><a href="/kuber-network/softrouter-l2tp/">软路由IP<span class="kw"> · iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</span></a><a href="/kuber-network/softrouter-dns/">软路由DNS<span class="kw"> · 软路由 DNS 怎么设：解析走本地还是走专线</span></a><a href="/kuber-network/openwrt-huiguo/">OpenWrt回国<span class="kw"> · OpenWrt 配 L2TP 回国：装包、建接口、防火墙三步走通</span></a><a href="/kuber-network/huiguo-bandwidth/">回国带宽测算<span class="kw"> · 回国带宽怎么算：几个人几台设备到底要多少兆</span></a><a href="/kuber-network/openwrt-vless/">OpenWrtVLESS<span class="kw"> · OpenWrt 上跑 VLESS：客户端参数和透明代理模式怎么选</span></a><a href="/kuber-network/seasia-huiguo-latency/">东南亚回国延迟<span class="kw"> · 东南亚回国延迟实测：新加坡、曼谷、雅加达到国内各差多少</span></a></div>
+</main>
+<footer><div class="wrap">
+
+库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转<br>
+L2TP · VLESS · 软路由组网 · 东南亚自有中转仓<br><br>
+<a href="https://t.me/huiguo_staticip">Telegram 频道</a> · <a href="https://t.me/huiguo_chat">技术交流群</a><br>
+<span style="opacity:.7">文档最后更新 2026-11-05</span>
+</div></footer>
+</body>
+</html>

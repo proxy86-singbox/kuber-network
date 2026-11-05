@@ -4,92 +4,170 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>独享静态IP · 回国专线 · 香港CN2中转 | 库珀网络</title>
-<meta name="description" content="独享静态IP、回国专线、香港CN2/GIA中转。L2TP与VLESS双协议，软路由原生拨号，养号IP不关联。">
+<meta name="description" content="独享静态IP、回国专线、香港CN2/GIA中转。L2TP与VLESS双协议，软路由原生拨号，含选型标准、晚高峰实测数据、配置步骤与排障矩阵。">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/">
 <meta property="og:type" content="article">
+<meta property="og:site_name" content="库珀网络">
 <meta property="og:title" content="独享静态IP · 回国专线 · 香港CN2中转 | 库珀网络">
-<meta property="og:description" content="独享静态IP、回国专线、香港CN2/GIA中转。L2TP与VLESS双协议，软路由原生拨号，养号IP不关联。">
-<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:description" content="独享静态IP、回国专线、香港CN2/GIA中转。L2TP与VLESS双协议，软路由原生拨号，含选型标准、晚高峰实测数据、配置步骤与排障矩阵。">
+<meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="author" content="库珀网络">
 <style>
 :root{--bg:#0a1018;--panel:#111a26;--line:#1e2b3d;--text:#e8eef6;--dim:#8fa3b8;--accent:#00d6d6}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px}
-.wrap{max-width:820px;margin:0 auto;padding:0 24px}
-header{border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:48px}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+header{border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:44px}
 header .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .logo{font-size:20px;font-weight:700;color:var(--accent);text-decoration:none;letter-spacing:.5px}
 nav a{color:var(--dim);text-decoration:none;margin-left:20px;font-size:15px}
 nav a:hover{color:var(--accent)}
+.crumb{color:var(--dim);font-size:14px;margin-bottom:18px}
+.crumb a{color:var(--dim);text-decoration:none}
+.crumb a:hover{color:var(--accent)}
 h1{font-size:34px;line-height:1.35;margin:0 0 20px;letter-spacing:-.3px}
-h2{font-size:23px;margin:44px 0 16px;padding-left:14px;border-left:4px solid var(--accent)}
-h3{font-size:19px;margin:28px 0 12px;color:var(--accent)}
+h2{font-size:23px;margin:46px 0 16px;padding-left:14px;border-left:4px solid var(--accent)}
+h3{font-size:19px;margin:30px 0 12px;color:var(--accent)}
 p{margin:0 0 18px;color:#c5d3e2}
-.lead{font-size:19px;color:var(--text);background:var(--panel);border-left:4px solid var(--accent);padding:20px 24px;margin:0 0 36px;border-radius:0 6px 6px 0}
+.lead{font-size:19px;color:var(--text);background:var(--panel);border-left:4px solid var(--accent);padding:20px 24px;margin:0 0 32px;border-radius:0 6px 6px 0}
 ul,ol{margin:0 0 20px 24px;color:#c5d3e2}
 li{margin-bottom:10px}
 code{background:#1a2432;color:#5ce1e6;padding:2px 7px;border-radius:4px;font-size:15px;font-family:ui-monospace,Menlo,monospace}
 pre{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px;overflow-x:auto;margin:0 0 22px}
-pre code{background:none;padding:0;color:#a8e6ea;font-size:14px;line-height:1.7}
-.meta{color:var(--dim);font-size:14px;margin-bottom:32px}
-.video{position:relative;padding-bottom:56.25%;height:0;margin:0 0 40px;background:var(--panel);border-radius:10px;overflow:hidden}
+pre code{background:none;padding:0;color:#a8e6ea;font-size:14px;line-height:1.7;white-space:pre}
+.note{background:#0f1a24;border:1px solid var(--line);border-left:4px solid #4a7c8c;border-radius:0 6px 6px 0;padding:16px 20px;margin:0 0 24px;color:#a9bccd;font-size:16px}
+.meta{color:var(--dim);font-size:14px;margin-bottom:28px}
+.video{position:relative;padding-bottom:56.25%;height:0;margin:0 0 38px;background:var(--panel);border-radius:10px;overflow:hidden}
 .video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
 .video .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:15px}
-.cta{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:48px 0}
+.toc{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 24px;margin:0 0 34px}
+.toc b{display:block;color:var(--accent);margin-bottom:10px;font-size:15px}
+.toc a{display:block;color:#9fd8dd;text-decoration:none;font-size:15px;margin-bottom:6px}
+.toc a:hover{text-decoration:underline}
+.cta{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:46px 0}
 .cta h3{margin-top:0}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:28px 0}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px;text-decoration:none;color:inherit;transition:border-color .2s}
+.faq{margin:14px 0 0}
+.faq details{border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin-bottom:10px;background:var(--panel)}
+.faq summary{cursor:pointer;color:var(--text);font-weight:600;font-size:16px}
+.faq p{margin:12px 0 0;font-size:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin:24px 0 34px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;text-decoration:none;color:inherit;transition:border-color .2s}
 .card:hover{border-color:var(--accent)}
-.card b{display:block;color:var(--accent);font-size:16px;margin-bottom:8px}
-.card span{color:var(--dim);font-size:14px}
+.card b{display:block;color:var(--accent);font-size:15px;margin-bottom:8px}
+.card span{color:var(--dim);font-size:14px;line-height:1.65}
+table{width:100%;border-collapse:collapse;margin:0 0 26px;font-size:15px}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#16202e;color:var(--accent);font-weight:600}
+td{color:#c5d3e2}
 .rel{margin:56px 0 0;padding-top:28px;border-top:1px solid var(--line)}
 .rel h3{margin-bottom:16px}
 .rel a{display:block;color:#9fd8dd;text-decoration:none;margin-bottom:10px;font-size:16px}
 .rel a:hover{text-decoration:underline}
+.rel .kw{color:var(--dim);font-size:14px}
 footer{border-top:1px solid var(--line);margin-top:72px;padding:32px 0;color:var(--dim);font-size:14px}
+footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
-@media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}}
+@media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network/", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "CollectionPage", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "独享静态IP · 回国专线 · 香港CN2中转", "inLanguage": "zh-CN", "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}, "mainEntity": {"@type": "ItemList", "numberOfItems": 30, "itemListElement": [{"@type": "ListItem", "position": 1, "name": "独享静态IP", "url": "https://proxy86-singbox.github.io/kuber-network/duxiang-static-ip/"}, {"@type": "ListItem", "position": 2, "name": "养号IP", "url": "https://proxy86-singbox.github.io/kuber-network/yanghao-ip/"}, {"@type": "ListItem", "position": 3, "name": "香港CN2回国", "url": "https://proxy86-singbox.github.io/kuber-network/cn2-huiguo/"}, {"@type": "ListItem", "position": 4, "name": "软路由IP", "url": "https://proxy86-singbox.github.io/kuber-network/softrouter-l2tp/"}, {"@type": "ListItem", "position": 5, "name": "小火箭VLESS配置", "url": "https://proxy86-singbox.github.io/kuber-network/xiaohuojian-vless/"}, {"@type": "ListItem", "position": 6, "name": "IP纯净度检测", "url": "https://proxy86-singbox.github.io/kuber-network/ip-chunjingdu/"}, {"@type": "ListItem", "position": 7, "name": "L2TP和VLESS区别", "url": "https://proxy86-singbox.github.io/kuber-network/l2tp-vs-vless/"}, {"@type": "ListItem", "position": 8, "name": "IP被关联", "url": "https://proxy86-singbox.github.io/kuber-network/ip-guanlian/"}, {"@type": "ListItem", "position": 9, "name": "TikTok直播IP", "url": "https://proxy86-singbox.github.io/kuber-network/tiktok-live-ip/"}, {"@type": "ListItem", "position": 10, "name": "电商店铺IP", "url": "https://proxy86-singbox.github.io/kuber-network/ecommerce-shop-ip/"}, {"@type": "ListItem", "position": 11, "name": "指纹浏览器IP", "url": "https://proxy86-singbox.github.io/kuber-network/fingerprint-browser-ip/"}, {"@type": "ListItem", "position": 12, "name": "IP段关联", "url": "https://proxy86-singbox.github.io/kuber-network/ip-subnet-link/"}, {"@type": "ListItem", "position": 13, "name": "养号IP更换", "url": "https://proxy86-singbox.github.io/kuber-network/yanghao-ip-change/"}, {"@type": "ListItem", "position": 14, "name": "OpenWrt回国", "url": "https://proxy86-singbox.github.io/kuber-network/openwrt-huiguo/"}, {"@type": "ListItem", "position": 15, "name": "MikroTik回国", "url": "https://proxy86-singbox.github.io/kuber-network/mikrotik-huiguo/"}, {"@type": "ListItem", "position": 16, "name": "软路由分流", "url": "https://proxy86-singbox.github.io/kuber-network/softrouter-split/"}, {"@type": "ListItem", "position": 17, "name": "iKuai多线", "url": "https://proxy86-singbox.github.io/kuber-network/ikuai-multiwan/"}, {"@type": "ListItem", "position": 18, "name": "OpenWrtVLESS", "url": "https://proxy86-singbox.github.io/kuber-network/openwrt-vless/"}, {"@type": "ListItem", "position": 19, "name": "软路由DNS", "url": "https://proxy86-singbox.github.io/kuber-network/softrouter-dns/"}, {"@type": "ListItem", "position": 20, "name": "VLESS节点参数", "url": "https://proxy86-singbox.github.io/kuber-network/vless-node-params/"}, {"@type": "ListItem", "position": 21, "name": "小火箭分流规则", "url": "https://proxy86-singbox.github.io/kuber-network/shadowrocket-rules/"}, {"@type": "ListItem", "position": 22, "name": "代理耗电断连", "url": "https://proxy86-singbox.github.io/kuber-network/proxy-battery-disconnect/"}, {"@type": "ListItem", "position": 23, "name": "东南亚回国延迟", "url": "https://proxy86-singbox.github.io/kuber-network/seasia-huiguo-latency/"}, {"@type": "ListItem", "position": 24, "name": "CN2路由追踪", "url": "https://proxy86-singbox.github.io/kuber-network/cn2-traceroute/"}, {"@type": "ListItem", "position": 25, "name": "回国带宽测算", "url": "https://proxy86-singbox.github.io/kuber-network/huiguo-bandwidth/"}, {"@type": "ListItem", "position": 26, "name": "晚高峰限速", "url": "https://proxy86-singbox.github.io/kuber-network/peak-hour-throttle/"}, {"@type": "ListItem", "position": 27, "name": "MTU分片", "url": "https://proxy86-singbox.github.io/kuber-network/mtu-fragmentation/"}, {"@type": "ListItem", "position": 28, "name": "L2TP掉线", "url": "https://proxy86-singbox.github.io/kuber-network/l2tp-disconnect/"}, {"@type": "ListItem", "position": 29, "name": "IP归属地不一致", "url": "https://proxy86-singbox.github.io/kuber-network/ip-geo-mismatch/"}, {"@type": "ListItem", "position": 30, "name": "中转仓选址", "url": "https://proxy86-singbox.github.io/kuber-network/transit-hub-location/"}]}}]}</script>
 </head>
 <body>
 <header><div class="wrap">
-<a class="logo" href="/">库珀网络</a>
-<nav>
-<a href="/">首页</a>
-<a href="/duxiang-static-ip/">静态IP</a>
-<a href="/cn2-huiguo/">CN2回国</a>
-<a href="/softrouter-l2tp/">软路由</a>
-<a href="/yanghao-ip/">养号IP</a>
-</nav>
+<a class="logo" href="/kuber-network/">库珀网络</a>
+<nav><a href="/kuber-network/duxiang-static-ip/">静态IP</a><a href="/kuber-network/cn2-huiguo/">CN2回国</a><a href="/kuber-network/softrouter-l2tp/">软路由</a><a href="/kuber-network/yanghao-ip/">养号IP</a><a href="/kuber-network/tiktok-live-ip/">直播IP</a><a href="/kuber-network/#all">全部文档</a></nav>
 </div></header>
 <main class="wrap">
 
 <h1>独享静态IP · 回国专线 · 香港CN2中转</h1>
-<p class="lead">面向养号、软路由、跨境店铺的国内网络基础设施。独享不共享、静态不动态、原生不广播。L2TP 与 VLESS 双协议，东南亚回国走香港 CN2/GIA 中转。</p>
-<h2>技术文档</h2>
-<div class="cards">
-<a class="card" href="/duxiang-static-ip/"><b>独享静态IP</b><span>今天讲独享静态IP怎么选。先说你为什么需要它。现在做跨境的人越来越多，养号、开店、投放，都要一个干净的国内IP。但市面上卖的IP，八成是不合格的。这条视频给你五…</span></a>
-<a class="card" href="/yanghao-ip/"><b>养号IP</b><span>养号的成本结构是三个东西：独享静态IP、干净的指纹浏览器、一台设备一个号。很多人省IP的钱，最后全赔在封号上。这期从三个平台的视角讲清楚为什么。…</span></a>
-<a class="card" href="/cn2-huiguo/"><b>香港CN2回国</b><span>CN2 是中国电信的下一代承载网，全称 China Telecom Next Carrying Network。它和其他线路的区别在于，它不参与公网拥塞。但 C…</span></a>
-<a class="card" href="/softrouter-l2tp/"><b>软路由IP</b><span>这期讲 iKuai 软路由怎么用 L2TP 拨号回国。为什么选 L2TP？因为路由器原生支持，不用装任何客户端，全屋设备自动走。电视盒子、Switch、iPad…</span></a>
-<a class="card" href="/xiaohuojian-vless/"><b>小火箭VLESS配置</b><span>这期讲小火箭配 VLESS。现在主流两种配法，VLESS 加 TCP 加 TLS，和 VLESS 加 WS 加 TLS。前者性能好，后者伪装性强。看你网络环境选…</span></a>
-<a class="card" href="/ip-chunjingdu/"><b>IP纯净度检测</b><span>判断一个IP干不干净，看三个维度。类型、历史、归属。这三个维度决定了平台怎么看你这个环境。…</span></a>
-<a class="card" href="/l2tp-vs-vless/"><b>L2TP和VLESS区别</b><span>L2TP 和 VLESS 不是竞品，是两种不同的东西。L2TP 是VPN协议，工作在网络层，整台设备的流量都走隧道。VLESS 是代理协议，工作在应用层，可以精…</span></a>
-<a class="card" href="/ip-guanlian/"><b>IP被关联</b><span>IP被关联了怎么办？先说原理。平台判定关联，看的是环境指纹。环境指纹包括IP、浏览器指纹、设备ID、行为模式。四个维度里任意两个相同，就可能被判关联。所以只换I…</span></a>
+<p class="lead">面向养号、直播、软路由、跨境店铺的国内网络基础设施。独享不共享、静态不动态、原生不广播。L2TP 与 VLESS 双协议，东南亚回国走香港 CN2/GIA 中转。</p>
 
+<h2>为什么单做「换 IP」解决不了问题</h2>
+<p>平台判定关联，看的是环境指纹的四个维度：IP、浏览器指纹、设备标识、行为模式。任意两个维度重合就成立，所以只换 IP 不换指纹和只换指纹不换 IP，效果完全一样。这个站点上的文档按维度拆开写：IP 怎么选、怎么验、怎么配、关联之后怎么救，每一篇都给出可执行的命令与判定标准，而不是「建议使用高质量 IP」这类空话。</p>
+
+<h2>技术文档</h2>
+<h3>静态IP</h3>
+<div class="cards">
+<a class="card" href="/kuber-network/duxiang-static-ip/"><b>独享静态IP</b><span>今天讲独享静态IP怎么选。先说你为什么需要它。现在做跨境的人越来越多，养号、开店、投放，都要一个干净的国内IP。但市面上卖的IP，八成是不合…</span></a>
 </div>
-<h2>我们解决什么问题</h2>
 <h3>养号</h3>
-<p>TikTok、Facebook、Instagram、电商店铺的风控模型里，IP 是环境指纹的一部分。共享 IP 会让多个账号关联，一个出事全批连坐。独享静态 IP 让这个 IP 的登录记录只属于你一个人。</p>
-<h3>软路由组网</h3>
-<p>iKuai、OpenWrt、MikroTik 原生支持 L2TP 拨号，全屋设备不用装客户端。电视盒子、Switch、iPad、智能音箱自动走，配好分流规则后国内网站直连、其余走隧道。</p>
-<h3>跨境网络</h3>
-<p>东南亚回国，香港中转是物理最优解。新加坡直连上海实际 180-250ms，走香港 CN2 只要 60-80ms。前提是 GIA 不是 GT。</p>
+<div class="cards">
+<a class="card" href="/kuber-network/yanghao-ip/"><b>养号IP</b><span>养号的成本结构是三个东西：独享静态IP、干净的指纹浏览器、一台设备一个号。很多人省IP的钱，最后全赔在封号上。这期从三个平台的视角讲清楚为什…</span></a><a class="card" href="/kuber-network/yanghao-ip-change/"><b>养号IP更换</b><span>结论是，能不换就别换，必须换的时候要换得慢。养号的本质是让平台认为这是一个稳定的真实用户。IP 是稳定性的一部分，你换得越勤，平台越觉得这个…</span></a>
+</div>
+<h3>CN2</h3>
+<div class="cards">
+<a class="card" href="/kuber-network/cn2-huiguo/"><b>香港CN2回国</b><span>CN2 是中国电信的下一代承载网，全称 China Telecom Next Carrying Network。它和其他线路的区别在于，它不…</span></a><a class="card" href="/kuber-network/seasia-huiguo-latency/"><b>东南亚回国延迟</b><span>光在光纤里每千公里大概五毫秒往返，加上设备和路由开销，实际大概是理论值的两倍。新加坡到广州直线距离约两千五百公里，理论往返二十五毫秒，实际好…</span></a><a class="card" href="/kuber-network/cn2-traceroute/"><b>CN2路由追踪</b><span>CN2 的地址段有一个很明显的特征，路由里会出现五十九点四十三开头的地址。这是 CN2 的标志性网段。你在追踪结果里只要看到这一段，说明流量…</span></a>
+</div>
+<h3>软路由</h3>
+<div class="cards">
+<a class="card" href="/kuber-network/softrouter-l2tp/"><b>软路由IP</b><span>这期讲 iKuai 软路由怎么用 L2TP 拨号回国。为什么选 L2TP？因为路由器原生支持，不用装任何客户端，全屋设备自动走。电视盒子、S…</span></a><a class="card" href="/kuber-network/openwrt-huiguo/"><b>OpenWrt回国</b><span>先说依赖。OpenWrt 要跑 L2TP 客户端，需要四个包：xl2tpd 是拨号进程，kmod-l2tp 和 kmod-l2tp-eth …</span></a><a class="card" href="/kuber-network/mikrotik-huiguo/"><b>MikroTik回国</b><span>RouterOS 里建 L2TP 客户端，核心就四条。第一条建拨号配置，把认证方式设成只允许质询握手，加密要求打开。第二条建客户端接口，填对…</span></a><a class="card" href="/kuber-network/softrouter-split/"><b>软路由分流</b><span>两个原因。第一，专线带宽有限，几十兆的专线塞满全屋流量，晚高峰一定卡。第二，很多流量本来就是本地的，视频会议、本地流媒体、系统更新，这些走本…</span></a><a class="card" href="/kuber-network/ikuai-multiwan/"><b>iKuai多线</b><span>典型配置是三条线：本地宽带做主出口，一条专线走回国方向，可能还有一条备用宽带。iKuai 里对应的策略有三种：多线负载、端口分流、域名分流。…</span></a><a class="card" href="/kuber-network/softrouter-dns/"><b>软路由DNS</b><span>说个很多人不知道的事。现在大部分平台用智能调度，你从哪个地区发起解析，它就返给你最近的服务器地址。你人在东南亚，解析请求也从东南亚发出去，返…</span></a>
+</div>
+<h3>代理协议</h3>
+<div class="cards">
+<a class="card" href="/kuber-network/xiaohuojian-vless/"><b>小火箭VLESS配置</b><span>这期讲小火箭配 VLESS。现在主流两种配法，VLESS 加 TCP 加 TLS，和 VLESS 加 WS 加 TLS。前者性能好，后者伪装…</span></a><a class="card" href="/kuber-network/l2tp-vs-vless/"><b>L2TP和VLESS区别</b><span>L2TP 和 VLESS 不是竞品，是两种不同的东西。L2TP 是VPN协议，工作在网络层，整台设备的流量都走隧道。VLESS 是代理协议，…</span></a><a class="card" href="/kuber-network/openwrt-vless/"><b>OpenWrtVLESS</b><span>TUN 模式是在系统里建一个虚拟网卡，所有流量从这张网卡走，内核层面接管，兼容性最好。透明代理是拦 TCP 和 UDP 的连接，重定向到本地…</span></a><a class="card" href="/kuber-network/vless-node-params/"><b>VLESS节点参数</b><span>必填的就五个：服务端地址、端口、用户标识、传输方式、安全层。用户标识是一串固定格式的字符，服务端生成的时候给你的，填错一个字符都连不上，而且…</span></a><a class="card" href="/kuber-network/shadowrocket-rules/"><b>小火箭分流规则</b><span>小火箭里的规则分三类：域名规则、IP 规则、还有最终兜底规则。域名规则匹配你访问的域名，IP 规则匹配目标地址，兜底规则决定没命中的流量怎么…</span></a>
+</div>
+<h3>IP检测</h3>
+<div class="cards">
+<a class="card" href="/kuber-network/ip-chunjingdu/"><b>IP纯净度检测</b><span>判断一个IP干不干净，看三个维度。类型、历史、归属。这三个维度决定了平台怎么看你这个环境。…</span></a><a class="card" href="/kuber-network/ip-geo-mismatch/"><b>IP归属地不一致</b><span>第一个原因最常见，IP 归属地数据库没更新。IP 段被转售之后，各家数据库更新速度不一样，可能一家显示旧归属地，另一家显示新的。验证方法是同…</span></a>
+</div>
+<h3>防关联</h3>
+<div class="cards">
+<a class="card" href="/kuber-network/ip-guanlian/"><b>IP被关联</b><span>IP被关联了怎么办？先说原理。平台判定关联，看的是环境指纹。环境指纹包括IP、浏览器指纹、设备ID、行为模式。四个维度里任意两个相同，就可能…</span></a><a class="card" href="/kuber-network/fingerprint-browser-ip/"><b>指纹浏览器IP</b><span>指纹浏览器的作用是给你造一个看起来独立的浏览器身份。但身份是自洽才算数。你 IP 在美国，浏览器时区是北京时间，语言是简体中文，这两个信息放…</span></a><a class="card" href="/kuber-network/ip-subnet-link/"><b>IP段关联</b><span>先解释概念。一个 IP 地址分四段，前三段相同的这批地址，习惯上叫一个 C 段，一共两百五十四个可用地址。机房买 IP 通常是一整段一整段买…</span></a>
+</div>
+<h3>直播</h3>
+<div class="cards">
+<a class="card" href="/kuber-network/tiktok-live-ip/"><b>TikTok直播IP</b><span>先说一个很多人搞混的事。短视频是上传完就结束了，中间可以重传、可以排队，网络抖一下你根本感觉不到。直播不行，直播是持续的实时上行，这一秒的数…</span></a>
+</div>
+<h3>电商</h3>
+<div class="cards">
+<a class="card" href="/kuber-network/ecommerce-shop-ip/"><b>电商店铺IP</b><span>平台判两个店铺是不是同一个人在操作，看四样东西。IP 和 IP 段，浏览器指纹，设备特征，还有收款和物流信息。四个维度里，只要有两个撞上，基…</span></a>
+</div>
+<h3>客户端</h3>
+<div class="cards">
+<a class="card" href="/kuber-network/proxy-battery-disconnect/"><b>代理耗电断连</b><span>锁屏断连，通常是三个原因之一。第一，系统的省电机制把后台网络挂起了。第二，链路空闲太久，中间设备把会话表清了。第三，MTU 不匹配，大包被丢…</span></a>
+</div>
+<h3>带宽</h3>
+<div class="cards">
+<a class="card" href="/kuber-network/huiguo-bandwidth/"><b>回国带宽测算</b><span>四个常见场景的数字记一下。网页办公和聊天，一到两兆够了。一零八零 p 视频，五到八兆。四 k 视频，二十到二十五兆。直播推流按上行算，一零八…</span></a><a class="card" href="/kuber-network/peak-hour-throttle/"><b>晚高峰限速</b><span>第一种，速度整体下降但延迟正常，这是超售，带宽被别人分走了。第二种，速度没降但延迟暴涨，还伴随丢包，这是线路拥塞或者被限速。第三种，速度掉到…</span></a>
+</div>
+<h3>排障</h3>
+<div class="cards">
+<a class="card" href="/kuber-network/mtu-fragmentation/"><b>MTU分片</b><span>MTU 是一个数据包最大能有多大，以太网默认是一五零零字节。走隧道的时候，外层要加包头，可用空间就少了几十字节。隧道两端的 MTU 如果没对…</span></a><a class="card" href="/kuber-network/l2tp-disconnect/"><b>L2TP掉线</b><span>列一下。一，本地网络封了 UDP 一千七百零一。二，保持连接间隔太长，会话被中间设备清掉。三，MTU 不匹配导致大包丢失。四，账号同时在别处…</span></a>
+</div>
+<h3>线路</h3>
+<div class="cards">
+<a class="card" href="/kuber-network/transit-hub-location/"><b>中转仓选址</b><span>中转的逻辑是，先把流量从你所在的国家送到一个中转点，再从那里走优质线路回国。中转点选在哪，决定了后面那一段的路径质量。选择的标准不是距离最近…</span></a>
+</div>
+
+
+<div id="all"></div>
+<h2>这套文档怎么用</h2>
+<p>如果你刚开始，按「独享静态IP 怎么选 → 怎么判断 IP 干不干净 → 养号IP 完全指南」的顺序读，三篇读完能建立完整的采购判断标准，避免在第一步就买到共享出口冒充的独享 IP。</p>
+<p>如果你想搭环境，按「软路由」分组读：iKuai、OpenWrt、MikroTik 三套配置都给到字段级，包含最容易漏的「使用默认网关」、MTU 取值、分流规则顺序和排障矩阵。配完用两个 curl 命令就能验证分流是否生效。</p>
+<p>如果账号已经出问题，直接看「防关联」分组。顺序很重要：先停手、再分离环境、最后申诉。顺序错了会拿到二次判定，比第一次更重。</p>
+<p>如果卡在性能上，看「带宽」「排障」两组：晚高峰限速的三种表现、MTU 分片导致图片加载不出来、L2TP 频繁掉线的七个原因，都是先有现象再给判定路径，不用从零排查。</p>
+
+<h2>线路与协议的基本盘</h2>
+<p>回国走香港中转是物理最优解：东南亚直连回国的实际路径常常是「新加坡 → 日本 → 美国 → 上海」，延迟 180-250ms 且晚高峰丢包 3-8%；经香港 CN2 GIA 则是 60-80ms，丢包 1% 以内。前提是 GIA 不是 GT——GT 是半程 CN2，晚高峰和普通线路一起拥塞。</p>
+<p>协议层面，L2TP 的价值是路由器原生支持、全屋设备零配置；VLESS 的价值是伪装成 HTTPS、抗封锁、支持精细分流。两者不是竞品，正规做法是同一账号两种协议都开：L2TP 管电视盒子和智能家居，VLESS 管手机电脑。</p>
+
+<h2>文档里反复出现的几个判断标准</h2>
+<ul>
+<li><b>独享</b>：IP 只绑定你一个账号，服务商能出分配记录。不能出的，按共享处理。</li>
+<li><b>静态</b>：连续 7 天在早中晚三个时段记录出口 IP（含 IPv6），零变化才算静态。</li>
+<li><b>原生</b>：ASN 挂在当地运营商名下，且从邻近地区测的 RTT 与声称落地位置匹配。</li>
+<li><b>纯净</b>：公开库无黑名单记录，且目标平台能免验证注册、十分钟无弹窗。</li>
+<li><b>带宽</b>：晚高峰 21:00-23:00 的 RTT 波动小于 20ms、丢包低于 1%。</li>
+</ul>
 
 </main>
 <footer><div class="wrap">
+
 库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转<br>
-L2TP · VLESS · 软路由组网 · 东南亚自有中转仓<br><br><a href="https://t.me/huiguo_staticip" style="color:#00d6d6;text-decoration:none">Telegram 频道</a> · <a href="https://t.me/huiguo_chat" style="color:#00d6d6;text-decoration:none">技术交流群</a>
+L2TP · VLESS · 软路由组网 · 东南亚自有中转仓<br><br>
+<a href="https://t.me/huiguo_staticip">Telegram 频道</a> · <a href="https://t.me/huiguo_chat">技术交流群</a><br>
+<span style="opacity:.7">文档最后更新 2026-11-05</span>
 </div></footer>
 </body>
 </html>

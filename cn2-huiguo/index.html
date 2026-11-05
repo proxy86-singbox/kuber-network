@@ -4,74 +4,91 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少</title>
-<meta name="description" content="CN2 是中国电信的下一代承载网，全称 China Telecom Next Carrying Network。它和其他线路的区别在于，它不参与公网拥塞。但 CN2 分两种，差价三倍，很多人被坑就在这里。">
+<meta name="description" content="同样是「香港CN2中转」，为什么有人晚高峰稳定，有人晚高峰掉速？">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/cn2-huiguo/">
 <meta property="og:type" content="article">
+<meta property="og:site_name" content="库珀网络">
 <meta property="og:title" content="香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少">
-<meta property="og:description" content="CN2 是中国电信的下一代承载网，全称 China Telecom Next Carrying Network。它和其他线路的区别在于，它不参与公网拥塞。但 CN2 分两种，差价三倍，很多人被坑就在这里。">
-<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:description" content="同样是「香港CN2中转」，为什么有人晚高峰稳定，有人晚高峰掉速？">
+<meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/cn2-huiguo/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="author" content="库珀网络">
 <style>
 :root{--bg:#0a1018;--panel:#111a26;--line:#1e2b3d;--text:#e8eef6;--dim:#8fa3b8;--accent:#00d6d6}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px}
-.wrap{max-width:820px;margin:0 auto;padding:0 24px}
-header{border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:48px}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+header{border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:44px}
 header .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .logo{font-size:20px;font-weight:700;color:var(--accent);text-decoration:none;letter-spacing:.5px}
 nav a{color:var(--dim);text-decoration:none;margin-left:20px;font-size:15px}
 nav a:hover{color:var(--accent)}
+.crumb{color:var(--dim);font-size:14px;margin-bottom:18px}
+.crumb a{color:var(--dim);text-decoration:none}
+.crumb a:hover{color:var(--accent)}
 h1{font-size:34px;line-height:1.35;margin:0 0 20px;letter-spacing:-.3px}
-h2{font-size:23px;margin:44px 0 16px;padding-left:14px;border-left:4px solid var(--accent)}
-h3{font-size:19px;margin:28px 0 12px;color:var(--accent)}
+h2{font-size:23px;margin:46px 0 16px;padding-left:14px;border-left:4px solid var(--accent)}
+h3{font-size:19px;margin:30px 0 12px;color:var(--accent)}
 p{margin:0 0 18px;color:#c5d3e2}
-.lead{font-size:19px;color:var(--text);background:var(--panel);border-left:4px solid var(--accent);padding:20px 24px;margin:0 0 36px;border-radius:0 6px 6px 0}
+.lead{font-size:19px;color:var(--text);background:var(--panel);border-left:4px solid var(--accent);padding:20px 24px;margin:0 0 32px;border-radius:0 6px 6px 0}
 ul,ol{margin:0 0 20px 24px;color:#c5d3e2}
 li{margin-bottom:10px}
 code{background:#1a2432;color:#5ce1e6;padding:2px 7px;border-radius:4px;font-size:15px;font-family:ui-monospace,Menlo,monospace}
 pre{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px;overflow-x:auto;margin:0 0 22px}
-pre code{background:none;padding:0;color:#a8e6ea;font-size:14px;line-height:1.7}
-.meta{color:var(--dim);font-size:14px;margin-bottom:32px}
-.video{position:relative;padding-bottom:56.25%;height:0;margin:0 0 40px;background:var(--panel);border-radius:10px;overflow:hidden}
+pre code{background:none;padding:0;color:#a8e6ea;font-size:14px;line-height:1.7;white-space:pre}
+.note{background:#0f1a24;border:1px solid var(--line);border-left:4px solid #4a7c8c;border-radius:0 6px 6px 0;padding:16px 20px;margin:0 0 24px;color:#a9bccd;font-size:16px}
+.meta{color:var(--dim);font-size:14px;margin-bottom:28px}
+.video{position:relative;padding-bottom:56.25%;height:0;margin:0 0 38px;background:var(--panel);border-radius:10px;overflow:hidden}
 .video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
 .video .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:15px}
-.cta{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:48px 0}
+.toc{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 24px;margin:0 0 34px}
+.toc b{display:block;color:var(--accent);margin-bottom:10px;font-size:15px}
+.toc a{display:block;color:#9fd8dd;text-decoration:none;font-size:15px;margin-bottom:6px}
+.toc a:hover{text-decoration:underline}
+.cta{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:46px 0}
 .cta h3{margin-top:0}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:28px 0}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px;text-decoration:none;color:inherit;transition:border-color .2s}
+.faq{margin:14px 0 0}
+.faq details{border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin-bottom:10px;background:var(--panel)}
+.faq summary{cursor:pointer;color:var(--text);font-weight:600;font-size:16px}
+.faq p{margin:12px 0 0;font-size:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin:24px 0 34px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;text-decoration:none;color:inherit;transition:border-color .2s}
 .card:hover{border-color:var(--accent)}
-.card b{display:block;color:var(--accent);font-size:16px;margin-bottom:8px}
-.card span{color:var(--dim);font-size:14px}
+.card b{display:block;color:var(--accent);font-size:15px;margin-bottom:8px}
+.card span{color:var(--dim);font-size:14px;line-height:1.65}
+table{width:100%;border-collapse:collapse;margin:0 0 26px;font-size:15px}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#16202e;color:var(--accent);font-weight:600}
+td{color:#c5d3e2}
 .rel{margin:56px 0 0;padding-top:28px;border-top:1px solid var(--line)}
 .rel h3{margin-bottom:16px}
 .rel a{display:block;color:#9fd8dd;text-decoration:none;margin-bottom:10px;font-size:16px}
 .rel a:hover{text-decoration:underline}
+.rel .kw{color:var(--dim);font-size:14px}
 footer{border-top:1px solid var(--line);margin-top:72px;padding:32px 0;color:var(--dim);font-size:14px}
+footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
-@media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}}
+@media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少", "description": "CN2 是中国电信的下一代承载网，全称 China Telecom Next Carrying Network。它和其他线路的区别在于，它不参与公网拥塞。但 CN2 分两种，差价三倍，很多人被坑就在这里。", "inLanguage": "zh-CN", "dateModified": "2026-11-05", "author": {"@type": "Organization", "name": "库珀网络"}, "mainEntityOfPage": "https://proxy86-singbox.github.io/kuber-network/cn2-huiguo/"}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "GT 和 GIA", "acceptedAnswer": {"@type": "Answer", "text": "第一种叫 CN2 GT，Global Transit。它是半程 CN2，国际段走 CN2，回国段还是 163 骨干。晚高峰和普通线路一样堵。第二种叫 CN2 GIA，Global Internet Access。全程 CN2，回国段也是。晚高峰不掉速。这才是真专线。"}}, {"@type": "Question", "name": "怎么鉴别", "acceptedAnswer": {"@type": "Answer", "text": "鉴别方法是 traceroute，数 59 点 43 开头的跳数。如果只在出境段出现两到三跳，那是 GT。如果全程八到十五跳都是 59 点 43，那是 GIA。下次有人跟你说香港CN2中转，让他跑个 traceroute 发你。不敢发的，就是 GT 冒充 GIA。"}}, {"@type": "Question", "name": "东南亚实测", "acceptedAnswer": {"@type": "Answer", "text": "再说东南亚回国的实测。同一台机器，同一个时间点，晚上九点。直连回国的话，路由是新加坡到日本到美国到上海，一百八到两百五十毫秒，丢包百分之三到八。走香港中转的话，新加坡到香港走CN2到上海，六十到八十毫秒，丢包百分之一以内。"}}]}, {"@type": "VideoObject", "name": "香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少", "description": "CN2 是中国电信的下一代承载网，全称 China Telecom Next Carrying Network。它和其他线路的区别在于，它不参与公网拥塞。但 CN2 分两种，差价三倍，很多人被坑就在这里。", "embedUrl": "https://www.youtube.com/embed/DqAADCdL2pE"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少", "description": "同样是「香港CN2中转」，为什么有人晚高峰稳定，有人晚高峰掉速？", "inLanguage": "zh-CN", "keywords": "CN2, CN2 GIA, CN2 GT, 回国专线, 香港中转, 延迟, traceroute", "articleSection": "CN2", "wordCount": 3448, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/cn2-huiguo/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "CN2"}, {"@type": "ListItem", "position": 3, "name": "香港CN2回国", "item": "https://proxy86-singbox.github.io/kuber-network/cn2-huiguo/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "CN2 GT 和 GIA 价格差多少？", "acceptedAnswer": {"@type": "Answer", "text": "常见区间是 GT 的 2-5 倍。原因是 GIA 的回程带宽采购成本高得多，服务商拿到的资源有限，所以单价被推高。如果某家报价接近 GT 的水平却声称 GIA，几乎可以确定是 GT 冒充，或者是在 GIA 出口上跑了几十个用户（晚高峰会现原形）。"}}, {"@type": "Question", "name": "怎么用一条命令判断是不是 GIA？", "acceptedAnswer": {"@type": "Answer", "text": "从境外机器向内地目标跑 mtr -rw -c 30，数 59.43.x.x 这个段出现的范围：只在出境后 2-3 跳出���、之后变成 202.97（163 骨干）的是 GT；从出境一路到内地城域网入口都是 59.43 的是 GIA。要双向各测一次，只看去程会漏判。"}}, {"@type": "Question", "name": "为什么我的 GIA 晚高峰也掉速？", "acceptedAnswer": {"@type": "Answer", "text": "三种常见原因：一是「GIA 共享」，多个用户抢同一个出口带宽，晚高峰互相挤；二是本地宽带的国际出口拥塞，与线路无关，用手机热点复测即可排除；三是 DNS 解析到了远端 CDN 节点，看起来慢实际是回源慢。逐个排除再判断线路。"}}, {"@type": "Question", "name": "香港中转和日本中转，哪个更快？", "acceptedAnswer": {"@type": "Answer", "text": "看源站在哪。东南亚（新加坡、曼谷、雅加达、吉隆坡）到香港的物理距离更近，走香港中转通常比日本快 20-40ms。日韩到内地的中转走日本东京更优。原则是「中转点选靠近源站、且到内地有 CN2 GIA 的城市」。"}}, {"@type": "Question", "name": "traceroute 中途出现星号，是不是线路坏了？", "acceptedAnswer": {"@type": "Answer", "text": "不一定。大量节点对 ICMP 限速或不回应，会出现星号，但业务流量仍然正常。判断方法是改用 TCP traceroute（tcptraceroute 或 mtr -T -P 443），或者直接看业务指标：TCP 建连时间、HTTP 首字节时间。只看 ICMP 会把好线路误判成坏线路。"}}, {"@type": "Question", "name": "什么是半程 CN2，为什么它不稳定？", "acceptedAnswer": {"@type": "Answer", "text": "半程 CN2 指只在国际段使用 CN2，进入内地后切回 163 公网骨干。白天公网余量充足时表现接近 GIA，晚高峰公网拥塞时质量断崖式下降。所以「半程」不是「打五折」，而是「稳定区间更窄」。"}}, {"@type": "Question", "name": "移动 CMI 和联通 CUII 值得买吗？", "acceptedAnswer": {"@type": "Answer", "text": "如果目标用户在内地且以移动/联通宽带为主，CMI、CUII 的性价比更高，价格通常低于 GIA，晚高峰表现优于 GT。缺点是覆盖不如 CN2 均衡（电信用户为主的场景仍要 CN2）。多线方案是最优解，但成本高。"}}, {"@type": "Question", "name": "延迟 60ms 和 80ms 在实际使用里差别大吗？", "acceptedAnswer": {"@type": "Answer", "text": "对网页浏览差别很小，对实时交互差别明显。语音通话、远程桌面、云游戏这类场景，60ms 与 80ms 的体感差异可以察觉；批量上传下载、后台同步则几乎无感。选线路先看业务类型，不要只看数字。"}}, {"@type": "Question", "name": "为什么同样的线路，不同城市测出来差很多？", "acceptedAnswer": {"@type": "Answer", "text": "内地各运营商的国际出口位置不同，上海、广州、北京三地的出口路径不一样，到同一个香港 IP 的 RTT 会有 15-30ms 的差异。这也是为什么服务商给的测试数据要注明测试城市——只说「延迟 30ms」而不说从哪测的，等于没说。"}}, {"@type": "Question", "name": "MTU 为什么要调小？", "acceptedAnswer": {"@type": "Answer", "text": "L2TP 或 TLS 封装都会增加头部开销。MTU 设成 1500 时，大包会在路径上被分片或丢弃，表现是「ping 通、网页首屏能开、图片加载到一半卡住」。用 ping -D -s 逐步试探找到路径 MTU，实际配置设 1400-1450 可以解决绝大多数问题。"}}]}, {"@type": "VideoObject", "name": "香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少", "description": "同样是「香港CN2中转」，为什么有人晚高峰稳定，有人晚高峰掉速？", "embedUrl": "https://www.youtube.com/embed/DqAADCdL2pE", "uploadDate": "2026-11-05", "thumbnailUrl": "https://i.ytimg.com/vi/DqAADCdL2pE/maxresdefault.jpg"}]}</script>
 </head>
 <body>
 <header><div class="wrap">
-<a class="logo" href="/">库珀网络</a>
-<nav>
-<a href="/">首页</a>
-<a href="/duxiang-static-ip/">静态IP</a>
-<a href="/cn2-huiguo/">CN2回国</a>
-<a href="/softrouter-l2tp/">软路由</a>
-<a href="/yanghao-ip/">养号IP</a>
-</nav>
+<a class="logo" href="/kuber-network/">库珀网络</a>
+<nav><a href="/kuber-network/duxiang-static-ip/">静态IP</a><a href="/kuber-network/cn2-huiguo/">CN2回国</a><a href="/kuber-network/softrouter-l2tp/">软路由</a><a href="/kuber-network/yanghao-ip/">养号IP</a><a href="/kuber-network/tiktok-live-ip/">直播IP</a><a href="/kuber-network/#all">全部文档</a></nav>
 </div></header>
 <main class="wrap">
+<div class="crumb"><a href="/kuber-network/">库珀网络</a> › <span>CN2</span> › <span>香港CN2回国</span></div>
 <h1>香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少</h1>
-<div class="meta"><span class="tag">CN2</span><span class="tag">香港CN2回国</span>更新于 2026-11-05</div>
+<div class="meta"><span class="tag">CN2</span><span class="tag">香港CN2回国</span><span class="tag">P0</span>更新于 2026-11-05</div>
 <p class="lead">CN2 是中国电信的下一代承载网，全称 China Telecom Next Carrying Network。它和其他线路的区别在于，它不参与公网拥塞。但 CN2 分两种，差价三倍，很多人被坑就在这里。</p>
-<div class="video"><iframe src="https://www.youtube.com/embed/DqAADCdL2pE" title="香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少" allowfullscreen loading="lazy"></iframe></div>
+<div class="video"><iframe src="https://www.youtube.com/embed/DqAADCdL2pE" title="香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少" loading="lazy" allowfullscreen allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"></iframe></div>
 <h2>GT 和 GIA</h2>
-<p>第一种叫 CN2 GT，Global Transit。它是半程 CN2，国际段走 CN2，回国段还是 163 骨干。晚高峰和普通线路一样堵。第二种叫 CN2 GIA，Global Internet Access。</p>
+<p>第一种叫 CN2 GT，Global Transit。它是半程 CN2，国际段走 CN2，回国段还是普通一六三骨干。晚高峰和普通线路一样堵。第二种叫 CN2 GIA，Global Internet Access。</p>
 <p>全程 CN2，回国段也是。晚高峰不掉速。这才是真专线。</p>
 <h2>怎么鉴别</h2>
-<p>鉴别方法是 traceroute，数 59 点 43 开头的跳数。如果只在出境段出现两到三跳，那是 GT。如果全程八到十五跳都是 59 点 43，那是 GIA。下次有人跟你说香港CN2中转，让他跑个 traceroute 发你。</p>
+<p>鉴别方法是 traceroute，数五十九点四十三开头的跳数。如果只在出境段出现两到三跳，那是 GT。如果全程八到十五跳都是五十九点四十三，那是 GIA。下次有人跟你说香港CN2中转，让他跑个 traceroute 发你。</p>
 <p>不敢发的，就是 GT 冒充 GIA。</p>
 <h2>东南亚实测</h2>
 <p>再说东南亚回国的实测。同一台机器，同一个时间点，晚上九点。直连回国的话，路由是新加坡到日本到美国到上海，一百八到两百五十毫秒，丢包百分之三到八。走香港中转的话，新加坡到香港走CN2到上海，六十到八十毫秒，丢包百分之一以内。</p>
@@ -80,12 +97,72 @@ footer{border-top:1px solid var(--line);margin-top:72px;padding:32px 0;color:var
 <p>物理距离决定下限，路由决定你实际拿到多少。</p>
 <h2>结论</h2>
 <p>所以东南亚回国，香港中转不是营销词，是物理最优解。曼谷、雅加达、吉隆坡同理。但前提是 GIA 不是 GT，这个必须验证。</p>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
-<div class="rel"><h3>相关内容</h3><a href="/duxiang-static-ip/">独享静态IP 怎么选？养号前必须知道的 5 个判断标准</a><a href="/yanghao-ip/">养号IP 完全指南：为什么必须独享静态，三个平台视角讲透</a><a href="/softrouter-l2tp/">iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</a><a href="/xiaohuojian-vless/">Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误</a></div>
+<h2 id="h1">CN2 到底是什么，为什么它不是营销词</h2>
+<p>CN2 全称 China Telecom Next Carrying Network，是中国电信在 163 骨干网之外单独建的一张承载网，AS 号 4809。它的价值在于拥塞模型不同：163 骨干（AS4134）是公网共用，晚高峰会被大量普通用户和跨境流量挤满，丢包和延迟同时恶化；CN2 的设计目标是承载企业级业务，链路上预留了更多的带宽余量。</p>
+<p>但「CN2」这三个字只说明用了这张网，不说明用了多少。这就产生了 GT 和 GIA 的区别，以及三倍以上的价格差。</p>
+<h2 id="h2">GT 和 GIA 的结构差别</h2>
+<table><thead><tr><th>项</th><th>CN2 GT（Global Transit）</th><th>CN2 GIA（Global Internet Access）</th></tr></thead><tbody><tr><td>国际段</td><td>CN2</td><td>CN2</td></tr><tr><td>回国段（进内地）</td><td>163 骨干 AS4134</td><td>CN2 AS4809</td></tr><tr><td>晚高峰表现</td><td>与普通线路一起拥塞</td><td>基本不受公网拥塞影响</td></tr><tr><td>traceroute 特征</td><td>59.43 段仅 2-3 跳</td><td>全程 8-15 跳均为 59.43 段</td></tr><tr><td>带宽成本</td><td>低</td><td>高（约为 GT 的 3-5 倍）</td></tr><tr><td>适用</td><td>一般跨境访问</td><td>晚高峰实时业务、大带宽回国</td></tr></tbody></table>
+<p>一句话概括：GT 是「半程 CN2」，只在国际段用了好网络，真正难受的那一段（进内地）还是公网。GIA 是「全程 CN2」，从境外一直管到内地城域网入口。</p>
+<h2 id="h3">traceroute 怎么数，数到哪算数</h2>
+<p>判定方法不复杂，但有两个细节容易搞错。</p>
+<pre><code># 从境外机器向内地目标跑，看清每一跳
+mtr -rw -c 30 -n 你的内地测试IP
+# 或
+traceroute -n -q 3 你的内地测试IP</code></pre>
+<p>数的是 59.43.x.x 这个段在路径里出现的次数与位置：</p>
+<ol><li>只在前 2-3 跳出现，之后变成 202.97.x.x（163 骨干）→ GT</li><li>从出境后一路到内地城域网入口都是 59.43.x.x，8-15 跳 → GIA</li><li>完全没有 59.43 → 既不是 GT 也不是 GIA，是普通国际线路或走的其它运营商</li></ol>
+<p>两个容易出错的细节：</p>
+<ul><li>回程和去程要分开看。GIA 的正规做法是双向 CN2；有服务商只做去程 GIA、回程走 163，这种在纯下载场景看不太出来，在实时交互（语音、远程桌面、游戏）里会裂开。核验方法是两端各跑一次 mtr。</li><li>ICMP 的优先级低于业务流量。有些节点对 ICMP 限速，会让 mtr 出现假丢包。判定丢包要看业务层（TCP 建连时间、HTTP 首字节时间），不能只看 ICMP。</li></ul>
+<h2 id="h4">延迟的账：为什么香港中转是物理最优解</h2>
+<p>以新加坡到上海为例，直连的典型路径是「新加坡 → 日本 → 美国西海岸 → 上海」，因为国际出口的 BGP 选路经常绕美。这条路的总延迟 180-250ms，晚高峰丢包 3%-8%。</p>
+<p>走香港中转的路径是「新加坡 → 香港 → CN2 → 上海」，物理距离缩短了一半以上，实测 60-80ms，丢包 1% 以内。</p>
+<table><thead><tr><th>源站位置</th><th>直连回国（晚高峰）</th><th>经香港 CN2 GIA</th><th>差值</th></tr></thead><tbody><tr><td>新加坡</td><td>180-250ms，丢包 3-8%</td><td>60-80ms，丢包 &lt;1%</td><td>约 3 倍</td></tr><tr><td>曼谷</td><td>200-260ms，丢包 5-10%</td><td>65-90ms，丢包 &lt;1%</td><td>约 3 倍</td></tr><tr><td>雅加达</td><td>210-280ms，丢包 5-12%</td><td>70-95ms，丢包 &lt;2%</td><td>约 3 倍</td></tr><tr><td>吉隆坡</td><td>190-250ms，丢包 4-9%</td><td>60-85ms，丢包 &lt;1%</td><td>约 3 倍</td></tr><tr><td>东京</td><td>90-140ms，丢包 1-3%</td><td>45-70ms，丢包 &lt;1%</td><td>约 2 倍</td></tr></tbody></table>
+<p>数据口径说明：以上是晚 21:00-23:00 时段的常见区间，测法是对内地同一目标 IP 做 30 次 ping 与 10 次 TCP 建连，取中位数。不同运营商的国际出口策略会让数字上下浮动 20% 左右，方向不会变。</p>
+<p>物理距离决定延迟下限，路由决定你实际拿到多少。这就是为什么「香港中转」不是包装话术：它把「数据包飞一趟美国」这件事直接省掉了。</p>
+<h2 id="h5">GIA 之外还有哪些线，怎么排</h2>
+<p>市面上能买到的回国线路大致四类，按晚高峰稳定性排：</p>
+<ol><li>CN2 GIA：全程 CN2，最好，也最贵</li><li>CN2 GT：半程，白天和 GIA 差不多，晚高峰分化</li><li>移动 CMI / 联通 CUII：各自的高质量承载网，回国质量接近 GT，价格低</li><li>BGP 优化线路：多线接入，靠调度，质量取决于服务商调优水平，波动大</li></ol>
+<p>选购原则：做实时业务（语音、远程桌面、直播推流）买 GIA；做后台同步、批量上传，GT 或 CMI 够用；预算极紧且能接受波动，BGP 优化。</p>
+<h2 id="h6">「GIA 共享」这个常见套路</h2>
+<p>真正的 GIA 带宽成本很高，所以有一类产品叫「GIA 共享」：出口确实是 GIA 线路，但一个 GIA 出口上跑几十个用户，白天每人分到的带宽还行，晚高峰大家一起抢。</p>
+<p>判定方法：不看标称带宽，看晚高峰的实际吞吐。连续三个晚上在同一时间点用 iperf3 打同一节点，如果三晚的吞吐量波动超过 40%，说明你在和别人抢。独享带宽的波动通常在 10% 以内。</p>
+<h2 id="h7">落地时的三个配置细节</h2>
+<p>买到线路之后，配置方式也会影响最终体验：</p>
+<ul><li>MTU：CN2 链路上常见可用 MTU 是 1400-1450。设成 1500 会出现「能 ping 通但大文件传输卡住」的现象，因为分片被丢。软路由和客户端都要调。</li><li>DNS：用线路落地城市附近的解析器。IP 在香港但 DNS 走国内运营商，会把 CDN 解析到错误的节点，看起来像是「线路不行」。</li><li>拥塞控制：跨境高延迟链路上，BBR 明显优于 cubic。内核开启 BBR 后，同一线路的单流吞吐通常能提升 2-5 倍。</li></ul>
+<h2 id="h8">常见误判</h2>
+<p>几个容易把好线路判成坏线路的情况：</p>
+<table><thead><tr><th>现象</th><th>常见误判</th><th>真实原因</th></tr></thead><tbody><tr><td>晚高峰丢包 5%</td><td>「买到 GT 了」</td><td>本地宽带的国际出口拥塞，换手机热点复测</td></tr><tr><td>单线程下载慢</td><td>「带宽不够」</td><td>单流 TCP 窗口受限，多线程测试对比</td></tr><tr><td>traceroute 中途断点</td><td>「线路断了」</td><td>节点禁 ICMP，用 TCP traceroute 复测</td></tr><tr><td>首包慢但传输快</td><td>「延迟高」</td><td>TLS 握手与 DNS 解析耗时，看 TTFB 不看 ping</td></tr></tbody></table>
+<h2 id="h9">一句话总结</h2>
+<p>东南亚回国，最优解是「香港 CN2 GIA + 双向验证 + 晚高峰实测」。买之前让对方发一份双向 traceroute 和晚高峰 iperf3 数据，这是最省钱的尽调。</p>
+<h2 id="h10">内地三个出口城市的选择</h2>
+<p>同一个香港 GIA 节点，从不同城市测出来的数字不一样，因为回内地后走的是不同城市的国际出口：</p>
+<table><thead><tr><th>内地出口</th><th>覆盖区域</th><th>到香港典型 RTT</th><th>适合的客户群</th></tr></thead><tbody><tr><td>广州</td><td>华南（广东、广西、福建）</td><td>10-25ms</td><td>华南用户为主</td></tr><tr><td>上海</td><td>华东（江浙沪、华中）</td><td>25-40ms</td><td>华东用户为主</td></tr><tr><td>北京</td><td>华北、东北</td><td>35-55ms</td><td>北方用户为主</td></tr></tbody></table>
+<p>多线接入（BGP）的服务商会在三个出口之间做就近调度，效果最好，成本也最高。预算有限时，按你的主要用户群选一个出口城市，比买「全国优化」的营销标签更实际。</p>
+<h2 id="h11">采购时的四句话</h2>
+<p>这四句话能过滤掉大部分不专业的卖家：</p>
+<ul><li>请提供双向 traceroute（去程与回程各一份），并标注测试时间</li><li>请提供晚高峰 21:00-23:00 的 iperf3 数据，注明测试城市与并发数</li><li>这个出口是独享带宽还是共享？共享的话同时在线多少人？</li><li>如果晚高峰达不到承诺的指标，换线路还是退款？</li></ul>
+<p>第四句是关键。愿意把「达不到怎么办」写清楚的，通常是真的能达标；回避这个问题的，卖的是「白天数据」。</p>
+<h2 id="faq">常见问题</h2><div class="faq">
+<details><summary>CN2 GT 和 GIA 价格差多少？</summary><p>常见区间是 GT 的 2-5 倍。原因是 GIA 的回程带宽采购成本高得多，服务商拿到的资源有限，所以单价被推高。如果某家报价接近 GT 的水平却声称 GIA，几乎可以确定是 GT 冒充，或者是在 GIA 出口上跑了几十个用户（晚高峰会现原形）。</p></details>
+<details><summary>怎么用一条命令判断是不是 GIA？</summary><p>从境外机器向内地目标跑 mtr -rw -c 30，数 59.43.x.x 这个段出现的范围：只在出境后 2-3 跳出���、之后变成 202.97（163 骨干）的是 GT；从出境一路到内地城域网入口都是 59.43 的是 GIA。要双向各测一次，只看去程会漏判。</p></details>
+<details><summary>为什么我的 GIA 晚高峰也掉速？</summary><p>三种常见原因：一是「GIA 共享」，多个用户抢同一个出口带宽，晚高峰互相挤；二是本地宽带的国际出口拥塞，与线路无关，用手机热点复测即可排除；三是 DNS 解析到了远端 CDN 节点，看起来慢实际是回源慢。逐个排除再判断线路。</p></details>
+<details><summary>香港中转和日本中转，哪个更快？</summary><p>看源站在哪。东南亚（新加坡、曼谷、雅加达、吉隆坡）到香港的物理距离更近，走香港中转通常比日本快 20-40ms。日韩到内地的中转走日本东京更优。原则是「中转点选靠近源站、且到内地有 CN2 GIA 的城市」。</p></details>
+<details><summary>traceroute 中途出现星号，是不是线路坏了？</summary><p>不一定。大量节点对 ICMP 限速或不回应，会出现星号，但业务流量仍然正常。判断方法是改用 TCP traceroute（tcptraceroute 或 mtr -T -P 443），或者直接看业务指标：TCP 建连时间、HTTP 首字节时间。只看 ICMP 会把好线路误判成坏线路。</p></details>
+<details><summary>什么是半程 CN2，为什么它不稳定？</summary><p>半程 CN2 指只在国际段使用 CN2，进入内地后切回 163 公网骨干。白天公网余量充足时表现接近 GIA，晚高峰公网拥塞时质量断崖式下降。所以「半程」不是「打五折」，而是「稳定区间更窄」。</p></details>
+<details><summary>移动 CMI 和联通 CUII 值得买吗？</summary><p>如果目标用户在内地且以移动/联通宽带为主，CMI、CUII 的性价比更高，价格通常低于 GIA，晚高峰表现优于 GT。缺点是覆盖不如 CN2 均衡（电信用户为主的场景仍要 CN2）。多线方案是最优解，但成本高。</p></details>
+<details><summary>延迟 60ms 和 80ms 在实际使用里差别大吗？</summary><p>对网页浏览差别很小，对实时交互差别明显。语音通话、远程桌面、云游戏这类场景，60ms 与 80ms 的体感差异可以察觉；批量上传下载、后台同步则几乎无感。选线路先看业务类型，不要只看数字。</p></details>
+<details><summary>为什么同样的线路，不同城市测出来差很多？</summary><p>内地各运营商的国际出口位置不同，上海、广州、北京三地的出口路径不一样，到同一个香港 IP 的 RTT 会有 15-30ms 的差异。这也是为什么服务商给的测试数据要注明测试城市——只说「延迟 30ms」而不说从哪测的，等于没说。</p></details>
+<details><summary>MTU 为什么要调小？</summary><p>L2TP 或 TLS 封装都会增加头部开销。MTU 设成 1500 时，大包会在路径上被分片或丢弃，表现是「ping 通、网页首屏能开、图片加载到一半卡住」。用 ping -D -s 逐步试探找到路径 MTU，实际配置设 1400-1450 可以解决绝大多数问题。</p></details>
+</div>
+<div class="toc"><b>本篇目录</b><a href="#h1">CN2 到底是什么，为什么它不是营销词</a><a href="#h2">GT 和 GIA 的结构差别</a><a href="#h3">traceroute 怎么数，数到哪算数</a><a href="#h4">延迟的账：为什么香港中转是物理最优解</a><a href="#h5">GIA 之外还有哪些线，怎么排</a><a href="#h6">「GIA 共享」这个常见套路</a><a href="#h7">落地时的三个配置细节</a><a href="#h8">常见误判</a><a href="#h9">一句话总结</a><a href="#h10">内地三个出口城市的选择</a><a href="#h11">采购时的四句话</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="rel"><h3>相关内容</h3><a href="/kuber-network/seasia-huiguo-latency/">东南亚回国延迟<span class="kw"> · 东南亚回国延迟实测：新加坡、曼谷、雅加达到国内各差多少</span></a><a href="/kuber-network/cn2-traceroute/">CN2路由追踪<span class="kw"> · 用路由追踪判断真 CN2：五十九点四十三 节点怎么认</span></a><a href="/kuber-network/transit-hub-location/">中转仓选址<span class="kw"> · 中转仓选址：香港、新加坡、日本落地差在哪</span></a><a href="/kuber-network/duxiang-static-ip/">独享静态IP<span class="kw"> · 独享静态IP 怎么选？养号前必须知道的 5 个判断标准</span></a><a href="/kuber-network/ikuai-multiwan/">iKuai多线<span class="kw"> · iKuai 双 WAN 加专线：策略路由的优先级怎么排</span></a><a href="/kuber-network/huiguo-bandwidth/">回国带宽测算<span class="kw"> · 回国带宽怎么算：几个人几台设备到底要多少兆</span></a><a href="/kuber-network/peak-hour-throttle/">晚高峰限速<span class="kw"> · 晚高峰限速的三种表现和鉴别方法</span></a><a href="/kuber-network/yanghao-ip/">养号IP<span class="kw"> · 养号IP 完全指南：为什么必须独享静态，三个平台视角讲透</span></a></div>
 </main>
 <footer><div class="wrap">
+
 库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转<br>
-L2TP · VLESS · 软路由组网 · 东南亚自有中转仓<br><br><a href="https://t.me/huiguo_staticip" style="color:#00d6d6;text-decoration:none">Telegram 频道</a> · <a href="https://t.me/huiguo_chat" style="color:#00d6d6;text-decoration:none">技术交流群</a>
+L2TP · VLESS · 软路由组网 · 东南亚自有中转仓<br><br>
+<a href="https://t.me/huiguo_staticip">Telegram 频道</a> · <a href="https://t.me/huiguo_chat">技术交流群</a><br>
+<span style="opacity:.7">文档最后更新 2026-11-05</span>
 </div></footer>
 </body>
 </html>
