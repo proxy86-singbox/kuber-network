@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>回国线路故障排查向导 · 三步定位问题</title>
+<meta name="description" content="连不上、很慢、能连但打不开网页、频繁掉线、账号被限流——选症状，按步骤排查，给出原因和解决方案。">
+<meta property="og:title" content="回国线路故障排查向导">
+<meta property="og:description" content="选症状，三步定位问题。连不上 / 很慢 / 打不开网页 / 掉线 / 被限流。">
+<style>
+:root{--bg:#080c14;--panel:#111a26;--line:#1e2b3d;--text:#e8eef6;--dim:#8fa3b8;--cyan:#00d6d6;--green:#3cdc96;--amber:#ffb24a;--red:#ff5860}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.75;min-height:100vh}
+.wrap{max-width:700px;margin:0 auto;padding:32px 20px 60px}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:26px}
+.brand i{width:8px;height:28px;background:var(--cyan);display:block}
+.brand b{font-size:17px;color:var(--cyan);letter-spacing:.5px}
+h1{font-size:27px;line-height:1.35;margin-bottom:8px}
+.sub{color:var(--dim);font-size:15px;margin-bottom:24px}
+.grid{display:grid;gap:12px;margin-bottom:22px}
+.sym{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;cursor:pointer;transition:.15s;text-align:left}
+.sym:hover{border-color:var(--cyan);transform:translateX(3px)}
+.sym b{display:block;font-size:18px;margin-bottom:5px}
+.sym span{color:var(--dim);font-size:14px}
+.sym i{font-style:normal;color:var(--cyan);float:right;font-size:20px;opacity:.5}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;margin-bottom:18px}
+.panel h2{font-size:20px;color:var(--cyan);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.panel h2 em{font-style:normal;font-size:13px;color:var(--dim);font-weight:400}
+.step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.step:last-child{border:0}
+.num{flex-shrink:0;width:28px;height:28px;border-radius:50%;border:2px solid var(--cyan);color:var(--cyan);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.step b{display:block;font-size:16px;margin-bottom:4px}
+.step p{color:var(--dim);font-size:14px}
+.step code{background:#0a1119;color:#5ce1e6;padding:2px 7px;border-radius:4px;font-size:13px;font-family:ui-monospace,monospace;word-break:break-all}
+.cause{background:rgba(255,88,96,.08);border-left:3px solid var(--red);padding:14px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:14px}
+.cause b{color:var(--red)}
+.cta{background:linear-gradient(135deg,#0b2a2a,#0a1a26);border:1px solid #145;border-radius:14px;padding:24px;margin-top:20px}
+.cta h3{font-size:18px;margin-bottom:8px;color:var(--cyan)}
+.cta p{color:var(--dim);font-size:14px;margin-bottom:16px}
+.cta a{display:inline-block;background:var(--cyan);color:#051018;padding:12px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px}
+.back{color:var(--dim);font-size:14px;margin-top:18px;cursor:pointer;display:inline-block}
+.back:hover{color:var(--cyan)}
+.hide{display:none}
+footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);color:var(--dim);font-size:13px;text-align:center}
+footer a{color:var(--cyan);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="brand"><i></i><b>库珀网络</b></div>
+<h1>回国线路故障排查</h1>
+<p class="sub">选你的症状，按步骤查。每一步都给判断依据，不是让你瞎试。</p>
+
+<div class="grid" id="menu"></div>
+<div id="detail"></div>
+
+<footer>
+  <a href="https://t.me/huiguo_staticip">@huiguo_staticip</a> · 技术文档与线路实测
+</footer>
+</div>
+
+<script>
+const SYMPTOMS = [
+  {k:'no',   t:'完全连不上',      d:'拨号失败、客户端一直转圈、报认证错误', icon:'✕'},
+  {k:'slow', t:'能连上但很慢',    d:'网页能开但卡，视频缓冲，测速远低于标称', icon:'↓'},
+  {k:'half', t:'能连但打不开网页', d:'IP 显示正确，ping 通，但浏览器加载不出来', icon:'◐'},
+  {k:'drop', t:'频繁掉线',        d:'能连上，但几分钟断一次，要重拨', icon:'↯'},
+  {k:'ban',  t:'账号被限流/封号',  d:'新号活不过一周，或老号突然被限流', icon:'!'}
+];
+
+const DETAIL = {
+  no: {
+    title: '完全连不上', sub: '按这个顺序查，不要跳步',
+    steps: [
+      ['先确认是本地还是线路', '在电脑上 <code>ping 8.8.8.8</code>。通 = 本地网络正常，问题在线路；不通 = 先解决本地网络。'],
+      ['查端口有没有被拦', 'L2TP 走 UDP 500 / 1701 / 4500。部分网络（酒店、校园网、部分运营商）会拦 UDP，这时改用 VLESS。'],
+      ['看服务端地址是否能通', '<code>ping 你的服务端域名</code>。不通 = 域名解析问题或服务端挂了；通但拨号失败 = 认证或参数问题。'],
+      ['核对三个参数', '服务端地址、用户名、密码。这三个错一个就是认证失败，而认证失败在客户端上常常只显示「连接中」然后超时。'],
+      ['看服务端有没有推默认路由', '认证成功但立刻断开，多半是服务端推了客户端不接受的路由。这时要在客户端显式忽略服务端推送的路由。']
+    ],
+    cause: '最常见的三个原因：<b>① UDP 端口被网络环境拦截</b>（换 VLESS 或换网络）；<b>② 密码里有特殊字符</b>被客户端转义；<b>③ 服务端 IP 已被墙</b>（换入口）。'
+  },
+  slow: {
+    title: '能连上但很慢', sub: '慢分三种，先分清是哪种',
+    steps: [
+      ['分时段测三次', '早 9 点、晚 9 点、凌晨 1 点各测一次。三个时段都慢 = 线路本身差；只有晚 9 点慢 = 限速或超售。'],
+      ['对比直连速度', '关掉线路测一次本地带宽。如果本地就只有 20M，线路再好也快不了。'],
+      ['看是不是 DNS 的问题', '<code>nslookup 目标域名</code>。解析慢会让你感觉「整体慢」，实际线路没问题。改成 223.5.5.5 试试。'],
+      ['查是不是连接数打满', '路由器上看当前连接数。很多家用路由 5000 连接就撑不住了，表现出来就是「慢」。'],
+      ['最后才怀疑线路', '线路问题只占「慢」的三分之一，前四项排除了再找服务商。']
+    ],
+    cause: '晚 8-11 点明显掉速、其他时段正常 = <b>带宽超售或限速</b>，这是商业模式不是技术故障。三个时段都慢才是线路真的差。'
+  },
+  half: {
+    title: '能连但打不开网页', sub: '九成是 MTU 或 DNS',
+    steps: [
+      ['测 MTU', '直接 ping 大包：<code>ping -M do -s 1472 目标IP</code>（Linux/Mac 用 <code>-D</code>）。不通就每次减 8，直到通为止，那个值 +28 就是该设的 MTU。'],
+      ['确认是 MTU 的典型症状', '能打开纯文字页面，图片加载一半停住；能登录，上传附件失败；小请求正常，大响应超时 —— 这些都是 MTU 分片的典型表现。'],
+      ['改 DNS', '线路通了但域名解析走的是本地 DNS，会泄漏归属也可能被污染。改成境内 DNS：223.5.5.5 / 119.29.29.29。'],
+      ['关掉 WebRTC', '浏览器里 WebRTC 会绕过代理直接暴露真实 IP，同时拖慢连接。测一下 <code>chrome://webrtc-internals</code>。'],
+      ['检查分流规则', '规则写错会让不该走线路的流量进了隧道，或者该走的没走。看路由表里规则的计数有没有增长。']
+    ],
+    cause: '这个症状最典型的原因是 <b>MTU 不匹配</b>（隧道封装增加了头部开销）。标准 1500 以太网 + 隧道封装，实际 MTU 通常要降到 1400-1450。'
+  },
+  drop: {
+    title: '频繁掉线', sub: '七个原因，按概率排',
+    steps: [
+      ['看断开的时长', '立刻能重连 = 保活超时；几分钟才能重连 = 被判定异常或服务端限流；完全连不上 = IP 被封。'],
+      ['加长保活间隔', 'L2TP 的保活时间默认可能只有几秒。设成 10 秒，太频繁的保活请求本身会被判定异常。'],
+      ['检查 NAT 超时', '路由器 NAT 表项默认 30-120 秒过期。隧道空闲时表项被清，表现出来就是「放着不动就断」。'],
+      ['换 UDP 为 TCP', '部分网络对长时间 UDP 连接有 QoS 降级或直接掐断。换 VLESS + TCP 试试。'],
+      ['看服务端负载', '服务端连接数满了会主动踢掉部分客户端。问服务商当前负载。'],
+      ['查 MTU 导致的隐性断线', 'MTU 过大时会不断分片重传，表现出来是「连一阵子然后卡死」，不是立刻断。'],
+      ['最后才换服务商', '前六项都排除了，再考虑换。大部分人换了几家，问题还在，因为根因在自己的网络环境。']
+    ],
+    cause: '「能连上但放着不动就断」几乎都是 <b>NAT 表项超时</b>或 <b>保活请求太频繁被判定异常</b>，不是线路质量问题。'
+  },
+  ban: {
+    title: '账号被限流/封号', sub: '先止血，再救号',
+    steps: [
+      ['立刻停手', '关联封禁最怕继续操作。你继续登录、继续发内容，会把更多号拉下水。先停三天。'],
+      ['分离环境', 'IP 全部换掉（换成独享静态），每个号配独立指纹浏览器，设备也分开。只换 IP 不换指纹，救不回来。'],
+      ['确认是哪种关联', '同一 IP 多号 = IP 关联；同硬件序列号 = 设备关联；同指纹 = 浏览器关联。三种要分开处理。'],
+      ['申诉顺序不能错', '先分离环境再申诉。申述时平台会复查环境，环境还脏的话二次判定更严重。'],
+      ['判断环境是否已彻底脏', '如果新注册的号也活不过一周，说明 IP 段和设备都已进名单，要换设备换运营商。']
+    ],
+    cause: '平台判定关联看的是 <b>IP + 设备 + 指纹 + 行为</b> 四者组合。只修一层，其余三层还在，等于没修。'
+  }
+};
+
+const menu = document.getElementById('menu');
+const detail = document.getElementById('detail');
+
+function showMenu(){
+  menu.innerHTML = SYMPTOMS.map(s => `
+    <button class="sym" onclick="show('${s.k}')">
+      <i>${s.icon}</i>
+      <b>${s.t}</b>
+      <span>${s.d}</span>
+    </button>`).join('');
+  detail.innerHTML = '';
+  menu.classList.remove('hide');
+}
+
+function show(k){
+  const d = DETAIL[k];
+  menu.classList.add('hide');
+  detail.innerHTML = `
+    <div class="panel">
+      <h2>${d.title} <em>${d.sub}</em></h2>
+      ${d.steps.map((s,i) => `
+        <div class="step">
+          <div class="num">${i+1}</div>
+          <div><b>${s[0]}</b><p>${s[1]}</p></div>
+        </div>`).join('')}
+    </div>
+    <div class="cause">${d.cause}</div>
+    <div class="cta">
+      <h3>排查完了还是不行？</h3>
+      <p>把你的网络环境、用的什么协议、卡在哪一步告诉我，我帮你看。不用先买东西。</p>
+      <a href="https://t.me/huiguo_staticip">去频道问我 →</a>
+    </div>
+    <span class="back" onclick="showMenu()">← 换个症状</span>
+  `;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+showMenu();
+</script>
+</body>
+</html>
