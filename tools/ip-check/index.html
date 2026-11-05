@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IP 纯净度检测 · 这个 IP 能用来养号吗</title>
+<meta name="description" content="免费查询一个 IP 能不能用来养号：查 ASN 归属、机房还是住宅、代理标记、滥用风险。10 秒出评分和建议。">
+<meta property="og:title" content="IP 纯净度检测 · 这个 IP 能用来养号吗">
+<meta property="og:description" content="输入任意 IP，10 秒判断能不能拿来养号。查 ASN、机房/住宅、代理标记。">
+<style>
+:root{--bg:#080c14;--panel:#111a26;--line:#1e2b3d;--text:#e8eef6;--dim:#8fa3b8;--cyan:#00d6d6;--green:#3cdc96;--amber:#ffb24a;--red:#ff5860}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;min-height:100vh}
+.wrap{max-width:680px;margin:0 auto;padding:32px 20px 60px}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.brand i{width:8px;height:28px;background:var(--cyan);display:block}
+.brand b{font-size:17px;letter-spacing:.5px;color:var(--cyan)}
+h1{font-size:28px;line-height:1.35;margin-bottom:10px;letter-spacing:-.3px}
+.sub{color:var(--dim);font-size:15px;margin-bottom:26px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:20px}
+input{width:100%;background:#0a1119;border:1px solid var(--line);color:var(--text);border-radius:9px;padding:14px 16px;font-size:16px;font-family:ui-monospace,Menlo,monospace;outline:none}
+input:focus{border-color:var(--cyan)}
+.btn{width:100%;margin-top:12px;background:var(--cyan);color:#051018;border:0;border-radius:9px;padding:15px;font-size:16px;font-weight:700;cursor:pointer}
+.btn:disabled{opacity:.5;cursor:wait}
+.btn2{background:transparent;border:1px solid var(--line);color:var(--dim);margin-top:10px;font-weight:400;font-size:14px;padding:11px}
+.score-box{text-align:center;padding:26px 0 18px}
+.score{font-size:76px;font-weight:800;line-height:1;letter-spacing:-2px}
+.score small{font-size:22px;color:var(--dim);font-weight:400}
+.verdict{font-size:19px;margin-top:12px;font-weight:600}
+.bar{height:8px;background:#0a1119;border-radius:4px;overflow:hidden;margin:18px 0 6px}
+.bar i{display:block;height:100%;border-radius:4px;transition:width .6s ease}
+.row{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px;gap:14px}
+.row:last-child{border:0}
+.row span:first-child{color:var(--dim);flex-shrink:0}
+.row span:last-child{font-family:ui-monospace,Menlo,monospace;text-align:right;word-break:break-all}
+.tag{display:inline-block;padding:2px 9px;border-radius:5px;font-size:13px;font-weight:600}
+.t-ok{background:rgba(60,220,150,.14);color:var(--green)}
+.t-warn{background:rgba(255,178,74,.14);color:var(--amber)}
+.t-bad{background:rgba(255,88,96,.14);color:var(--red)}
+.cta{background:linear-gradient(135deg,#0b2a2a,#0a1a26);border:1px solid #145;border-radius:14px;padding:24px;margin-top:24px}
+.cta h3{font-size:19px;margin-bottom:10px;color:var(--cyan)}
+.cta p{color:var(--dim);font-size:14px;margin-bottom:16px}
+.cta a{display:inline-block;background:var(--cyan);color:#051018;padding:12px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px}
+.hint{color:var(--dim);font-size:13px;margin-top:10px;line-height:1.6}
+footer{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);color:var(--dim);font-size:13px;text-align:center}
+footer a{color:var(--cyan);text-decoration:none}
+.err{color:var(--red);font-size:14px;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="brand"><i></i><b>库珀网络</b></div>
+
+<h1>这个 IP 能用来养号吗</h1>
+<p class="sub">输入任意 IP，10 秒出评分。查 ASN 归属、机房还是住宅、代理标记、滥用风险。</p>
+
+<div class="box">
+  <input id="ip" placeholder="输入 IP，例如 8.8.8.8" autocomplete="off" spellcheck="false">
+  <button class="btn" id="go">开始检测</button>
+  <button class="btn btn2" id="mine">检测我当前的 IP</button>
+  <div class="err" id="err"></div>
+</div>
+
+<div id="out"></div>
+
+<div class="cta">
+  <h3>检测完了，接下来呢</h3>
+  <p>评分低于 70 的 IP，换了也白换 —— 平台记录的是这个 IP 的完整历史。独享静态 IP 才是一次性解决的问题。</p>
+  <a href="https://t.me/huiguo_staticip">看技术文档 →</a>
+</div>
+
+<footer>
+  数据来自公开 IP 库 · 结果仅供参考<br>
+  <a href="https://t.me/huiguo_staticip">@huiguo_staticip</a>
+</footer>
+
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const out = $('out');
+
+const HOSTING_ASN = ['AS14061','AS16509','AS15169','AS8075','AS13335','AS24940','AS16276','AS20473','AS63949','AS45102','AS37963','AS132203','AS9009','AS51167','AS197540'];
+
+function verdict(score){
+  if (score >= 85) return ['可以用', 'var(--green)', '这个 IP 比较干净，养号风险低。'];
+  if (score >= 70) return ['勉强能用', 'var(--amber)', '有瑕疵，建议先观察一周再正式用。'];
+  if (score >= 50) return ['不建议', 'var(--amber)', '这个 IP 有明显问题，养号容易出验证或被限流。'];
+  return ['不能用', 'var(--red)', '这个 IP 已被标记，注册都可能直接异常。'];
+}
+
+async function lookup(ip){
+  const r = await fetch(`https://ip-api.com/json/${ip}?fields=status,message,country,regionName,city,isp,org,as,asname,proxy,hosting,mobile,query`);
+  const d = await r.json();
+  if (d.status !== 'success') throw new Error(d.message || '查询失败');
+  return d;
+}
+
+async function check(){
+  const ip = $('ip').value.trim();
+  if (!ip) return;
+  $('err').textContent = '';
+  out.innerHTML = '<div class="box" style="text-align:center;color:var(--dim)">检测中…</div>';
+  $('go').disabled = true;
+
+  try {
+    const d = await lookup(ip);
+    const asn = (d.as || '').split(' ')[0];
+    const isHosting = d.hosting === true || HOSTING_ASN.includes(asn);
+    const isProxy = d.proxy === true;
+
+    let score = 100;
+    const notes = [];
+
+    if (isHosting) { score -= 45; notes.push(['机房 IP', 't-bad', '平台对机房段初始信任分低']); }
+    else { notes.push(['住宅 / 运营商 IP', 't-ok', '养号需要的基础条件']); }
+
+    if (isProxy) { score -= 25; notes.push(['疑似代理', 't-bad', '检测库标为代理出口']); }
+    if (d.mobile) { notes.push(['移动网络', 't-warn', '部分平台会额外验证']); }
+    if (!d.proxy && !isHosting) { notes.push(['未见代理标记', 't-ok', '公开库未收录为代理']); }
+
+    score = Math.max(0, Math.min(100, score));
+    const [label, color, advice] = verdict(score);
+
+    out.innerHTML = `
+      <div class="box">
+        <div class="score-box">
+          <div class="score" style="color:${color}">${score}<small>/100</small></div>
+          <div class="verdict" style="color:${color}">${label}</div>
+        </div>
+        <div class="bar"><i style="width:${score}%;background:${color}"></i></div>
+        <p class="hint" style="text-align:center">${advice}</p>
+      </div>
+      <div class="box">
+        <div class="row"><span>IP</span><span>${d.query}</span></div>
+        <div class="row"><span>归属</span><span>${d.country} · ${d.regionName || ''} ${d.city || ''}</span></div>
+        <div class="row"><span>运营商</span><span>${d.isp || '-'}</span></div>
+        <div class="row"><span>ASN</span><span>${d.as || '-'}</span></div>
+        <div class="row"><span>类型</span><span>${isHosting ? '<span class="tag t-bad">机房</span>' : '<span class="tag t-ok">住宅/ISP</span>'}</span></div>
+        <div class="row"><span>代理标记</span><span>${isProxy ? '<span class="tag t-bad">有</span>' : '<span class="tag t-ok">无</span>'}</span></div>
+      </div>
+      <div class="box">
+        <div style="font-size:15px;margin-bottom:10px;color:var(--cyan)">判断依据</div>
+        ${notes.map(n => `<div class="row"><span>${n[0]}</span><span class="tag ${n[1]}">${n[2]}</span></div>`).join('')}
+      </div>
+    `;
+  } catch(e) {
+    $('err').textContent = '查询失败：' + e.message;
+    out.innerHTML = '';
+  }
+  $('go').disabled = false;
+}
+
+$('go').onclick = check;
+$('ip').addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+$('mine').onclick = async () => {
+  try {
+    const r = await fetch('https://api.ipify.org?format=json');
+    const d = await r.json();
+    $('ip').value = d.ip;
+    check();
+  } catch(e) {
+    $('err').textContent = '获取本机 IP 失败';
+  }
+};
+</script>
+</body>
+</html>
