@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>iKuai 双 WAN 加专线：策略路由的优先级怎么排</title>
+<title>iKuai 双 WAN 加专线：策略路由的优先级怎么排｜iKuai多线</title>
 <meta name="description" content="iKuai 里最常出错的地方不是拨号，是多线路由的优先级打架。">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/ikuai-multiwan/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="库珀网络">
-<meta property="og:title" content="iKuai 双 WAN 加专线：策略路由的优先级怎么排">
+<meta property="og:title" content="iKuai 双 WAN 加专线：策略路由的优先级怎么排｜iKuai多线">
 <meta property="og:description" content="iKuai 里最常出错的地方不是拨号，是多线路由的优先级打架。">
 <meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/ikuai-multiwan/">
 <meta name="twitter:card" content="summary_large_image">
@@ -71,7 +71,7 @@ footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
 @media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "iKuai 双 WAN 加专线：策略路由的优先级怎么排", "description": "iKuai 里最常出错的地方不是拨号，是多线路由的优先级打架。", "inLanguage": "zh-CN", "keywords": "iKuai, 多线路由, 策略路由, 负载均衡, 软路由, 回国专线, 健康检查", "articleSection": "软路由", "wordCount": 1461, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/ikuai-multiwan/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "软路由"}, {"@type": "ListItem", "position": 3, "name": "iKuai多线", "item": "https://proxy86-singbox.github.io/kuber-network/ikuai-multiwan/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "优先级怎么排是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "实际排法是这样。域名分流放在最前面，把需要走专线的几个平台域名列进去。端口分流放第二层，把特定内网设备整个打到你想要的线路上。多线负载放最后，只处理剩下的普通流量。注意域名分流里的规则不要写太宽，写宽了整个域名后缀都走专线，专线带宽会被吃干。"}}, {"@type": "Question", "name": "健康检查别关是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "健康检查是很多人关掉的功能，觉得它占资源。关掉之后线路断了系统不知道，还在往断了的线上派流量，表现就是间歇性断网。开的时候注意两点，检查地址用对端的网关或者一个稳定的公网地址，间隔设十秒，连续失败三次才切换，避免抖动造成的误切。"}}, {"@type": "Question", "name": "怎么验证走对了是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "验证要看两头。第一头，在设备上查出口地址，确认是专线落地端的。第二头，在 iKuai 的线路监控里看这条线的实时流量，访问的时候流量应该涨。如果设备查到的出口对了但流量监控不涨，说明你的规则命中的是别的路径，回去查规则顺序。"}}, {"@type": "Question", "name": "DNS 和策略要一起配", "acceptedAnswer": {"@type": "Answer", "text": "iKuai 里 DNS 设置和多线策略是分开的两块，容易只配一半。域名分流做了，但 DNS 还是用本地运营商解析，解析出来的地址可能被调度到本地就近的节点，这个节点恰好不认你的专线出口，就出问题。做法是给走专线的那部分查询指定落地端的 DNS。"}}, {"@type": "Question", "name": "一个稳妥的落地顺序", "acceptedAnswer": {"@type": "Answer", "text": "配置顺序建议这样。先只配本地宽带，确认全屋正常。再加专线拨号，确认能拨上。然后加一条最简单的域名分流，测一个域名。通了再往上加规则。一次性把规则全写完再调，出问题你根本不知道是哪条规则。"}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "iKuai 双 WAN 加专线：策略路由的优先级怎么排", "description": "iKuai 里最常出错的地方不是拨号，是多线路由的优先级打架。", "inLanguage": "zh-CN", "keywords": "iKuai, 多线路由, 策略路由, 负载均衡, 软路由, 回国专线, 健康检查", "articleSection": "软路由", "wordCount": 2310, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/ikuai-multiwan/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "软路由"}, {"@type": "ListItem", "position": 3, "name": "iKuai多线", "item": "https://proxy86-singbox.github.io/kuber-network/ikuai-multiwan/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "优先级怎么排是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "实际排法是这样。域名分流放在最前面，把需要走专线的几个平台域名列进去。端口分流放第二层，把特定内网设备整个打到你想要的线路上。多线负载放最后，只处理剩下的普通流量。注意域名分流里的规则不要写太宽，写宽了整个域名后缀都走专线，专线带宽会被吃干。"}}, {"@type": "Question", "name": "健康检查别关是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "健康检查是很多人关掉的功能，觉得它占资源。关掉之后线路断了系统不知道，还在往断了的线上派流量，表现就是间歇性断网。开的时候注意两点，检查地址用对端的网关或者一个稳定的公网地址，间隔设十秒，连续失败三次才切换，避免抖动造成的误切。"}}, {"@type": "Question", "name": "怎么验证走对了是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "验证要看两头。第一头，在设备上查出口地址，确认是专线落地端的。第二头，在 iKuai 的线路监控里看这条线的实时流量，访问的时候流量应该涨。如果设备查到的出口对了但流量监控不涨，说明你的规则命中的是别的路径，回去查规则顺序。"}}, {"@type": "Question", "name": "DNS 和策略要一起配", "acceptedAnswer": {"@type": "Answer", "text": "iKuai 里 DNS 设置和多线策略是分开的两块，容易只配一半。域名分流做了，但 DNS 还是用本地运营商解析，解析出来的地址可能被调度到本地就近的节点，这个节点恰好不认你的专线出口，就出问题。做法是给走专线的那部分查询指定落地端的 DNS。"}}, {"@type": "Question", "name": "一个稳妥的落地顺序", "acceptedAnswer": {"@type": "Answer", "text": "配置顺序建议这样。先只配本地宽带，确认全屋正常。再加专线拨号，确认能拨上。然后加一条最简单的域名分流，测一个域名。通了再往上加规则。一次性把规则全写完再调，出问题你根本不知道是哪条规则。"}}]}]}</script>
 </head>
 <body>
 <header><div class="wrap">
@@ -95,6 +95,26 @@ footer a{color:#00d6d6;text-decoration:none}
 <p>做法是给走专线的那部分查询指定落地端的 DNS。</p>
 <h2>一个稳妥的落地顺序</h2>
 <p>配置顺序建议这样。先只配本地宽带，确认全屋正常。再加专线拨号，确认能拨上。然后加一条最简单的域名分流，测一个域名。通了再往上加规则。一次性把规则全写完再调，出问题你根本不知道是哪条规则。</p>
+<h2 id="h1">三条线各自的角色</h2>
+<p>双 WAN 加专线的场景里，三条线的分工必须一开始就定死，否则后面每加一条规则都在打补丁：</p>
+<table><thead><tr><th>线路</th><th>角色</th><th>承载</th><th>故障时</th></tr></thead><tbody><tr><td>WAN1（本地宽带）</td><td>主出口</td><td>国内流量、日常上网</td><td>切到 WAN2</td></tr><tr><td>WAN2（第二条宽带/4G）</td><td>备份出口</td><td>WAN1 故障时兜底</td><td>切回 WAN1</td></tr><tr><td>专线（L2TP/VLESS）</td><td>策略出口</td><td>指定设备或指定目标</td><td>回退到 WAN1</td></tr></tbody></table>
+<h2 id="h2">策略路由的优先级排序</h2>
+<p>iKuai 的策略是从上往下匹配，命中即止。正确的排序原则是「越具体越靠前」：</p>
+<ol><li>第一条：指定设备（源地址）→ 专线。家庭场景里「电视盒子、iPad 走专线」放最前</li><li>第二条：指定目标（目的地址/域名）→ 专线。比如「全部境外地址走专线」</li><li>第三条：国内地址库 → WAN1 直连</li><li>第四条：兜底 → WAN1</li></ol>
+<p>最常见的错误是把「国内地址库直连」放在最前面。这样所有国内目标先命中直连规则，后面的「指定目标走专线」永远轮不到——表现就是「规则写了但不生效」。</p>
+<h2 id="h3">健康检查的参数怎么定</h2>
+<p>iKuai 的线路检测有三个参数：检测方式、检测间隔、失败次数。推荐值：</p>
+<ol><li>检测方式：HTTP（比 ping 准，能发现 DNS 或网关异常）</li><li>检测间隔：10 秒</li><li>连续失败：3 次切换（相当于 30 秒容忍）</li></ol>
+<p>间隔设太短（1-2 秒）会在网络抖动时反复切换，导致连接被切断；设太长（60 秒）则故障恢复慢。10 秒/3 次是实践中比较稳的组合。</p>
+<h2 id="h4">DNS 和策略必须一起配</h2>
+<p>分流生效但网站打不开，八成是 DNS 的问题：DNS 请求走了 WAN1 的解析器，解析出来的 IP 是国内的 CDN 节点，而流量按策略走了专线，于是「拿着错误的目的地址走正确的路」。</p>
+<p>修法是把 DNS 也纳入策略：指定设备或指定域名的解析请求，发到专线侧的解析器。验证方法很简单——在指定设备上 `nslookup 某境外域名`，看返回的 IP 是不是专线侧解析器给出的结果（通常与国内解析结果不同）。</p>
+<h2 id="h5">一个真实的失败案例</h2>
+<p>把「国内地址库直连」放在第一条策略里，后面又加了「指定设备走专线」。结果：手机的流量该走专线的没走。</p>
+<p>原因：国内地址库覆盖了几万条网段，手机的绝大多数请求（包括境外的）在匹配时先命中了「目的地址不在国内库」的隐式兜底逻辑，而 iKuai 的策略是「命中即止」，于是后续的「指定设备走专线」永远轮不到。</p>
+<p>修法是把「指定设备」放到第一条。这个案例的通用教训是：策略路由的排序原则不是「按重要性」，而是「按具体程度」——源地址比目的地址更具体，单域名比地址库更具体。</p>
+<h2 id="h6">动配置之前的备份</h2>
+<p>iKuai 的配置导出在「系统设置 → 备份与恢复」。改策略路由之前先导出一份，改错了一条命令回滚。这个动作三十秒，能省掉半天重配。</p>
 <h2 id="faq">常见问题</h2><div class="faq">
 <details><summary>优先级怎么排是怎么回事？</summary><p>实际排法是这样。域名分流放在最前面，把需要走专线的几个平台域名列进去。端口分流放第二层，把特定内网设备整个打到你想要的线路上。多线负载放最后，只处理剩下的普通流量。注意域名分流里的规则不要写太宽，写宽了整个域名后缀都走专线，专线带宽会被吃干。</p></details>
 <details><summary>健康检查别关是怎么回事？</summary><p>健康检查是很多人关掉的功能，觉得它占资源。关掉之后线路断了系统不知道，还在往断了的线上派流量，表现就是间歇性断网。开的时候注意两点，检查地址用对端的网关或者一个稳定的公网地址，间隔设十秒，连续失败三次才切换，避免抖动造成的误切。</p></details>
@@ -102,7 +122,7 @@ footer a{color:#00d6d6;text-decoration:none}
 <details><summary>DNS 和策略要一起配</summary><p>iKuai 里 DNS 设置和多线策略是分开的两块，容易只配一半。域名分流做了，但 DNS 还是用本地运营商解析，解析出来的地址可能被调度到本地就近的节点，这个节点恰好不认你的专线出口，就出问题。做法是给走专线的那部分查询指定落地端的 DNS。</p></details>
 <details><summary>一个稳妥的落地顺序</summary><p>配置顺序建议这样。先只配本地宽带，确认全屋正常。再加专线拨号，确认能拨上。然后加一条最简单的域名分流，测一个域名。通了再往上加规则。一次性把规则全写完再调，出问题你根本不知道是哪条规则。</p></details>
 </div>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="toc"><b>本篇目录</b><a href="#h1">三条线各自的角色</a><a href="#h2">策略路由的优先级排序</a><a href="#h3">健康检查的参数怎么定</a><a href="#h4">DNS 和策略必须一起配</a><a href="#h5">一个真实的失败案例</a><a href="#h6">动配置之前的备份</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
 <div class="rel"><h3>相关内容</h3><a href="/kuber-network/softrouter-split/">软路由分流<span class="kw"> · 回国分流策略：哪些流量该走专线，哪些必须留本地</span></a><a href="/kuber-network/mikrotik-huiguo/">MikroTik回国<span class="kw"> · MikroTik RouterOS 配 L2TP 回国：命令行完整流程</span></a><a href="/kuber-network/softrouter-l2tp/">软路由IP<span class="kw"> · iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</span></a><a href="/kuber-network/softrouter-dns/">软路由DNS<span class="kw"> · 软路由 DNS 怎么设：解析走本地还是走专线</span></a><a href="/kuber-network/openwrt-huiguo/">OpenWrt回国<span class="kw"> · OpenWrt 配 L2TP 回国：装包、建接口、防火墙三步走通</span></a><a href="/kuber-network/huiguo-bandwidth/">回国带宽测算<span class="kw"> · 回国带宽怎么算：几个人几台设备到底要多少兆</span></a><a href="/kuber-network/openwrt-vless/">OpenWrtVLESS<span class="kw"> · OpenWrt 上跑 VLESS：客户端参数和透明代理模式怎么选</span></a><a href="/kuber-network/seasia-huiguo-latency/">东南亚回国延迟<span class="kw"> · 东南亚回国延迟实测：新加坡、曼谷、雅加达到国内各差多少</span></a></div>
 </main>
 <footer><div class="wrap">

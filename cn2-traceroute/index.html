@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>用路由追踪判断真 CN2：五十九点四十三 节点怎么认</title>
+<title>用路由追踪判断真 CN2：五十九点四十三 节点怎么认｜CN2路由追踪</title>
 <meta name="description" content="宣传写着 CN2，实际走的是普通骨干，这种事很常见。路由追踪能直接看出来。">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/cn2-traceroute/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="库珀网络">
-<meta property="og:title" content="用路由追踪判断真 CN2：五十九点四十三 节点怎么认">
+<meta property="og:title" content="用路由追踪判断真 CN2：五十九点四十三 节点怎么认｜CN2路由追踪">
 <meta property="og:description" content="宣传写着 CN2，实际走的是普通骨干，这种事很常见。路由追踪能直接看出来。">
 <meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/cn2-traceroute/">
 <meta name="twitter:card" content="summary_large_image">
@@ -71,7 +71,7 @@ footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
 @media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "用路由追踪判断真 CN2：五十九点四十三 节点怎么认", "description": "宣传写着 CN2，实际走的是普通骨干，这种事很常见。路由追踪能直接看出来。", "inLanguage": "zh-CN", "keywords": "CN2, 路由追踪, CN2GIA, 回国专线, traceroute, 网络诊断, 香港中转", "articleSection": "CN2", "wordCount": 1396, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/cn2-traceroute/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "CN2"}, {"@type": "ListItem", "position": 3, "name": "CN2路由追踪", "item": "https://proxy86-singbox.github.io/kuber-network/cn2-traceroute/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "怎么读追踪结果是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "从你的位置往国内目标地址做追踪，看三件事。第一，有没有五十九点四十三的节点。第二，出现的位置在哪，是靠前还是靠后。第三，每一跳的延迟增量是否均匀。三步看完，一条线路的成色基本就出来了。延迟突然从三十跳到一百二十的那一跳，就是瓶颈所在。"}}, {"@type": "Question", "name": "GT 和 GIA 的路径差别", "acceptedAnswer": {"@type": "Answer", "text": "区别在承载范围。GIA 是全程承载，从境外入口一直到国内目标都在 CN2 上走，路径短、跳数少。GT 是半程，只在某一段借用 CN2，剩下的走普通骨干。表现上，GIA 的追踪结果里五十九点四十三会出现好几次，GT 一般只出现一两次，剩下的是二零二点九七之类的普通段。"}}, {"@type": "Question", "name": "三种典型的伪 CN2 路径", "acceptedAnswer": {"@type": "Answer", "text": "第一种，全程看不到五十九点四十三，那是纯公网。第二种，只在最后一两跳看到，说明只是接入段蹭了一下。第三种，绕道别的国家再回国，追踪结果里出现第三国的地址，延迟凭空多几十毫秒。这三种都算不上真 CN2 中转。"}}, {"@type": "Question", "name": "追踪工具怎么用是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "电脑上用系统的追踪命令，手机上有对应的应用。注意两点。一是要分别测去程和回程，很多线路去程好回程差。二是要多测几次，路由是动态的，测一次可能正好赶上临时调度。三次结果一致，才算稳定。"}}, {"@type": "Question", "name": "判断结论怎么写是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "给你一个判断模板。路径里五十九点四十三出现三次以上，跳数不超过十四，晚高峰延迟波动小于二十毫秒，可以认为这条是中转质量较好的专线。三项里缺一项，就再测一次或者换时段测，别急着下结论。"}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "用路由追踪判断真 CN2：五十九点四十三 节点怎么认", "description": "宣传写着 CN2，实际走的是普通骨干，这种事很常见。路由追踪能直接看出来。", "inLanguage": "zh-CN", "keywords": "CN2, 路由追踪, CN2GIA, 回国专线, traceroute, 网络诊断, 香港中转", "articleSection": "CN2", "wordCount": 2374, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/cn2-traceroute/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "CN2"}, {"@type": "ListItem", "position": 3, "name": "CN2路由追踪", "item": "https://proxy86-singbox.github.io/kuber-network/cn2-traceroute/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "怎么读追踪结果是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "从你的位置往国内目标地址做追踪，看三件事。第一，有没有五十九点四十三的节点。第二，出现的位置在哪，是靠前还是靠后。第三，每一跳的延迟增量是否均匀。三步看完，一条线路的成色基本就出来了。延迟突然从三十跳到一百二十的那一跳，就是瓶颈所在。"}}, {"@type": "Question", "name": "GT 和 GIA 的路径差别", "acceptedAnswer": {"@type": "Answer", "text": "区别在承载范围。GIA 是全程承载，从境外入口一直到国内目标都在 CN2 上走，路径短、跳数少。GT 是半程，只在某一段借用 CN2，剩下的走普通骨干。表现上，GIA 的追踪结果里五十九点四十三会出现好几次，GT 一般只出现一两次，剩下的是二零二点九七之类的普通段。"}}, {"@type": "Question", "name": "三种典型的伪 CN2 路径", "acceptedAnswer": {"@type": "Answer", "text": "第一种，全程看不到五十九点四十三，那是纯公网。第二种，只在最后一两跳看到，说明只是接入段蹭了一下。第三种，绕道别的国家再回国，追踪结果里出现第三国的地址，延迟凭空多几十毫秒。这三种都算不上真 CN2 中转。"}}, {"@type": "Question", "name": "追踪工具怎么用是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "电脑上用系统的追踪命令，手机上有对应的应用。注意两点。一是要分别测去程和回程，很多线路去程好回程差。二是要多测几次，路由是动态的，测一次可能正好赶上临时调度。三次结果一致，才算稳定。"}}, {"@type": "Question", "name": "判断结论怎么写是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "给你一个判断模板。路径里五十九点四十三出现三次以上，跳数不超过十四，晚高峰延迟波动小于二十毫秒，可以认为这条是中转质量较好的专线。三项里缺一项，就再测一次或者换时段测，别急着下结论。"}}]}]}</script>
 </head>
 <body>
 <header><div class="wrap">
@@ -95,6 +95,50 @@ footer a{color:#00d6d6;text-decoration:none}
 <p>电脑上用系统的追踪命令，手机上有对应的应用。注意两点。一是要分别测去程和回程，很多线路去程好回程差。二是要多测几次，路由是动态的，测一次可能正好赶上临时调度。三次结果一致，才算稳定。</p>
 <h2>判断结论怎么写</h2>
 <p>给你一个判断模板。路径里五十九点四十三出现三次以上，跳数不超过十四，晚高峰延迟波动小于二十毫秒，可以认为这条是中转质量较好的专线。三项里缺一项，就再测一次或者换时段测，别急着下结论。</p>
+<h2 id="h1">一次完整的判读示例</h2>
+<p>从新加坡机器向上海目标跑出来是这样（节选）：</p>
+<pre><code> 1  10.0.0.1        0.4 ms
+ 2  103.x.x.x       1.2 ms     # 本地运营商
+ 3  203.x.x.x       3.5 ms     # 国际出口
+ 4  59.43.247.1     32.1 ms    # CN2 入口（香港）
+ 5  59.43.246.5     33.0 ms
+ 6  59.43.180.9     35.2 ms
+ 7  59.43.130.2     38.4 ms    # 进入内地
+ 8  59.43.46.1      40.1 ms
+ 9  202.97.xx.xx    41.0 ms    # ← 这里出现 163，说明后半程是公网
+10  61.x.x.x        45.5 ms</code></pre>
+<p>判读要点：59.43 段从第 4 跳到第 8 跳，共 5 跳，然后在第 9 跳切成 202.97。这属于「半程 CN2」——GT。真正的全程 GIA 会在内地侧继续出现 59.43，直到接近城域网入口。</p>
+<p>再看一条真 GIA 的尾部：</p>
+<pre><code>10  59.43.46.1      40.1 ms
+11  59.43.80.5      42.3 ms
+12  59.43.19.2      44.0 ms
+13  61.152.x.x      45.2 ms    # 直接进电信城域网</code></pre>
+<p>中间没有 202.97，说明回国段一直在 CN2 里。</p>
+<h2 id="h2">三种典型的假 CN2 路径</h2>
+<table><thead><tr><th>路径特征</th><th>实际是什么</th><th>识别方法</th></tr></thead><tbody><tr><td>59.43 只出现 1-2 跳，之后接 202.97</td><td>GT，或只是从 CN2 入口过了一下</td><td>数跳数，看切出点</td></tr><tr><td>全程没有 59.43，走 202.97 + 国际运营商</td><td>普通 163 线路</td><td>完全不出现 CN2</td></tr><tr><td>59.43 出现在回程而非去程</td><td>单向 CN2（只保证下载方向）</td><td>两端各跑一次对比</td></tr></tbody></table>
+<p>第三种最常见，也最容易被忽略。卖家的截图往往只给「从香港到内地」这一段，而你的实际使用是双向的。</p>
+<h2 id="h3">双向测试的脚本</h2>
+<pre><code># 在 A 端（境外）向 B 端（内地）跑
+mtr -rw -c 30 -n B端IP &gt; a2b.txt
+# 在 B 端（内地）向 A 端（境外）跑
+mtr -rw -c 30 -n A端IP &gt; b2a.txt
+# 两端对比：两边的 59.43 跳数应当接近
+grep -c &#x27;59\.43&#x27; a2b.txt b2a.txt</code></pre>
+<p>两个文件里 59.43 的出现次数接近，才算双向 CN2。差异超过 3 跳，基本可以判定为单向。</p>
+<h2 id="h4">工具怎么用</h2>
+<ol><li>`mtr -rw -c 30`：报告模式，跑 30 轮再输出，避免瞬时抖动误导</li><li>`-T -P 443`：用 TCP 探测，绕开 ICMP 限速的节点</li><li>`traceroute -q 3`：每跳探测 3 次，看稳定性</li><li>只看 ICMP 会漏判，因为部分节点对 ICMP 做了低优先级处理</li></ol>
+<h2 id="h5">别只看「有没有 59.43」</h2>
+<p>判断真 CN2 的时候，只看「路径里有没有 59.43」是不够的——很多 GT 线路也会经过 CN2 入口。真正要判断的是「59.43 覆盖了多长的路径」：</p>
+<ol><li>覆盖总跳数的 1/4 以下 → 只是路过 CN2 入口，实际是 GT 或普通线路</li><li>覆盖 1/4 到 1/2 → GT 的典型特征</li><li>覆盖 1/2 以上，且内地侧仍在 59.43 → GIA</li></ol>
+<p>另一个辅助判据是最后一跳前的那一段：GIA 在接近内地城域网时仍然在 59.43 里，GT 会提前切到 202.97。这个位置比跳数比例更直观。</p>
+<h2 id="h6">把追踪结果留档</h2>
+<p>每次采购前或换线路后，把双向 mtr 输出存成文件，命名带日期与线路名（如 `20261105-hk-gia-a2b.txt`）。三个月后回头看，你能明确回答「这条线路是变差了还是本来就这样」。这份档案在和服务商沟通时也是最有力的话术——数据摆在那里，比描述感受有效得多。</p>
+<h2 id="h7">一个提醒：不要用在线可视化工具做结论</h2>
+<p>在线 traceroute 工具从它自己的服务器发起，路径与你的完全无关。它只能告诉你「那个节点到目标怎么走」，不能告诉你「你的流量怎么走」。判断线路必须在你的实际出口机器上跑，最好两端都跑。</p>
+<h2 id="h8">一个常见误区</h2>
+<p>把「跳数多」等同于「线路差」。跳数多只是路径长，真正决定体验的是每一跳的累积延迟与丢包。一条 15 跳但每跳 1ms 的路径，比一条 5 跳但中间某跳 80ms 的路径好得多。看累积值，不看跳数。</p>
+<h2 id="h9">一个可以直接发给卖家的话术</h2>
+<p>「请提供双向 traceroute，注明测试时间与两端城市。」这句话能过滤掉大多数 GT 冒充 GIA 的报价——因为敢发的通常是真的，不敢发的也省了你验的时间。拿到之后按上面的判读方法自己数一遍，不要只看对方的高亮标注。</p>
 <h2 id="faq">常见问题</h2><div class="faq">
 <details><summary>怎么读追踪结果是怎么回事？</summary><p>从你的位置往国内目标地址做追踪，看三件事。第一，有没有五十九点四十三的节点。第二，出现的位置在哪，是靠前还是靠后。第三，每一跳的延迟增量是否均匀。三步看完，一条线路的成色基本就出来了。延迟突然从三十跳到一百二十的那一跳，就是瓶颈所在。</p></details>
 <details><summary>GT 和 GIA 的路径差别</summary><p>区别在承载范围。GIA 是全程承载，从境外入口一直到国内目标都在 CN2 上走，路径短、跳数少。GT 是半程，只在某一段借用 CN2，剩下的走普通骨干。表现上，GIA 的追踪结果里五十九点四十三会出现好几次，GT 一般只出现一两次，剩下的是二零二点九七之类的普通段。</p></details>
@@ -102,7 +146,7 @@ footer a{color:#00d6d6;text-decoration:none}
 <details><summary>追踪工具怎么用是怎么回事？</summary><p>电脑上用系统的追踪命令，手机上有对应的应用。注意两点。一是要分别测去程和回程，很多线路去程好回程差。二是要多测几次，路由是动态的，测一次可能正好赶上临时调度。三次结果一致，才算稳定。</p></details>
 <details><summary>判断结论怎么写是怎么回事？</summary><p>给你一个判断模板。路径里五十九点四十三出现三次以上，跳数不超过十四，晚高峰延迟波动小于二十毫秒，可以认为这条是中转质量较好的专线。三项里缺一项，就再测一次或者换时段测，别急着下结论。</p></details>
 </div>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="toc"><b>本篇目录</b><a href="#h1">一次完整的判读示例</a><a href="#h2">三种典型的假 CN2 路径</a><a href="#h3">双向测试的脚本</a><a href="#h4">工具怎么用</a><a href="#h5">别只看「有没有 59.43」</a><a href="#h6">把追踪结果留档</a><a href="#h7">一个提醒：不要用在线可视化工具做结论</a><a href="#h8">一个常见误区</a><a href="#h9">一个可以直接发给卖家的话术</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
 <div class="rel"><h3>相关内容</h3><a href="/kuber-network/cn2-huiguo/">香港CN2回国<span class="kw"> · 香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少</span></a><a href="/kuber-network/seasia-huiguo-latency/">东南亚回国延迟<span class="kw"> · 东南亚回国延迟实测：新加坡、曼谷、雅加达到国内各差多少</span></a><a href="/kuber-network/transit-hub-location/">中转仓选址<span class="kw"> · 中转仓选址：香港、新加坡、日本落地差在哪</span></a><a href="/kuber-network/duxiang-static-ip/">独享静态IP<span class="kw"> · 独享静态IP 怎么选？养号前必须知道的 5 个判断标准</span></a><a href="/kuber-network/huiguo-bandwidth/">回国带宽测算<span class="kw"> · 回国带宽怎么算：几个人几台设备到底要多少兆</span></a><a href="/kuber-network/peak-hour-throttle/">晚高峰限速<span class="kw"> · 晚高峰限速的三种表现和鉴别方法</span></a><a href="/kuber-network/ip-geo-mismatch/">IP归属地不一致<span class="kw"> · IP 归属地显示和实际出口不一致：五个可能的原因</span></a><a href="/kuber-network/ikuai-multiwan/">iKuai多线<span class="kw"> · iKuai 双 WAN 加专线：策略路由的优先级怎么排</span></a></div>
 </main>
 <footer><div class="wrap">

@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>指纹浏览器配独享 IP：六个必须对齐的环境参数</title>
+<title>指纹浏览器配独享 IP：六个必须对齐的环境参数｜指纹浏览器IP</title>
 <meta name="description" content="IP 换了但环境没对齐，等于白换。这六个参数只要有一个和 IP 归属地矛盾，平台就能看出来。">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/fingerprint-browser-ip/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="库珀网络">
-<meta property="og:title" content="指纹浏览器配独享 IP：六个必须对齐的环境参数">
+<meta property="og:title" content="指纹浏览器配独享 IP：六个必须对齐的环境参数｜指纹浏览器IP">
 <meta property="og:description" content="IP 换了但环境没对齐，等于白换。这六个参数只要有一个和 IP 归属地矛盾，平台就能看出来。">
 <meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/fingerprint-browser-ip/">
 <meta name="twitter:card" content="summary_large_image">
@@ -71,7 +71,7 @@ footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
 @media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "指纹浏览器配独享 IP：六个必须对齐的环境参数", "description": "IP 换了但环境没对齐，等于白换。这六个参数只要有一个和 IP 归属地矛盾，平台就能看出来。", "inLanguage": "zh-CN", "keywords": "指纹浏览器, 环境隔离, WebRTC, DNS泄漏, 防关联, 独享IP, 浏览器指纹", "articleSection": "防关联", "wordCount": 1649, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/fingerprint-browser-ip/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "防关联"}, {"@type": "ListItem", "position": 3, "name": "指纹浏览器IP", "item": "https://proxy86-singbox.github.io/kuber-network/fingerprint-browser-ip/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "参数一 时区和语言", "acceptedAnswer": {"@type": "Answer", "text": "第一项，时区。环境的时区要和你 IP 的归属地一致，不是和你的真实所在地一致。第二项，语言。Accept Language 要跟时区配套，美国的 IP 配英文优先，别配成中文优先。这两项是最基础也最容易被忽略的，很多现成的环境模板里是错的，一定要自己改。"}}, {"@type": "Question", "name": "参数三 和 参数四 UA 与分辨率", "acceptedAnswer": {"@type": "Answer", "text": "第三项，UA。这里要注意 UA 里带的系统版本要和 Canvas 渲染出来的特征对得上，别出现 UA 说自己是新版系统、渲染特征却是老版本的情况。第四项，分辨率。分辨率本身不是硬性指标，但设备像素比和窗口尺寸要符合常见机型的组合，太奇怪的组合反而是特征。"}}, {"@type": "Question", "name": "参数五 WebRTC 泄漏", "acceptedAnswer": {"@type": "Answer", "text": "第五项最关键，WebRTC。这个功能本来是做点对点通话用的，它会绕过代理直接暴露你本机的真实 IP。验证方法是打开浏览器指纹检测站，看 WebRTC 那一栏显示的地址。如果显示的是你的本地内网地址或者真实公网地址，说明泄漏了。处理方式是在环境设置里关掉 WebRTC，或者把它伪装成和出口 IP 同段。"}}, {"@type": "Question", "name": "参数六 DNS 泄漏", "acceptedAnswer": {"@type": "Answer", "text": "第六项，DNS。你的网页请求走代理，但如果域名解析是本地运营商做的，平台一样能知道你从哪来。检测方法同样是看检测站里 DNS 那一栏，看解析服务器在哪个地区。正确的做法是让 DNS 跟着线路走，在软路由或者客户端里把 DNS 请求也一起转发到落地端。"}}, {"@type": "Question", "name": "逐项验证的顺序是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "配完之后按这个顺序验。先看 IP，确认出口地址和归属地。再看 WebRTC，确认没有真实地址。再看 DNS，确认解析地区。然后看时区和语言。最后看 Canvas 和字体列表是不是和模板一致。这五项全绿，这个环境才能拿去登号。"}}, {"@type": "Question", "name": "一个环境只对一个号", "acceptedAnswer": {"@type": "Answer", "text": "最后一个原则。一个环境对应一个 IP，对应一个账号，这三者的关系是锁死的，不要交叉复用。今天拿这个环境登 A 号，明天登 B 号，指纹是一样的，平台一关联就是一串。环境是可以复制的，但复制出来要改参数，直接照搬等于没隔离。"}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "指纹浏览器配独享 IP：六个必须对齐的环境参数", "description": "IP 换了但环境没对齐，等于白换。这六个参数只要有一个和 IP 归属地矛盾，平台就能看出来。", "inLanguage": "zh-CN", "keywords": "指纹浏览器, 环境隔离, WebRTC, DNS泄漏, 防关联, 独享IP, 浏览器指纹", "articleSection": "防关联", "wordCount": 2387, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/fingerprint-browser-ip/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "防关联"}, {"@type": "ListItem", "position": 3, "name": "指纹浏览器IP", "item": "https://proxy86-singbox.github.io/kuber-network/fingerprint-browser-ip/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "参数一 时区和语言", "acceptedAnswer": {"@type": "Answer", "text": "第一项，时区。环境的时区要和你 IP 的归属地一致，不是和你的真实所在地一致。第二项，语言。Accept Language 要跟时区配套，美国的 IP 配英文优先，别配成中文优先。这两项是最基础也最容易被忽略的，很多现成的环境模板里是错的，一定要自己改。"}}, {"@type": "Question", "name": "参数三 和 参数四 UA 与分辨率", "acceptedAnswer": {"@type": "Answer", "text": "第三项，UA。这里要注意 UA 里带的系统版本要和 Canvas 渲染出来的特征对得上，别出现 UA 说自己是新版系统、渲染特征却是老版本的情况。第四项，分辨率。分辨率本身不是硬性指标，但设备像素比和窗口尺寸要符合常见机型的组合，太奇怪的组合反而是特征。"}}, {"@type": "Question", "name": "参数五 WebRTC 泄漏", "acceptedAnswer": {"@type": "Answer", "text": "第五项最关键，WebRTC。这个功能本来是做点对点通话用的，它会绕过代理直接暴露你本机的真实 IP。验证方法是打开浏览器指纹检测站，看 WebRTC 那一栏显示的地址。如果显示的是你的本地内网地址或者真实公网地址，说明泄漏了。处理方式是在环境设置里关掉 WebRTC，或者把它伪装成和出口 IP 同段。"}}, {"@type": "Question", "name": "参数六 DNS 泄漏", "acceptedAnswer": {"@type": "Answer", "text": "第六项，DNS。你的网页请求走代理，但如果域名解析是本地运营商做的，平台一样能知道你从哪来。检测方法同样是看检测站里 DNS 那一栏，看解析服务器在哪个地区。正确的做法是让 DNS 跟着线路走，在软路由或者客户端里把 DNS 请求也一起转发到落地端。"}}, {"@type": "Question", "name": "逐项验证的顺序是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "配完之后按这个顺序验。先看 IP，确认出口地址和归属地。再看 WebRTC，确认没有真实地址。再看 DNS，确认解析地区。然后看时区和语言。最后看 Canvas 和字体列表是不是和模板一致。这五项全绿，这个环境才能拿去登号。"}}, {"@type": "Question", "name": "一个环境只对一个号", "acceptedAnswer": {"@type": "Answer", "text": "最后一个原则。一个环境对应一个 IP，对应一个账号，这三者的关系是锁死的，不要交叉复用。今天拿这个环境登 A 号，明天登 B 号，指纹是一样的，平台一关联就是一串。环境是可以复制的，但复制出来要改参数，直接照搬等于没隔离。"}}]}]}</script>
 </head>
 <body>
 <header><div class="wrap">
@@ -98,6 +98,36 @@ footer a{color:#00d6d6;text-decoration:none}
 <p>这五项全绿，这个环境才能拿去登号。</p>
 <h2>一个环境只对一个号</h2>
 <p>最后一个原则。一个环境对应一个 IP，对应一个账号，这三者的关系是锁死的，不要交叉复用。今天拿这个环境登 A 号，明天登 B 号，指纹是一样的，平台一关联就是一串。环境是可以复制的，但复制出来要改参数，直接照搬等于没隔离。</p>
+<h2 id="h1">六个参数的对齐检查表</h2>
+<p>口播里讲了六个参数，落地时建议做成一张表逐项核对，任何一项不一致都算这个环境不合格：</p>
+<table><thead><tr><th>参数</th><th>应与 IP 所在地一致</th><th>怎么查</th><th>常见错误</th></tr></thead><tbody><tr><td>时区</td><td>Asia/Hong_Kong 等</td><td>`date`、浏览器 `Intl.DateTimeFormat().resolvedOptions().timeZone`</td><td>用 UTC 或系统默认</td></tr><tr><td>语言</td><td>zh-HK / zh-TW / ja-JP</td><td>navigator.language、Accept-Language</td><td>全站 en-US</td></tr><tr><td>UA 与平台</td><td>Windows/macOS 与目标用户一致</td><td>打开任意 UA 检测站</td><td>UA 说 Windows，WebGL 报 Apple GPU</td></tr><tr><td>分辨率与 DPR</td><td>真实设备常见值</td><td>screen.width/height、devicePixelRatio</td><td>1920×1080 但 DPR=3</td></tr><tr><td>WebRTC</td><td>不泄漏真实内网/公网 IP</td><td>webrtc 泄漏检测页</td><td>泄漏出 192.168.x.x 与本地公网</td></tr><tr><td>DNS</td><td>与 IP 同区域的解析器</td><td>dnsleaktest</td><td>DNS 走国内运营商</td></tr></tbody></table>
+<h2 id="h2">用一条命令把自己的浏览器参数打出来</h2>
+<p>核对不用一个个网站点，控制台里跑这段就能一次性导出，方便和 IP 信息比对：</p>
+<pre><code>console.log(JSON.stringify({
+  tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  lang: navigator.language,
+  langs: navigator.languages,
+  ua: navigator.userAgent,
+  screen: [screen.width, screen.height, screen.availWidth, screen.availHeight],
+  dpr: devicePixelRatio,
+  cores: navigator.hardwareConcurrency,
+  mem: navigator.deviceMemory,
+  webgl: (() =&gt; { try {
+    const gl = document.createElement(&#x27;canvas&#x27;).getContext(&#x27;webgl&#x27;);
+    const dbg = gl.getExtension(&#x27;WEBGL_debug_renderer_info&#x27;);
+    return gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL);
+  } catch (e) { return &#x27;n/a&#x27;; } })(),
+}, null, 2));</code></pre>
+<p>判读：`screen` 与 `dpr` 的组合必须像一台真实设备（例如 1440×900 + DPR 2 像 MacBook，1920×1080 + DPR 1 像台式机，1920×1080 + DPR 3 不像任何真实设备）。`webgl` 里出现 `SwiftShader`、`llvmpipe`、`Microsoft Basic Render` 说明是虚拟机或没有 GPU 加速——这是云机最容易被识别的特征。</p>
+<h2 id="h3">Canvas / WebGL 噪声的正确做法</h2>
+<p>指纹浏览器通常会给 Canvas 加噪声。噪声要满足两个条件才有效：同环境内每次一致（否则你自己每次都是一台新设备），跨环境不同（否则两个 profile 指纹相同）。</p>
+<p>判断方法：在同一个 profile 里连续刷新 Canvas 指纹检测页三次，结果必须完全一致；换到另一个 profile，结果必须不同。如果同一个 profile 每次结果都变，说明噪声是随机的——平台会认为这是「指纹不稳定」，比不加噪声更可疑。</p>
+<h2 id="h4">DNS 泄漏是最好修也最常被忽略的一项</h2>
+<p>IP 在香港，DNS 请求却打到国内运营商，等于自己承认「人不在当地」。修法分两层：</p>
+<ol><li>浏览器层：关闭「使用系统 DNS」，改走加密 DNS（DoH），指向落地城市附近的解析器</li><li>网络层：软路由上把 DNS 请求劫持到指定解析器，防止应用绕过</li></ol>
+<p>验证：打开 dnsleaktest 做 extended test，结果里的解析器国家应当与 IP 国家一致。不一致就是泄漏。</p>
+<h2 id="h5">一个经常被忽略的项：字体</h2>
+<p>字体列表是浏览器指纹里权重不低的一项。IP 在香港、系统是香港区域设置，字体列表里却有大量简体中文字体（微软雅黑、宋体）和日文字体，这本身就构成特征。核对方式是打开字体指纹检测页，看返回的字体列表是否与「一台香港地区常用设备」相符。虚拟机与精简系统常常只装了少量字体，列表过短也是一种特征——真实设备通常有几十种字体。</p>
 <h2 id="faq">常见问题</h2><div class="faq">
 <details><summary>参数一 时区和语言</summary><p>第一项，时区。环境的时区要和你 IP 的归属地一致，不是和你的真实所在地一致。第二项，语言。Accept Language 要跟时区配套，美国的 IP 配英文优先，别配成中文优先。这两项是最基础也最容易被忽略的，很多现成的环境模板里是错的，一定要自己改。</p></details>
 <details><summary>参数三 和 参数四 UA 与分辨率</summary><p>第三项，UA。这里要注意 UA 里带的系统版本要和 Canvas 渲染出来的特征对得上，别出现 UA 说自己是新版系统、渲染特征却是老版本的情况。第四项，分辨率。分辨率本身不是硬性指标，但设备像素比和窗口尺寸要符合常见机型的组合，太奇怪的组合反而是特征。</p></details>
@@ -106,7 +136,7 @@ footer a{color:#00d6d6;text-decoration:none}
 <details><summary>逐项验证的顺序是怎么回事？</summary><p>配完之后按这个顺序验。先看 IP，确认出口地址和归属地。再看 WebRTC，确认没有真实地址。再看 DNS，确认解析地区。然后看时区和语言。最后看 Canvas 和字体列表是不是和模板一致。这五项全绿，这个环境才能拿去登号。</p></details>
 <details><summary>一个环境只对一个号</summary><p>最后一个原则。一个环境对应一个 IP，对应一个账号，这三者的关系是锁死的，不要交叉复用。今天拿这个环境登 A 号，明天登 B 号，指纹是一样的，平台一关联就是一串。环境是可以复制的，但复制出来要改参数，直接照搬等于没隔离。</p></details>
 </div>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="toc"><b>本篇目录</b><a href="#h1">六个参数的对齐检查表</a><a href="#h2">用一条命令把自己的浏览器参数打出来</a><a href="#h3">Canvas / WebGL 噪声的正确做法</a><a href="#h4">DNS 泄漏是最好修也最常被忽略的一项</a><a href="#h5">一个经常被忽略的项：字体</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
 <div class="rel"><h3>相关内容</h3><a href="/kuber-network/ip-guanlian/">IP被关联<span class="kw"> · IP 被关联了怎么办？三个补救动作和一个预防方案</span></a><a href="/kuber-network/ip-subnet-link/">IP段关联<span class="kw"> · 同 C 段 IP 会不会被关联：机房段的连带风险怎么判断</span></a><a href="/kuber-network/yanghao-ip/">养号IP<span class="kw"> · 养号IP 完全指南：为什么必须独享静态，三个平台视角讲透</span></a><a href="/kuber-network/ecommerce-shop-ip/">电商店铺IP<span class="kw"> · 亚马逊多店铺 IP 隔离：一个店铺一个 IP 到底怎么做</span></a><a href="/kuber-network/yanghao-ip-change/">养号IP更换<span class="kw"> · 养号期间 IP 能不能换：三种必须换和三种不能换</span></a><a href="/kuber-network/ip-chunjingdu/">IP纯净度检测<span class="kw"> · 怎么判断你的 IP 干不干净？三个维度，三个工具</span></a><a href="/kuber-network/softrouter-dns/">软路由DNS<span class="kw"> · 软路由 DNS 怎么设：解析走本地还是走专线</span></a><a href="/kuber-network/duxiang-static-ip/">独享静态IP<span class="kw"> · 独享静态IP 怎么选？养号前必须知道的 5 个判断标准</span></a></div>
 </main>
 <footer><div class="wrap">

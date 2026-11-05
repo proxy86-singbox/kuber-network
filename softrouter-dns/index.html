@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>软路由 DNS 怎么设：解析走本地还是走专线</title>
+<title>软路由 DNS 怎么设：解析走本地还是走专线｜软路由DNS</title>
 <meta name="description" content="DNS 配错，线路再好也白搭。这是最容易被忽略的一层。">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/softrouter-dns/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="库珀网络">
-<meta property="og:title" content="软路由 DNS 怎么设：解析走本地还是走专线">
+<meta property="og:title" content="软路由 DNS 怎么设：解析走本地还是走专线｜软路由DNS">
 <meta property="og:description" content="DNS 配错，线路再好也白搭。这是最容易被忽略的一层。">
 <meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/softrouter-dns/">
 <meta name="twitter:card" content="summary_large_image">
@@ -71,7 +71,7 @@ footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
 @media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "软路由 DNS 怎么设：解析走本地还是走专线", "description": "DNS 配错，线路再好也白搭。这是最容易被忽略的一层。", "inLanguage": "zh-CN", "keywords": "DNS, 软路由, 分流, DNS泄漏, 回国加速, 解析, 配置", "articleSection": "软路由", "wordCount": 1353, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/softrouter-dns/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "软路由"}, {"@type": "ListItem", "position": 3, "name": "软路由DNS", "item": "https://proxy86-singbox.github.io/kuber-network/softrouter-dns/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "三种配置模式是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "第一种，全部 DNS 走本地运营商。最快，但解析结果不受控，适合只访问本地服务。第二种，全部 DNS 转发到落地端。结果最准，但所有解析都绕一圈，本地服务反而变慢。第三种，分流解析，国内域名用国内 DNS，境外域名用落地端 DNS。三种里第三种最平衡，也最费配置功夫。"}}, {"@type": "Question", "name": "怎么验证有没有泄漏", "acceptedAnswer": {"@type": "Answer", "text": "验证方法很直接。打开 DNS 检测网站，看它给出的解析服务器地址列表。如果列表里全是你本地运营商的地址，说明解析完全在本地。如果出现落地端的地址，说明转发生效了。再看解析结果里的地理信息，是不是和你期望的地区一致。"}}, {"@type": "Question", "name": "常见配置错误的三个表现", "acceptedAnswer": {"@type": "Answer", "text": "第一个表现，网页能打开但特别慢，打开开发者工具看时间，时间都花在等待响应上，这是解析绕路。第二个表现，部分网站打不开，提示找不到服务器，这是 DNS 转发链路断了。第三个表现，同一个网站时快时慢，这是两条 DNS 在交替应答。"}}, {"@type": "Question", "name": "最小改法是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "不想折腾的话，改法可以很小。只把需要走专线的那些域名，单独指定用落地端 DNS 解析，其他域名不动。这样改动面最小，风险最低。做法是在软路由的 DNS 配置里加域名转发规则，或者用支持按域名指定上游的解析插件。"}}, {"@type": "Question", "name": "缓存要清是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "改完 DNS 一定清缓存，不清你测的还是旧结果。清两个地方，软路由本地的解析缓存，还有客户端系统里的缓存。清了再测，不然你会以为改的没生效，然后反复改，越改越乱。"}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "软路由 DNS 怎么设：解析走本地还是走专线", "description": "DNS 配错，线路再好也白搭。这是最容易被忽略的一层。", "inLanguage": "zh-CN", "keywords": "DNS, 软路由, 分流, DNS泄漏, 回国加速, 解析, 配置", "articleSection": "软路由", "wordCount": 2355, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/softrouter-dns/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "软路由"}, {"@type": "ListItem", "position": 3, "name": "软路由DNS", "item": "https://proxy86-singbox.github.io/kuber-network/softrouter-dns/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "三种配置模式是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "第一种，全部 DNS 走本地运营商。最快，但解析结果不受控，适合只访问本地服务。第二种，全部 DNS 转发到落地端。结果最准，但所有解析都绕一圈，本地服务反而变慢。第三种，分流解析，国内域名用国内 DNS，境外域名用落地端 DNS。三种里第三种最平衡，也最费配置功夫。"}}, {"@type": "Question", "name": "怎么验证有没有泄漏", "acceptedAnswer": {"@type": "Answer", "text": "验证方法很直接。打开 DNS 检测网站，看它给出的解析服务器地址列表。如果列表里全是你本地运营商的地址，说明解析完全在本地。如果出现落地端的地址，说明转发生效了。再看解析结果里的地理信息，是不是和你期望的地区一致。"}}, {"@type": "Question", "name": "常见配置错误的三个表现", "acceptedAnswer": {"@type": "Answer", "text": "第一个表现，网页能打开但特别慢，打开开发者工具看时间，时间都花在等待响应上，这是解析绕路。第二个表现，部分网站打不开，提示找不到服务器，这是 DNS 转发链路断了。第三个表现，同一个网站时快时慢，这是两条 DNS 在交替应答。"}}, {"@type": "Question", "name": "最小改法是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "不想折腾的话，改法可以很小。只把需要走专线的那些域名，单独指定用落地端 DNS 解析，其他域名不动。这样改动面最小，风险最低。做法是在软路由的 DNS 配置里加域名转发规则，或者用支持按域名指定上游的解析插件。"}}, {"@type": "Question", "name": "缓存要清是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "改完 DNS 一定清缓存，不清你测的还是旧结果。清两个地方，软路由本地的解析缓存，还有客户端系统里的缓存。清了再测，不然你会以为改的没生效，然后反复改，越改越乱。"}}]}]}</script>
 </head>
 <body>
 <header><div class="wrap">
@@ -95,6 +95,49 @@ footer a{color:#00d6d6;text-decoration:none}
 <p>不想折腾的话，改法可以很小。只把需要走专线的那些域名，单独指定用落地端 DNS 解析，其他域名不动。这样改动面最小，风险最低。做法是在软路由的 DNS 配置里加域名转发规则，或者用支持按域名指定上游的解析插件。</p>
 <h2>缓存要清</h2>
 <p>改完 DNS 一定清缓存，不清你测的还是旧结果。清两个地方，软路由本地的解析缓存，还有客户端系统里的缓存。清了再测，不然你会以为改的没生效，然后反复改，越改越乱。</p>
+<h2 id="h1">三种 DNS 模式的对照</h2>
+<table><thead><tr><th>模式</th><th>谁在解析</th><th>优点</th><th>风险</th><th>适合</th></tr></thead><tbody><tr><td>全部走本地</td><td>国内运营商 DNS</td><td>快、简单</td><td>境外站点解析到国内 CDN 或污染结果</td><td>只做国内访问</td></tr><tr><td>全部走专线</td><td>落地城市的 DNS</td><td>解析与出口一致</td><td>国内站点会被解析到远端节点，反而变慢</td><td>几乎不用国内网</td></tr><tr><td>分流解析</td><td>按域名选上游</td><td>兼顾两边</td><td>配置复杂，规则要维护</td><td>主流方案</td></tr></tbody></table>
+<p>分流解析的判断依据有两个：域名后缀（`.cn`、已知国内站点列表）与解析结果（返回的 IP 是否属于国内段）。前者简单但会漏（很多国内服务用 .com），后者准确但多一次判断。</p>
+<h2 id="h2">最小可行配置（dnsmasq）</h2>
+<pre><code># /etc/config/dhcp → config dnsmasq
+option domainneeded &#x27;1&#x27;
+option boguspriv &#x27;1&#x27;
+option localise_queries &#x27;0&#x27;
+option rebind_protection &#x27;0&#x27;
+option noresolv &#x27;1&#x27;
+list server &#x27;223.5.5.5&#x27;          # 默认：国内
+list server &#x27;/google.com/10.0.0.1&#x27;   # 指定：专线侧解析器
+list server &#x27;/youtube.com/10.0.0.1&#x27;
+list server &#x27;/openai.com/10.0.0.1&#x27;</code></pre>
+<p>`noresolv &#x27;1&#x27;` 是关键：不加它，dnsmasq 会去读 /etc/resolv.conf，绕过你的 server 列表，表现为「配了但没用」。</p>
+<p>`localise_queries &#x27;0&#x27;` 也重要：它关掉「按来源改写解析」的行为，避免与分流规则打架。</p>
+<h2 id="h3">三种典型的配置错误表现</h2>
+<ol><li>「配了 server 但没生效」→ 忘了 `noresolv 1`，或者有第二条 dnsmasq 在跑（常见于同时装了 adguardhome）</li><li>「境外站点打开很慢，但 ping 通」→ 解析到了远端 CDN 节点，检查该域名的解析上游</li><li>「国内站点偶发解析失败」→ 上游只给了专线 DNS，专线侧对国内域名返回 NXDOMAIN；给国内域名单独指定上游</li></ol>
+<h2 id="h4">验证与缓存</h2>
+<pre><code># 看某个域名实际由谁解析
+dig @127.0.0.1 youtube.com +short
+dig @127.0.0.1 www.qq.com +short
+
+# 看 DNS 请求走哪条出口（在软路由上抓）
+tcpdump -i ppp0 -n port 53 -c 10
+tcpdump -i br-lan -n port 53 -c 10</code></pre>
+<p>改完配置一定要清缓存：`/etc/init.d/dnsmasq restart` 之后，客户端侧也要清（浏览器、系统、iOS 的 DNS 缓存都独立）。不清缓存时你会看到「旧结果还在」，误判成配置没生效。</p>
+<h2 id="h5">分流 DNS 的一个实用规则：按解析结果再判一次</h2>
+<p>只按域名后缀分流会漏掉大量情况（很多国内服务用 .com 域名）。补一层「按解析结果判断」能覆盖大部分漏网：</p>
+<pre><code># dnsmasq 不支持按结果分流，用 smartdns 的规则更直接
+# smartdns.conf
+nameserver /cn/223.5.5.5
+nameserver /proxy/10.0.0.1
+# 或者用 ipset 联动：国内段命中则直连
+ipset /cn/chnroute</code></pre>
+<p>实际部署里，最稳的组合是「域名后缀分流（覆盖已知的）+ 目的地址分流（覆盖剩余的）」。两层叠加后，漏判率能从两成降到个位数百分比。</p>
+<h2 id="h6">三种解析器方案的取舍</h2>
+<table><thead><tr><th>方案</th><th>优点</th><th>缺点</th><th>建议</th></tr></thead><tbody><tr><td>dnsmasq（内置）</td><td>零成本、稳定</td><td>分流能力弱，只能按域名指定上游</td><td>起步用</td></tr><tr><td>smartdns</td><td>支持按结果分流、多上游测速</td><td>配置项多，容易配错</td><td>中型场景</td></tr><tr><td>AdGuardHome</td><td>界面友好、带广告过滤</td><td>资源占用较高，分流能力弱于 smartdns</td><td>需要过滤时</td></tr></tbody></table>
+<p>选择原则：先看「是否需要按解析结果分流」。需要 → smartdns；只需要按域名 → dnsmasq 够；需要广告过滤 → AdGuardHome 叠加在前面。三者可以叠加部署，但要注意「谁监听 53」，同时只应有一个。</p>
+<h2 id="h7">一个容易忽略的细节：DNS 与策略路由的方向</h2>
+<p>DNS 请求是「你发出、上游返回」，方向与业务流量一致。如果策略路由只对「出方向」做了标记而没处理回程，DNS 会走错出口。检查方法是 `tcpdump -i 任一接口 port 53` 看请求与响应是否走同一路径。不一致时，按 DNS 服务器地址单独加一条策略路由即可。</p>
+<h2 id="h8">一个排障捷径</h2>
+<p>DNS 问题占「配好但不通」的一半以上。最快的定位方法不是看配置，而是看结果：在客户端上 `nslookup 目标域名 你的路由器IP`，如果返回的 IP 明显属于远端节点而目标服务在国内，说明上游选错了。改上游比改规则快。</p>
 <h2 id="faq">常见问题</h2><div class="faq">
 <details><summary>三种配置模式是怎么回事？</summary><p>第一种，全部 DNS 走本地运营商。最快，但解析结果不受控，适合只访问本地服务。第二种，全部 DNS 转发到落地端。结果最准，但所有解析都绕一圈，本地服务反而变慢。第三种，分流解析，国内域名用国内 DNS，境外域名用落地端 DNS。三种里第三种最平衡，也最费配置功夫。</p></details>
 <details><summary>怎么验证有没有泄漏</summary><p>验证方法很直接。打开 DNS 检测网站，看它给出的解析服务器地址列表。如果列表里全是你本地运营商的地址，说明解析完全在本地。如果出现落地端的地址，说明转发生效了。再看解析结果里的地理信息，是不是和你期望的地区一致。</p></details>
@@ -102,7 +145,7 @@ footer a{color:#00d6d6;text-decoration:none}
 <details><summary>最小改法是怎么回事？</summary><p>不想折腾的话，改法可以很小。只把需要走专线的那些域名，单独指定用落地端 DNS 解析，其他域名不动。这样改动面最小，风险最低。做法是在软路由的 DNS 配置里加域名转发规则，或者用支持按域名指定上游的解析插件。</p></details>
 <details><summary>缓存要清是怎么回事？</summary><p>改完 DNS 一定清缓存，不清你测的还是旧结果。清两个地方，软路由本地的解析缓存，还有客户端系统里的缓存。清了再测，不然你会以为改的没生效，然后反复改，越改越乱。</p></details>
 </div>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="toc"><b>本篇目录</b><a href="#h1">三种 DNS 模式的对照</a><a href="#h2">最小可行配置（dnsmasq）</a><a href="#h3">三种典型的配置错误表现</a><a href="#h4">验证与缓存</a><a href="#h5">分流 DNS 的一个实用规则：按解析结果再判一次</a><a href="#h6">三种解析器方案的取舍</a><a href="#h7">一个容易忽略的细节：DNS 与策略路由的方向</a><a href="#h8">一个排障捷径</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
 <div class="rel"><h3>相关内容</h3><a href="/kuber-network/openwrt-huiguo/">OpenWrt回国<span class="kw"> · OpenWrt 配 L2TP 回国：装包、建接口、防火墙三步走通</span></a><a href="/kuber-network/softrouter-split/">软路由分流<span class="kw"> · 回国分流策略：哪些流量该走专线，哪些必须留本地</span></a><a href="/kuber-network/mikrotik-huiguo/">MikroTik回国<span class="kw"> · MikroTik RouterOS 配 L2TP 回国：命令行完整流程</span></a><a href="/kuber-network/softrouter-l2tp/">软路由IP<span class="kw"> · iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</span></a><a href="/kuber-network/ikuai-multiwan/">iKuai多线<span class="kw"> · iKuai 双 WAN 加专线：策略路由的优先级怎么排</span></a><a href="/kuber-network/openwrt-vless/">OpenWrtVLESS<span class="kw"> · OpenWrt 上跑 VLESS：客户端参数和透明代理模式怎么选</span></a><a href="/kuber-network/huiguo-bandwidth/">回国带宽测算<span class="kw"> · 回国带宽怎么算：几个人几台设备到底要多少兆</span></a><a href="/kuber-network/fingerprint-browser-ip/">指纹浏览器IP<span class="kw"> · 指纹浏览器配独享 IP：六个必须对齐的环境参数</span></a></div>
 </main>
 <footer><div class="wrap">

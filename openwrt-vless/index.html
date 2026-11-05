@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OpenWrt 上跑 VLESS：客户端参数和透明代理模式怎么选</title>
+<title>OpenWrtVLESS｜OpenWrt 上跑 VLESS</title>
 <meta name="description" content="软路由上用 VLESS，最大的选择不是协议参数，是走 TUN 还是走透明代理。">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/openwrt-vless/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="库珀网络">
-<meta property="og:title" content="OpenWrt 上跑 VLESS：客户端参数和透明代理模式怎么选">
+<meta property="og:title" content="OpenWrtVLESS｜OpenWrt 上跑 VLESS">
 <meta property="og:description" content="软路由上用 VLESS，最大的选择不是协议参数，是走 TUN 还是走透明代理。">
 <meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/openwrt-vless/">
 <meta name="twitter:card" content="summary_large_image">
@@ -71,7 +71,7 @@ footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
 @media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "OpenWrt 上跑 VLESS：客户端参数和透明代理模式怎么选", "description": "软路由上用 VLESS，最大的选择不是协议参数，是走 TUN 还是走透明代理。", "inLanguage": "zh-CN", "keywords": "OpenWrt, VLESS, 软路由, 透明代理, TUN, Xray, 分流", "articleSection": "代理协议", "wordCount": 1367, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/openwrt-vless/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "代理协议"}, {"@type": "ListItem", "position": 3, "name": "OpenWrtVLESS", "item": "https://proxy86-singbox.github.io/kuber-network/openwrt-vless/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "必填的参数是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "必填的就五项。服务端地址、端口、用户标识那串字符、加密方式选无、传输层选 TCP 或者 WS。如果开了 TLS，还要填 SNI 和目标域名。WS 模式再加路径。这五项之外的都是可选项，别为了看着专业去乱开，开错一项反而连不上。"}}, {"@type": "Question", "name": "流控参数要不要开是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "流控这个参数，服务端支持才开，服务端不支持你开了也协商不上。表现是握手成功但立刻断开，日志里会有一行协商失败的提示。不确定的话先关掉，通了再试。它带来的收益主要是减少一次往返，实际体验差别不大。"}}, {"@type": "Question", "name": "路由规则怎么写是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "规则分两类。一类是直连，本地地址段、私有地址段、还有你确定不需要走专线的域名，都放直连。另一类是代理，需要走专线的平台域名放这里。规则匹配是从上到下，所以具体的规则要在前面，宽泛的规则在后面。写反了，宽泛规则会先把流量吃掉。"}}, {"@type": "Question", "name": "怎么判断生效了是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "三个检查点。一，看进程状态，客户端在跑不等于规则生效。二，在设备上访问一个应该走专线的地址，同时在软路由上看客户端的连接数有没有增加。三，查出口地址是不是落地端的。三个都对，才是真的生效。只看进程状态是最常见的误判。"}}, {"@type": "Question", "name": "和 L2TP 怎么共存", "acceptedAnswer": {"@type": "Answer", "text": "如果两个协议都要用，建议分设备而不是分流量。一台设备固定走 L2TP，另一台固定走 VLESS，规则简单不容易打架。同一台设备上让两种协议按域名切，出问题的时候你很难判断是哪一层的事，排查成本高很多。"}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "OpenWrt 上跑 VLESS：客户端参数和透明代理模式怎么选", "description": "软路由上用 VLESS，最大的选择不是协议参数，是走 TUN 还是走透明代理。", "inLanguage": "zh-CN", "keywords": "OpenWrt, VLESS, 软路由, 透明代理, TUN, Xray, 分流", "articleSection": "代理协议", "wordCount": 2339, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/openwrt-vless/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "代理协议"}, {"@type": "ListItem", "position": 3, "name": "OpenWrtVLESS", "item": "https://proxy86-singbox.github.io/kuber-network/openwrt-vless/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "必填的参数是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "必填的就五项。服务端地址、端口、用户标识那串字符、加密方式选无、传输层选 TCP 或者 WS。如果开了 TLS，还要填 SNI 和目标域名。WS 模式再加路径。这五项之外的都是可选项，别为了看着专业去乱开，开错一项反而连不上。"}}, {"@type": "Question", "name": "流控参数要不要开是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "流控这个参数，服务端支持才开，服务端不支持你开了也协商不上。表现是握手成功但立刻断开，日志里会有一行协商失败的提示。不确定的话先关掉，通了再试。它带来的收益主要是减少一次往返，实际体验差别不大。"}}, {"@type": "Question", "name": "路由规则怎么写是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "规则分两类。一类是直连，本地地址段、私有地址段、还有你确定不需要走专线的域名，都放直连。另一类是代理，需要走专线的平台域名放这里。规则匹配是从上到下，所以具体的规则要在前面，宽泛的规则在后面。写反了，宽泛规则会先把流量吃掉。"}}, {"@type": "Question", "name": "怎么判断生效了是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "三个检查点。一，看进程状态，客户端在跑不等于规则生效。二，在设备上访问一个应该走专线的地址，同时在软路由上看客户端的连接数有没有增加。三，查出口地址是不是落地端的。三个都对，才是真的生效。只看进程状态是最常见的误判。"}}, {"@type": "Question", "name": "和 L2TP 怎么共存", "acceptedAnswer": {"@type": "Answer", "text": "如果两个协议都要用，建议分设备而不是分流量。一台设备固定走 L2TP，另一台固定走 VLESS，规则简单不容易打架。同一台设备上让两种协议按域名切，出问题的时候你很难判断是哪一层的事，排查成本高很多。"}}]}]}</script>
 </head>
 <body>
 <header><div class="wrap">
@@ -96,6 +96,77 @@ footer a{color:#00d6d6;text-decoration:none}
 <p>只看进程状态是最常见的误判。</p>
 <h2>和 L2TP 怎么共存</h2>
 <p>如果两个协议都要用，建议分设备而不是分流量。一台设备固定走 L2TP，另一台固定走 VLESS，规则简单不容易打架。同一台设备上让两种协议按域名切，出问题的时候你很难判断是哪一层的事，排查成本高很多。</p>
+<h2 id="h1">TUN 模式和透明代理（redirect/tproxy）的选择</h2>
+<table><thead><tr><th>模式</th><th>实现</th><th>优点</th><th>缺点</th><th>适用</th></tr></thead><tbody><tr><td>TUN</td><td>建一张虚拟网卡接管路由</td><td>全协议（含 UDP）透明，配置直观</td><td>多占一点 CPU，需正确设置路由表</td><td>全屋透明代理</td></tr><tr><td>redirect (nat)</td><td>iptables/nftables 改写目标</td><td>开销最小</td><td>只处理 TCP，UDP 需额外处理</td><td>只跑网页</td></tr><tr><td>tproxy</td><td>透明代理套接字</td><td>TCP+UDP 都能接管，不改目标地址</td><td>配置复杂，需打 mark 与策略路由</td><td>游戏/语音场景</td></tr></tbody></table>
+<p>家庭场景推荐 TUN：配置少、UDP 天然支持、排障直观（`ip route` 能看到默认路由指向 tun0）。</p>
+<h2 id="h2">关键配置片段（sing-box / TUN）</h2>
+<pre><code>{
+  &quot;inbounds&quot;: [{
+    &quot;type&quot;: &quot;tun&quot;,
+    &quot;interface_name&quot;: &quot;tun0&quot;,
+    &quot;inet4_address&quot;: &quot;172.19.0.1/30&quot;,
+    &quot;auto_route&quot;: true,
+    &quot;strict_route&quot;: true,
+    &quot;sniff&quot;: true,
+    &quot;stack&quot;: &quot;gvisor&quot;
+  }],
+  &quot;outbounds&quot;: [
+    { &quot;type&quot;: &quot;vless&quot;, &quot;tag&quot;: &quot;proxy&quot;, &quot;server&quot;: &quot;你的域名&quot;, &quot;server_port&quot;: 443,
+      &quot;uuid&quot;: &quot;你的UUID&quot;, &quot;tls&quot;: { &quot;enabled&quot;: true, &quot;server_name&quot;: &quot;你的域名&quot; } },
+    { &quot;type&quot;: &quot;direct&quot;, &quot;tag&quot;: &quot;direct&quot; }
+  ],
+  &quot;route&quot;: {
+    &quot;rules&quot;: [
+      { &quot;protocol&quot;: &quot;dns&quot;, &quot;outbound&quot;: &quot;direct&quot; },
+      { &quot;ip_cidr&quot;: [&quot;10.0.0.0/8&quot;, &quot;192.168.0.0/16&quot;], &quot;outbound&quot;: &quot;direct&quot; },
+      { &quot;domain_suffix&quot;: [&quot;.cn&quot;], &quot;outbound&quot;: &quot;direct&quot; }
+    ],
+    &quot;final&quot;: &quot;proxy&quot;,
+    &quot;auto_detect_interface&quot;: true
+  }
+}</code></pre>
+<p>三个参数值得单独说：</p>
+<ol><li>`strict_route`：防止应用绕过 TUN（部分应用会绑定物理网卡），开启后更彻底</li><li>`sniff`：按 SNI/域名分流的前提，不开启就只能按 IP 判断</li><li>`auto_detect_interface`：避免「代理自己连不上代理服务器」的经典死循环</li></ol>
+<h2 id="h3">和 L2TP 共存</h2>
+<p>两个出口同时存在时，要明确哪一个是默认。推荐做法：L2TP 作为「按目标」的出口（策略路由），VLESS 的 TUN 只接管「需要代理的域名」，两者互不抢默认路由。</p>
+<p>冲突的典型表现是：开了 TUN 之后 L2TP 的流量也被卷进 TUN，形成「隧道套隧道」，延迟翻倍、MTU 二次缩水。判断方法是 `ip route` 看默认路由有几条、优先级如何；修法是把 L2TP 的对端地址加入 TUN 的绕过列表（在 route 规则里对服务器 IP 走 direct）。</p>
+<h2 id="h4">DNS 劫持：TUN 模式下最容易漏的一步</h2>
+<p>TUN 接管了 IP 流量，但 DNS 请求往往是明文 UDP 53，如果不劫持，会出现「域名解析走本地、连接走代理」的错位：解析到国内 CDN 的节点，却用境外出口去连，速度极差甚至不通。</p>
+<p>劫持配置（nftables）：</p>
+<pre><code>nft add table inet dns_hijack
+nft add chain inet dns_hijack prerouting &#x27;{ type nat hook prerouting priority dstnat; }&#x27;
+# 把所有去往 53 端口的请求转到本机 DNS
+nft add rule inet dns_hijack prerouting udp dport 53 redirect to :53
+nft add rule inet dns_hijack prerouting tcp dport 53 redirect to :53</code></pre>
+<p>配合 sing-box 的 `{&quot;protocol&quot;:&quot;dns&quot;,&quot;outbound&quot;:&quot;proxy&quot;}` 规则，就能做到「DNS 也走代理」。验证方法：`tcpdump -i any port 53` 看是否有明文 DNS 出到公网——有，说明劫持没生效。</p>
+<h2 id="h5">开机自启与进程守护</h2>
+<p>TUN 模式依赖一个常驻进程，进程挂了整屋断网。用 systemd 托管并设置自动重启：</p>
+<pre><code># /etc/systemd/system/sing-box.service
+[Unit]
+Description=sing-box
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/sing-box run -c /etc/sing-box/config.json
+Restart=always
+RestartSec=5
+LimitNOFILE=1048576
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+<pre><code>systemctl daemon-reload
+systemctl enable --now sing-box
+systemctl status sing-box | head -5</code></pre>
+<p>三个细节决定稳定性：`Restart=always` 保证崩溃后自愈；`RestartSec=5` 避免疯狂重启打满日志；`LimitNOFILE` 调大，否则高并发连接会撞到文件描述符上限（表现是「用一会儿就连不上」）。</p>
+<h2 id="h6">三种常见故障</h2>
+<table><thead><tr><th>现象</th><th>原因</th><th>处理</th></tr></thead><tbody><tr><td>开机后要手动重启服务才有网</td><td>启动顺序早于网络就绪</td><td>加 `network-online.target` 依赖</td></tr><tr><td>运行几小时后失效</td><td>文件描述符耗尽</td><td>调高 `LimitNOFILE`</td></tr><tr><td>部分应用完全不走代理</td><td>`strict_route` 未开或应用绑定物理网卡</td><td>开启 strict_route</td></tr></tbody></table>
+<h2 id="h7">与 L2TP 共存的推荐拓扑</h2>
+<p>最稳的分工是：L2TP 负责「不需要精细控制」的全屋设备（电视盒子、智能音箱、iPad），TUN 模式负责「需要按域名分流」的设备（电脑、手机）。两者共用同一条回国线路时，要确保 L2TP 的对端地址在 TUN 的直连列表里，否则隧道流量会被 TUN 二次接走。</p>
+<p>验证方法：开两个窗口，一个持续 ping 隧道对端，另一个在 TUN 里下载大文件。对端 ping 不应出现明显抖动；如果抖动剧烈，说明流量被 TUN 卷进去了。</p>
+<h2 id="h8">一个上线检查表</h2>
+<ul><li>服务 `enabled` 且 `active (running)`</li><li>`ip route` 里能看到 tun0 的默认路由，且优先级低于直连规则</li><li>国内站点回显本地 IP，境外站点回显节点 IP</li><li>DNS 请求不出现在明文抓包里</li><li>重启设备后自动恢复，无需人工干预</li></ul>
+<p>五项全过，才算「配好了」。只过前两项的人，通常会在某天重启后发现自己整屋断网。</p>
 <h2 id="faq">常见问题</h2><div class="faq">
 <details><summary>必填的参数是怎么回事？</summary><p>必填的就五项。服务端地址、端口、用户标识那串字符、加密方式选无、传输层选 TCP 或者 WS。如果开了 TLS，还要填 SNI 和目标域名。WS 模式再加路径。这五项之外的都是可选项，别为了看着专业去乱开，开错一项反而连不上。</p></details>
 <details><summary>流控参数要不要开是怎么回事？</summary><p>流控这个参数，服务端支持才开，服务端不支持你开了也协商不上。表现是握手成功但立刻断开，日志里会有一行协商失败的提示。不确定的话先关掉，通了再试。它带来的收益主要是减少一次往返，实际体验差别不大。</p></details>
@@ -103,7 +174,7 @@ footer a{color:#00d6d6;text-decoration:none}
 <details><summary>怎么判断生效了是怎么回事？</summary><p>三个检查点。一，看进程状态，客户端在跑不等于规则生效。二，在设备上访问一个应该走专线的地址，同时在软路由上看客户端的连接数有没有增加。三，查出口地址是不是落地端的。三个都对，才是真的生效。只看进程状态是最常见的误判。</p></details>
 <details><summary>和 L2TP 怎么共存</summary><p>如果两个协议都要用，建议分设备而不是分流量。一台设备固定走 L2TP，另一台固定走 VLESS，规则简单不容易打架。同一台设备上让两种协议按域名切，出问题的时候你很难判断是哪一层的事，排查成本高很多。</p></details>
 </div>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="toc"><b>本篇目录</b><a href="#h1">TUN 模式和透明代理（redirect/tproxy）的选择</a><a href="#h2">关键配置片段（sing-box / TUN）</a><a href="#h3">和 L2TP 共存</a><a href="#h4">DNS 劫持：TUN 模式下最容易漏的一步</a><a href="#h5">开机自启与进程守护</a><a href="#h6">三种常见故障</a><a href="#h7">与 L2TP 共存的推荐拓扑</a><a href="#h8">一个上线检查表</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
 <div class="rel"><h3>相关内容</h3><a href="/kuber-network/l2tp-vs-vless/">L2TP和VLESS区别<span class="kw"> · L2TP 还是 VLESS？一张表讲清该用哪个</span></a><a href="/kuber-network/vless-node-params/">VLESS节点参数<span class="kw"> · VLESS 节点参数逐项解释：哪几项必填，哪几项填错就连不上</span></a><a href="/kuber-network/xiaohuojian-vless/">小火箭VLESS配置<span class="kw"> · Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误</span></a><a href="/kuber-network/shadowrocket-rules/">小火箭分流规则<span class="kw"> · 小火箭分流规则：按域名和按 IP 到底差在哪</span></a><a href="/kuber-network/openwrt-huiguo/">OpenWrt回国<span class="kw"> · OpenWrt 配 L2TP 回国：装包、建接口、防火墙三步走通</span></a><a href="/kuber-network/softrouter-dns/">软路由DNS<span class="kw"> · 软路由 DNS 怎么设：解析走本地还是走专线</span></a><a href="/kuber-network/softrouter-split/">软路由分流<span class="kw"> · 回国分流策略：哪些流量该走专线，哪些必须留本地</span></a><a href="/kuber-network/softrouter-l2tp/">软路由IP<span class="kw"> · iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</span></a></div>
 </main>
 <footer><div class="wrap">

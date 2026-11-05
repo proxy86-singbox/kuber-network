@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>TikTok 直播带货的 IP 要求：上行带宽和抖动到底怎么算</title>
+<title>TikTok直播IP｜TikTok 直播带货的 IP 要求</title>
 <meta name="description" content="直播和短视频走的是完全不同的两条链路，短视频能缓存，直播不能。">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/tiktok-live-ip/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="库珀网络">
-<meta property="og:title" content="TikTok 直播带货的 IP 要求：上行带宽和抖动到底怎么算">
+<meta property="og:title" content="TikTok直播IP｜TikTok 直播带货的 IP 要求">
 <meta property="og:description" content="直播和短视频走的是完全不同的两条链路，短视频能缓存，直播不能。">
 <meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/tiktok-live-ip/">
 <meta name="twitter:card" content="summary_large_image">
@@ -71,7 +71,7 @@ footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
 @media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "TikTok 直播带货的 IP 要求：上行带宽和抖动到底怎么算", "description": "直播和短视频走的是完全不同的两条链路，短视频能缓存，直播不能。", "inLanguage": "zh-CN", "keywords": "TikTok直播, 直播带宽, 上行带宽, 抖动, 独享静态IP, 直播卡顿, 跨境网络", "articleSection": "直播", "wordCount": 1760, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/tiktok-live-ip/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "直播"}, {"@type": "ListItem", "position": 3, "name": "TikTok直播IP", "item": "https://proxy86-singbox.github.io/kuber-network/tiktok-live-ip/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "上行带宽怎么算是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "算法很简单。先定你 OBS 里的推流码率，一零八零 p 三十帧一般是四千五到六千 kbps，一零八零 p 六十帧要到八千。然后加冗余，冗余按码率的百分之五十算。也就是说六千码率，你上行至少要九兆。留这一半是给瞬时峰值和重传的，不留，一遇到网络波动立刻掉帧。"}}, {"@type": "Question", "name": "抖动比延迟更致命是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "第二个指标是抖动。延迟两百毫秒其实能播，观众最多觉得互动慢半拍。但抖动一旦超过八十毫秒，画面就会一顿一顿。因为直播的接收端缓冲只有一两秒，抖动把它吃完了就开始卡。所以测一条线路，你看的不该是平均延迟，而是延迟的最大值和最小值差多少。"}}, {"@type": "Question", "name": "直播 IP 必须静态独享", "acceptedAnswer": {"@type": "Answer", "text": "第三点，直播用的 IP 必须是静态的、独享的。静态是因为推流过程中 IP 一变，连接直接断，观众看到的就是直播结束。独享是因为共享 IP 上别人在跑什么你控制不了，平台的风控会把整个 IP 上的行为算在一起。你推流一切正常，号却被压流量，问题就在这。"}}, {"@type": "Question", "name": "开播前十分钟测三项", "acceptedAnswer": {"@type": "Answer", "text": "具体怎么测。开播前十分钟做三件事。第一，用测速工具看上行实测值，要稳定在你码率的一点五倍以上。第二，连续 ping 你的落地网关三百个包，看丢包率和最大延迟。第三，OBS 里开统计面板，看 dropped frames 这个数字，只要开播五分钟内它开始涨，说明这条链路撑不住当前码率。"}}, {"@type": "Question", "name": "卡顿出现在两分半说明什么", "acceptedAnswer": {"@type": "Answer", "text": "有个很典型的故障特征。如果直播每次卡顿都出现在开播两分半左右，那不是网络突然变差，是缓冲被慢慢吃空了。原因通常是码率设太高，或者链路的实际带宽比你以为的低。处理办法不是换线路，先把码率降百分之三十再试。降完不卡了，就是带宽问题，不是线路问题。"}}, {"@type": "Question", "name": "该怎么配是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "配置上的建议是这样。一条独享静态 IP 走专线回国方向给直播用，码率按实测上行的六成设，OBS 的输出模式选固定码率，别选动态。手机端直播的话，先确认手机连的是软路由下发的那条线，不是自动切到了本地网络。这一步错了，你后面所有测试都没意义。"}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "TikTok 直播带货的 IP 要求：上行带宽和抖动到底怎么算", "description": "直播和短视频走的是完全不同的两条链路，短视频能缓存，直播不能。", "inLanguage": "zh-CN", "keywords": "TikTok直播, 直播带宽, 上行带宽, 抖动, 独享静态IP, 直播卡顿, 跨境网络", "articleSection": "直播", "wordCount": 2469, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/tiktok-live-ip/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "直播"}, {"@type": "ListItem", "position": 3, "name": "TikTok直播IP", "item": "https://proxy86-singbox.github.io/kuber-network/tiktok-live-ip/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "上行带宽怎么算是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "算法很简单。先定你 OBS 里的推流码率，一零八零 p 三十帧一般是四千五到六千 kbps，一零八零 p 六十帧要到八千。然后加冗余，冗余按码率的百分之五十算。也就是说六千码率，你上行至少要九兆。留这一半是给瞬时峰值和重传的，不留，一遇到网络波动立刻掉帧。"}}, {"@type": "Question", "name": "抖动比延迟更致命是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "第二个指标是抖动。延迟两百毫秒其实能播，观众最多觉得互动慢半拍。但抖动一旦超过八十毫秒，画面就会一顿一顿。因为直播的接收端缓冲只有一两秒，抖动把它吃完了就开始卡。所以测一条线路，你看的不该是平均延迟，而是延迟的最大值和最小值差多少。"}}, {"@type": "Question", "name": "直播 IP 必须静态独享", "acceptedAnswer": {"@type": "Answer", "text": "第三点，直播用的 IP 必须是静态的、独享的。静态是因为推流过程中 IP 一变，连接直接断，观众看到的就是直播结束。独享是因为共享 IP 上别人在跑什么你控制不了，平台的风控会把整个 IP 上的行为算在一起。你推流一切正常，号却被压流量，问题就在这。"}}, {"@type": "Question", "name": "开播前十分钟测三项", "acceptedAnswer": {"@type": "Answer", "text": "具体怎么测。开播前十分钟做三件事。第一，用测速工具看上行实测值，要稳定在你码率的一点五倍以上。第二，连续 ping 你的落地网关三百个包，看丢包率和最大延迟。第三，OBS 里开统计面板，看 dropped frames 这个数字，只要开播五分钟内它开始涨，说明这条链路撑不住当前码率。"}}, {"@type": "Question", "name": "卡顿出现在两分半说明什么", "acceptedAnswer": {"@type": "Answer", "text": "有个很典型的故障特征。如果直播每次卡顿都出现在开播两分半左右，那不是网络突然变差，是缓冲被慢慢吃空了。原因通常是码率设太高，或者链路的实际带宽比你以为的低。处理办法不是换线路，先把码率降百分之三十再试。降完不卡了，就是带宽问题，不是线路问题。"}}, {"@type": "Question", "name": "该怎么配是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "配置上的建议是这样。一条独享静态 IP 走专线回国方向给直播用，码率按实测上行的六成设，OBS 的输出模式选固定码率，别选动态。手机端直播的话，先确认手机连的是软路由下发的那条线，不是自动切到了本地网络。这一步错了，你后面所有测试都没意义。"}}]}]}</script>
 </head>
 <body>
 <header><div class="wrap">
@@ -100,6 +100,33 @@ footer a{color:#00d6d6;text-decoration:none}
 <h2>该怎么配</h2>
 <p>配置上的建议是这样。一条独享静态 IP 走专线回国方向给直播用，码率按实测上行的六成设，OBS 的输出模式选固定码率，别选动态。手机端直播的话，先确认手机连的是软路由下发的那条线，不是自动切到了本地网络。</p>
 <p>这一步错了，你后面所有测试都没意义。</p>
+<h2 id="h1">上行带宽的实测公式与工具</h2>
+<p>口播里给了算法，这里给可直接执行的版本。直播上行需求的估算式：</p>
+<pre><code>所需上行(Mbps) = 推流码率 × (1 + 冗余系数)
+冗余系数取 0.5 ~ 1.0
+1080p30 直播：码率 4.5-6 Mbps → 需 7-9 Mbps 稳定上行
+720p30 直播：码率 2.5-3 Mbps → 需 4-6 Mbps 稳定上行
+竖屏 1080p 直播：码率 3-5 Mbps → 需 5-7 Mbps 稳定上行</code></pre>
+<p>「稳定上行」和「峰值上行」是两件事。运营商宣传的 100M 上行是峰值，直播要的是「连续 30 分钟不低于 X」。测法是持续上传而不是几分钟的测速：</p>
+<pre><code># 持续 60 秒上传，看速度是否掉下来
+curl -o /dev/null -w &quot;速度 %{speed_upload} B/s  总耗时 %{time_total}s\n&quot; \
+  -T 大文件路径 https://你的测试上传端点</code></pre>
+<p>跑三次，取最差的一次作为你的「可用上行」。秋千式的数字（前 10 秒 30M、之后 5M）说明有突发限速（burst），直播会在两分钟后开始卡。</p>
+<h2 id="h2">抖动（jitter）为什么比延迟更致命</h2>
+<p>延迟高表现为「观众那边延迟大一点」，抖动大表现为「画面一顿一顿」。因为直播是等时流：这一帧必须在 40 毫秒内到达，晚到的帧就是废帧。</p>
+<p>抖动的量化方法是连续 ping 取标准差：</p>
+<pre><code>ping -c 100 -i 0.2 你的推流端点 | tail -3
+# 输出里的 mdev/avg 就是抖动指标
+# mdev &lt; 5ms 优秀，5-15ms 可用，&gt; 30ms 直播必然卡</code></pre>
+<p>mtr 也能看每跳的抖动（StDev 列）。如果抖动是在某一跳突然变大并保持，问题在那一跳之后；如果全程均匀地大，问题在本地线路或 WiFi。</p>
+<h2 id="h3">推流参数的配合</h2>
+<p>网络侧调好之后，推流参数也要匹配，否则好线路也白瞎：</p>
+<table><thead><tr><th>场景</th><th>码率</th><th>关键帧间隔</th><th>编码</th><th>说明</th></tr></thead><tbody><tr><td>4G/弱网</td><td>1.5-2.5 Mbps</td><td>1 秒</td><td>H.264</td><td>优先保连通性</td></tr><tr><td>家宽+独享IP</td><td>4-6 Mbps</td><td>2 秒</td><td>H.264/H.265</td><td>主流配置</td></tr><tr><td>高画质带货</td><td>6-8 Mbps</td><td>2 秒</td><td>H.265</td><td>需 10M 以上稳定上行</td></tr></tbody></table>
+<p>关键帧间隔设 1 秒的代价是码率上升 20% 左右，收益是观众中途进入时首帧快。带货直播建议 1-2 秒，不要 4 秒以上。</p>
+<h2 id="h4">卡顿的时间线诊断</h2>
+<p>同一个「卡」，发生在不同时间点，原因完全不同：</p>
+<ul><li>开播 10 秒内卡：握手与首帧传输，检查 MTU 与上行峰值</li><li>卡在 2 分 30 秒左右：突发额度用尽，被限速到基础速率（最常见）</li><li>卡在固定时段（比如每晚 21:30）：线路拥塞，不是你的问题</li><li>随机零散卡：抖动或丢包，查 WiFi 与最后一公里</li><li>只有部分观众卡：观众侧问题或 CDN 边缘节点问题</li></ul>
+<p>这张表的价值在于：不用改任何配置就能判断该找谁。2 分半卡是运营商限速，换线路；21:30 卡是拥塞，换更好的线路（CN2 GIA）；零散卡先查家里的 WiFi 和路由器。</p>
 <h2 id="faq">常见问题</h2><div class="faq">
 <details><summary>上行带宽怎么算是怎么回事？</summary><p>算法很简单。先定你 OBS 里的推流码率，一零八零 p 三十帧一般是四千五到六千 kbps，一零八零 p 六十帧要到八千。然后加冗余，冗余按码率的百分之五十算。也就是说六千码率，你上行至少要九兆。留这一半是给瞬时峰值和重传的，不留，一遇到网络波动立刻掉帧。</p></details>
 <details><summary>抖动比延迟更致命是怎么回事？</summary><p>第二个指标是抖动。延迟两百毫秒其实能播，观众最多觉得互动慢半拍。但抖动一旦超过八十毫秒，画面就会一顿一顿。因为直播的接收端缓冲只有一两秒，抖动把它吃完了就开始卡。所以测一条线路，你看的不该是平均延迟，而是延迟的最大值和最小值差多少。</p></details>
@@ -108,7 +135,7 @@ footer a{color:#00d6d6;text-decoration:none}
 <details><summary>卡顿出现在两分半说明什么</summary><p>有个很典型的故障特征。如果直播每次卡顿都出现在开播两分半左右，那不是网络突然变差，是缓冲被慢慢吃空了。原因通常是码率设太高，或者链路的实际带宽比你以为的低。处理办法不是换线路，先把码率降百分之三十再试。降完不卡了，就是带宽问题，不是线路问题。</p></details>
 <details><summary>该怎么配是怎么回事？</summary><p>配置上的建议是这样。一条独享静态 IP 走专线回国方向给直播用，码率按实测上行的六成设，OBS 的输出模式选固定码率，别选动态。手机端直播的话，先确认手机连的是软路由下发的那条线，不是自动切到了本地网络。这一步错了，你后面所有测试都没意义。</p></details>
 </div>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="toc"><b>本篇目录</b><a href="#h1">上行带宽的实测公式与工具</a><a href="#h2">抖动（jitter）为什么比延迟更致命</a><a href="#h3">推流参数的配合</a><a href="#h4">卡顿的时间线诊断</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
 <div class="rel"><h3>相关内容</h3><a href="/kuber-network/ecommerce-shop-ip/">电商店铺IP<span class="kw"> · 亚马逊多店铺 IP 隔离：一个店铺一个 IP 到底怎么做</span></a><a href="/kuber-network/duxiang-static-ip/">独享静态IP<span class="kw"> · 独享静态IP 怎么选？养号前必须知道的 5 个判断标准</span></a><a href="/kuber-network/ip-guanlian/">IP被关联<span class="kw"> · IP 被关联了怎么办？三个补救动作和一个预防方案</span></a><a href="/kuber-network/l2tp-vs-vless/">L2TP和VLESS区别<span class="kw"> · L2TP 还是 VLESS？一张表讲清该用哪个</span></a><a href="/kuber-network/fingerprint-browser-ip/">指纹浏览器IP<span class="kw"> · 指纹浏览器配独享 IP：六个必须对齐的环境参数</span></a><a href="/kuber-network/ip-chunjingdu/">IP纯净度检测<span class="kw"> · 怎么判断你的 IP 干不干净？三个维度，三个工具</span></a><a href="/kuber-network/ip-subnet-link/">IP段关联<span class="kw"> · 同 C 段 IP 会不会被关联：机房段的连带风险怎么判断</span></a><a href="/kuber-network/xiaohuojian-vless/">小火箭VLESS配置<span class="kw"> · Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误</span></a></div>
 </main>
 <footer><div class="wrap">

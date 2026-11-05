@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MTU 和分片：网页打得开但图片加载不出来是怎么回事</title>
+<title>MTU 和分片：网页打得开但图片加载不出来是怎么回事｜MTU分片</title>
 <meta name="description" content="这种故障最容易被误判成网站问题，其实是链路 MTU 不匹配。">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/mtu-fragmentation/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="库珀网络">
-<meta property="og:title" content="MTU 和分片：网页打得开但图片加载不出来是怎么回事">
+<meta property="og:title" content="MTU 和分片：网页打得开但图片加载不出来是怎么回事｜MTU分片">
 <meta property="og:description" content="这种故障最容易被误判成网站问题，其实是链路 MTU 不匹配。">
 <meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/mtu-fragmentation/">
 <meta name="twitter:card" content="summary_large_image">
@@ -71,7 +71,7 @@ footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
 @media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "MTU 和分片：网页打得开但图片加载不出来是怎么回事", "description": "这种故障最容易被误判成网站问题，其实是链路 MTU 不匹配。", "inLanguage": "zh-CN", "keywords": "MTU, 分片, 网络故障, L2TP, 排错, 隧道, TCP", "articleSection": "排障", "wordCount": 1258, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/mtu-fragmentation/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "排障"}, {"@type": "ListItem", "position": 3, "name": "MTU分片", "item": "https://proxy86-singbox.github.io/kuber-network/mtu-fragmentation/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "典型症状清单是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "对照这几条。网页文字能显示，图片加载一半卡住。能登录，但上传附件失败。能打开首页，点进详情页白屏。ping 得通，网页打不开。这些症状的共同点是小包通过、大包丢失。符合这个特征，基本可以判定是 MTU。"}}, {"@type": "Question", "name": "怎么测出合适的值是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "用 ping 的分片禁止参数测。从一四七二开始，每次减八，目标是你落地端的网关。哪一次开始能通，那个值加上二十八个字节的头，就是你的可用 MTU。常见的结果是一四零零到一四五零之间。实测出来再填，别照抄别人的数字。"}}, {"@type": "Question", "name": "改哪几个地方是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "要改的地方可能有三处。隧道接口本身的 MTU，局域网网卡的 MTU，还有路由器上的分片修正设置。三处对齐了才有效。只改一处，包在转发的某一跳还是会被丢。改完清一下连接状态，让新连接用新的值。"}}, {"@type": "Question", "name": "改完怎么验是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "验三件事。第一，之前打不开的图片页面现在能不能完整加载。第二，上传一个大文件试试，能不能一次成功。第三，连续访问十分钟，看有没有间歇性卡顿。三件都过，说明改对了。如果只有一部分改善，说明还有一处没对齐。"}}, {"@type": "Question", "name": "别把 MTU 当万能药", "acceptedAnswer": {"@type": "Answer", "text": "提醒一下。MTU 不匹配的症状很典型，但不要把所有的时通时不通都归到 MTU 上。丢包、DNS 解析失败、连接数超限，症状都可能类似。先用 ping 测出结果，确认了再改。没测就改，改完你会更混乱。"}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "MTU 和分片：网页打得开但图片加载不出来是怎么回事", "description": "这种故障最容易被误判成网站问题，其实是链路 MTU 不匹配。", "inLanguage": "zh-CN", "keywords": "MTU, 分片, 网络故障, L2TP, 排错, 隧道, TCP", "articleSection": "排障", "wordCount": 2481, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/mtu-fragmentation/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "排障"}, {"@type": "ListItem", "position": 3, "name": "MTU分片", "item": "https://proxy86-singbox.github.io/kuber-network/mtu-fragmentation/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "典型症状清单是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "对照这几条。网页文字能显示，图片加载一半卡住。能登录，但上传附件失败。能打开首页，点进详情页白屏。ping 得通，网页打不开。这些症状的共同点是小包通过、大包丢失。符合这个特征，基本可以判定是 MTU。"}}, {"@type": "Question", "name": "怎么测出合适的值是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "用 ping 的分片禁止参数测。从一四七二开始，每次减八，目标是你落地端的网关。哪一次开始能通，那个值加上二十八个字节的头，就是你的可用 MTU。常见的结果是一四零零到一四五零之间。实测出来再填，别照抄别人的数字。"}}, {"@type": "Question", "name": "改哪几个地方是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "要改的地方可能有三处。隧道接口本身的 MTU，局域网网卡的 MTU，还有路由器上的分片修正设置。三处对齐了才有效。只改一处，包在转发的某一跳还是会被丢。改完清一下连接状态，让新连接用新的值。"}}, {"@type": "Question", "name": "改完怎么验是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "验三件事。第一，之前打不开的图片页面现在能不能完整加载。第二，上传一个大文件试试，能不能一次成功。第三，连续访问十分钟，看有没有间歇性卡顿。三件都过，说明改对了。如果只有一部分改善，说明还有一处没对齐。"}}, {"@type": "Question", "name": "别把 MTU 当万能药", "acceptedAnswer": {"@type": "Answer", "text": "提醒一下。MTU 不匹配的症状很典型，但不要把所有的时通时不通都归到 MTU 上。丢包、DNS 解析失败、连接数超限，症状都可能类似。先用 ping 测出结果，确认了再改。没测就改，改完你会更混乱。"}}]}]}</script>
 </head>
 <body>
 <header><div class="wrap">
@@ -95,6 +95,51 @@ footer a{color:#00d6d6;text-decoration:none}
 <p>验三件事。第一，之前打不开的图片页面现在能不能完整加载。第二，上传一个大文件试试，能不能一次成功。第三，连续访问十分钟，看有没有间歇性卡顿。三件都过，说明改对了。如果只有一部分改善，说明还有一处没对齐。</p>
 <h2>别把 MTU 当万能药</h2>
 <p>提醒一下。MTU 不匹配的症状很典型，但不要把所有的时通时不通都归到 MTU 上。丢包、DNS 解析失败、连接数超限，症状都可能类似。先用 ping 测出结果，确认了再改。没测就改，改完你会更混乱。</p>
+<h2 id="h1">探测路径 MTU 的正确方法</h2>
+<p>Linux/macOS 的 ping 带 DF 标志（不分片），从大往小试，第一个不通的下一个值就是上限：</p>
+<pre><code># Linux
+for s in 1472 1450 1420 1400 1380 1360; do
+  if ping -c 2 -M do -s $s 目标 &gt;/dev/null 2&gt;&amp;1; then
+    echo &quot;MTU $((s+28)) 可用&quot;; break
+  fi
+done</code></pre>
+<pre><code># macOS（-D 是 DF 标志，-s 是载荷大小）
+for s in 1472 1450 1420 1400 1380; do
+  ping -c 2 -D -s $s 目标 &gt;/dev/null 2&gt;&amp;1 &amp;&amp; echo &quot;MTU $((s+28)) 可用&quot; &amp;&amp; break
+done</code></pre>
+<p>`+28` 是 IP 头（20）与 ICMP 头（8）。算出来的就是该路径可用 MTU。</p>
+<h2 id="h2">各协议的建议值</h2>
+<table><thead><tr><th>链路</th><th>建议 MTU/MRU</th><th>备注</th></tr></thead><tbody><tr><td>L2TP over IPsec</td><td>1400</td><td>封装开销最大，1400 最稳</td></tr><tr><td>纯 L2TP</td><td>1420-1450</td><td>无 IPsec 时开销小</td></tr><tr><td>PPTP</td><td>1400</td><td>老协议，不推荐</td></tr><tr><td>VLESS + TCP + TLS</td><td>1420-1500</td><td>开销小，通常不用改</td></tr><tr><td>WireGuard</td><td>1380-1420</td><td>取决于外层</td></tr></tbody></table>
+<h2 id="h3">MSS Clamping 比调 MTU 更省事</h2>
+<p>MTU 是两端的约定，MSS 是 TCP 层告诉对端「我最多收多大的段」。开启 MSS clamping 后，路由器会自动把 MSS 改小，不必逐台设备调整 MTU：</p>
+<pre><code># OpenWrt / iptables
+iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
+  -j TCPMSS --clamp-mss-to-pmtu</code></pre>
+<p>iKuai 里对应的选项是 WAN 设置里的「MSS 自动调整」。这一项开启之后，「网页打得开但图片加载不出来」这类问题基本消失。</p>
+<h2 id="h4">改完怎么验</h2>
+<p>三个层次依次验：</p>
+<ol><li>大包能过：`ping -M do -s 1400 目标` 成功</li><li>TCP 能传大文件：`curl -o /dev/null -r 0-52428800 大文件URL` 不中断且速度稳定</li><li>网页完整加载：图片、视频、字体都出来，不卡在某一类资源</li></ol>
+<p>三个都过，说明 MTU 与 MSS 都对了。只过第一个不算——ICMP 和 TCP 的路径行为可能不同。</p>
+<h2 id="h5">别把 MTU 当万能药</h2>
+<p>以下现象容易误诊为 MTU 问题，其实不是：</p>
+<table><thead><tr><th>现象</th><th>更可能的原因</th></tr></thead><tbody><tr><td>所有网页都慢</td><td>线路质量或 DNS</td></tr><tr><td>只有某站慢</td><td>该站的 CDN 或回源</td></tr><tr><td>视频卡但网页正常</td><td>该站的视频节点问题</td></tr><tr><td>需要刷新才加载</td><td>缓存或 DNS 解析时序</td></tr></tbody></table>
+<p>MTU 问题的特征是「与包大小相关」：小请求正常、大请求失败。不满足这个特征，先查别处。</p>
+<h2 id="h6">分片问题的三个层次</h2>
+<p>MTU 相关的故障其实分三层，处理方式不同：</p>
+<table><thead><tr><th>层</th><th>现象</th><th>处理</th></tr></thead><tbody><tr><td>路径 MTU 小于两端约定</td><td>大包丢失，传输中断</td><td>调小 MTU</td></tr><tr><td>中间设备丢弃 ICMP 需分片</td><td>PMTUD 失效，黑洞</td><td>开 MSS clamp</td></tr><tr><td>应用层自己分片错误</td><td>只有某应用出问题</td><td>改应用配置，不是网络</td></tr></tbody></table>
+<p>第三层最容易被误判。比如某些老的 FTP 客户端在被动模式下不遵守协商的 MTU，导致传输卡住——这时候改路由器 MTU 没用，要改客户端设置。判别方法：换一个客户端做同样的事，如果正常，问题在应用层。</p>
+<h2 id="h7">验证是否真的修好</h2>
+<p>改完 MTU 后不要只看「能打开网页」，要做能压出大包的动作：下载一个 50MB 以上的文件、打开一个高清图集、看一段 1080p 视频。这三件事都能触发大包传输，任何一件卡住就说明还没修好。</p>
+<h2 id="h8">各设备上改 MTU 的位置</h2>
+<table><thead><tr><th>设备</th><th>位置</th><th>备注</th></tr></thead><tbody><tr><td>iKuai</td><td>网络设置 → WAN → 高级 → MTU/MSS</td><td>同时开 MSS 自动调整</td></tr><tr><td>OpenWrt</td><td>`/etc/config/network` 的 `option mtu`</td><td>配合防火墙 `mtu_fix`</td></tr><tr><td>MikroTik</td><td>`/interface l2tp-client set mtu=1400 mru=1400`</td><td>需同时改 mru</td></tr><tr><td>macOS</td><td>系统设置 → 网络 → 高级 → 硬件 → MTU</td><td>一般选「自定义 1400」</td></tr><tr><td>iOS</td><td>不可调（随客户端）</td><td>客户端内有 MTU 选项的用它</td></tr><tr><td>Windows</td><td>`netsh interface ipv4 set subinterface &quot;以太网&quot; mtu=1400 store=persistent`</td><td>需管理员</td></tr></tbody></table>
+<p>优先在路由器上调，一次生效、全屋受益。逐台设备调只在「无法改路由器」时才考虑。</p>
+<h2 id="h9">一个常被问的问题</h2>
+<p>「为什么同样的 MTU，有的网站正常有的不行？」因为不同服务端的 TCP 实现与中间路径不同：有的服务端会做 PMTUD 并正确响应 ICMP 需分片，有的直接把 ICMP 丢掉，形成黑洞。这正是 MSS clamping 存在的意义——它不依赖 ICMP，直接从 TCP 层把段改小。</p>
+<h2 id="h10">一个经验值</h2>
+<p>如果你的链路是「家庭宽带 → 软路由 L2TP → 境外」，MTU 1400 几乎总是安全的。往上试 1420 有用但收益微小，往下到 1360 会牺牲约 3% 的吞吐。所以不用精细调，1400 + MSS clamp 覆盖九成场景。</p>
+<h2 id="h11">一个完整的最小排障流程</h2>
+<p>遇到「网页打得开但图片、视频加载不出来」时，按四步走：第一步，用手机热点复测，排除固网出口的问题；第二步，把 MTU 设成 1400 并开启 MSS clamping；第三步，清浏览器缓存、系统 DNS 缓存与客户端缓存；第四步，用一个 50MB 以上的大文件下载验证是否稳定不中断。</p>
+<p>四步之内能解决九成问题。剩下那成通常是目标站点侧或 CDN 侧的问题——判别方法很简单：换一个完全不同位置的站点做同样的大文件下载，如果那个站点也卡，才轮到怀疑自己的链路；如果只有某一个站点卡，问题在那个站点，不在你的网络。这个判别能避免大量无效的自我排查，也能避免向服务商提出无法验证的投诉。</p>
 <h2 id="faq">常见问题</h2><div class="faq">
 <details><summary>典型症状清单是怎么回事？</summary><p>对照这几条。网页文字能显示，图片加载一半卡住。能登录，但上传附件失败。能打开首页，点进详情页白屏。ping 得通，网页打不开。这些症状的共同点是小包通过、大包丢失。符合这个特征，基本可以判定是 MTU。</p></details>
 <details><summary>怎么测出合适的值是怎么回事？</summary><p>用 ping 的分片禁止参数测。从一四七二开始，每次减八，目标是你落地端的网关。哪一次开始能通，那个值加上二十八个字节的头，就是你的可用 MTU。常见的结果是一四零零到一四五零之间。实测出来再填，别照抄别人的数字。</p></details>
@@ -102,7 +147,7 @@ footer a{color:#00d6d6;text-decoration:none}
 <details><summary>改完怎么验是怎么回事？</summary><p>验三件事。第一，之前打不开的图片页面现在能不能完整加载。第二，上传一个大文件试试，能不能一次成功。第三，连续访问十分钟，看有没有间歇性卡顿。三件都过，说明改对了。如果只有一部分改善，说明还有一处没对齐。</p></details>
 <details><summary>别把 MTU 当万能药</summary><p>提醒一下。MTU 不匹配的症状很典型，但不要把所有的时通时不通都归到 MTU 上。丢包、DNS 解析失败、连接数超限，症状都可能类似。先用 ping 测出结果，确认了再改。没测就改，改完你会更混乱。</p></details>
 </div>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="toc"><b>本篇目录</b><a href="#h1">探测路径 MTU 的正确方法</a><a href="#h2">各协议的建议值</a><a href="#h3">MSS Clamping 比调 MTU 更省事</a><a href="#h4">改完怎么验</a><a href="#h5">别把 MTU 当万能药</a><a href="#h6">分片问题的三个层次</a><a href="#h7">验证是否真的修好</a><a href="#h8">各设备上改 MTU 的位置</a><a href="#h9">一个常被问的问题</a><a href="#h10">一个经验值</a><a href="#h11">一个完整的最小排障流程</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
 <div class="rel"><h3>相关内容</h3><a href="/kuber-network/l2tp-disconnect/">L2TP掉线<span class="kw"> · L2TP 频繁掉线：七个原因和正确的排查顺序</span></a><a href="/kuber-network/proxy-battery-disconnect/">代理耗电断连<span class="kw"> · iOS 上代理耗电和后台断连：MTU 和心跳怎么调</span></a><a href="/kuber-network/mikrotik-huiguo/">MikroTik回国<span class="kw"> · MikroTik RouterOS 配 L2TP 回国：命令行完整流程</span></a><a href="/kuber-network/openwrt-huiguo/">OpenWrt回国<span class="kw"> · OpenWrt 配 L2TP 回国：装包、建接口、防火墙三步走通</span></a><a href="/kuber-network/l2tp-vs-vless/">L2TP和VLESS区别<span class="kw"> · L2TP 还是 VLESS？一张表讲清该用哪个</span></a><a href="/kuber-network/softrouter-l2tp/">软路由IP<span class="kw"> · iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</span></a><a href="/kuber-network/peak-hour-throttle/">晚高峰限速<span class="kw"> · 晚高峰限速的三种表现和鉴别方法</span></a><a href="/kuber-network/huiguo-bandwidth/">回国带宽测算<span class="kw"> · 回国带宽怎么算：几个人几台设备到底要多少兆</span></a></div>
 </main>
 <footer><div class="wrap">

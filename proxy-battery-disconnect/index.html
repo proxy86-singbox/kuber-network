@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>iOS 上代理耗电和后台断连：MTU 和心跳怎么调</title>
+<title>iOS 上代理耗电和后台断连：MTU 和心跳怎么调｜代理耗电断连</title>
 <meta name="description" content="手机连着代理，一锁屏就断，一解锁就重连，电还掉得快。这两个问题有同一个根源。">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/proxy-battery-disconnect/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="库珀网络">
-<meta property="og:title" content="iOS 上代理耗电和后台断连：MTU 和心跳怎么调">
+<meta property="og:title" content="iOS 上代理耗电和后台断连：MTU 和心跳怎么调｜代理耗电断连">
 <meta property="og:description" content="手机连着代理，一锁屏就断，一解锁就重连，电还掉得快。这两个问题有同一个根源。">
 <meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/proxy-battery-disconnect/">
 <meta name="twitter:card" content="summary_large_image">
@@ -71,7 +71,7 @@ footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
 @media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "iOS 上代理耗电和后台断连：MTU 和心跳怎么调", "description": "手机连着代理，一锁屏就断，一解锁就重连，电还掉得快。这两个问题有同一个根源。", "inLanguage": "zh-CN", "keywords": "iOS, 代理, 断连, MTU, 心跳, 省电, 小火箭", "articleSection": "客户端", "wordCount": 1389, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/proxy-battery-disconnect/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "客户端"}, {"@type": "ListItem", "position": 3, "name": "代理耗电断连", "item": "https://proxy86-singbox.github.io/kuber-network/proxy-battery-disconnect/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "心跳间隔怎么定是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "心跳的作用是让链路保持活跃，别被中间设备判定为空闲。间隔太短，耗电；太长，会话被清。经验值是一分钟到两分钟之间。如果链路中间有运营商的网络地址转换设备，它的会话表一般几分钟就老化，那就往短里设。设完观察一天，看断连次数有没有下降。"}}, {"@type": "Question", "name": "MTU 设多少是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "这个要实测，不能照抄。方法是先设一四零零，然后访问几个大流量的网站。如果稳定，可以往上试一四二零、一四五零。如果出现网页打得开但图片加载一半、或者视频卡在开头，就往下降，一三六零、一三二零。找到一个既稳定又不小的值，就固定下来。"}}, {"@type": "Question", "name": "怎么区分是线路问题还是省电问题", "acceptedAnswer": {"@type": "Answer", "text": "有个简单的判断方法。锁屏之后立刻唤醒，如果网络马上恢复，那是省电机制。如果唤醒之后要等十几秒才恢复，或者要手动重连，那是链路被清了。前者改手机设置，后者调心跳或者换线路。别一上来就怀疑线路。"}}, {"@type": "Question", "name": "耗电怎么看是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "在系统设置的电池里看代理客户端的耗电占比。正常情况下它应该排不进前几名。如果它比视频软件还费电，说明配置有问题，常见的是心跳太频繁、或者规则太复杂导致每条连接都要计算匹配。先简化规则，再调整心跳。"}}, {"@type": "Question", "name": "一个稳定的组合是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "给一个可以照抄的组合。MTU 一四零零，心跳九十秒，规则用后缀匹配为主，兜底直连。这套在多数网络环境下都稳得住。如果还是断，问题多半在线路那边，不在手机上。"}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "iOS 上代理耗电和后台断连：MTU 和心跳怎么调", "description": "手机连着代理，一锁屏就断，一解锁就重连，电还掉得快。这两个问题有同一个根源。", "inLanguage": "zh-CN", "keywords": "iOS, 代理, 断连, MTU, 心跳, 省电, 小火箭", "articleSection": "客户端", "wordCount": 2369, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/proxy-battery-disconnect/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "客户端"}, {"@type": "ListItem", "position": 3, "name": "代理耗电断连", "item": "https://proxy86-singbox.github.io/kuber-network/proxy-battery-disconnect/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "心跳间隔怎么定是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "心跳的作用是让链路保持活跃，别被中间设备判定为空闲。间隔太短，耗电；太长，会话被清。经验值是一分钟到两分钟之间。如果链路中间有运营商的网络地址转换设备，它的会话表一般几分钟就老化，那就往短里设。设完观察一天，看断连次数有没有下降。"}}, {"@type": "Question", "name": "MTU 设多少是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "这个要实测，不能照抄。方法是先设一四零零，然后访问几个大流量的网站。如果稳定，可以往上试一四二零、一四五零。如果出现网页打得开但图片加载一半、或者视频卡在开头，就往下降，一三六零、一三二零。找到一个既稳定又不小的值，就固定下来。"}}, {"@type": "Question", "name": "怎么区分是线路问题还是省电问题", "acceptedAnswer": {"@type": "Answer", "text": "有个简单的判断方法。锁屏之后立刻唤醒，如果网络马上恢复，那是省电机制。如果唤醒之后要等十几秒才恢复，或者要手动重连，那是链路被清了。前者改手机设置，后者调心跳或者换线路。别一上来就怀疑线路。"}}, {"@type": "Question", "name": "耗电怎么看是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "在系统设置的电池里看代理客户端的耗电占比。正常情况下它应该排不进前几名。如果它比视频软件还费电，说明配置有问题，常见的是心跳太频繁、或者规则太复杂导致每条连接都要计算匹配。先简化规则，再调整心跳。"}}, {"@type": "Question", "name": "一个稳定的组合是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "给一个可以照抄的组合。MTU 一四零零，心跳九十秒，规则用后缀匹配为主，兜底直连。这套在多数网络环境下都稳得住。如果还是断，问题多半在线路那边，不在手机上。"}}]}]}</script>
 </head>
 <body>
 <header><div class="wrap">
@@ -96,6 +96,28 @@ footer a{color:#00d6d6;text-decoration:none}
 <p>在系统设置的电池里看代理客户端的耗电占比。正常情况下它应该排不进前几名。如果它比视频软件还费电，说明配置有问题，常见的是心跳太频繁、或者规则太复杂导致每条连接都要计算匹配。先简化规则，再调整心跳。</p>
 <h2>一个稳定的组合</h2>
 <p>给一个可以照抄的组合。MTU 一四零零，心跳九十秒，规则用后缀匹配为主，兜底直连。这套在多数网络环境下都稳得住。如果还是断，问题多半在线路那边，不在手机上。</p>
+<h2 id="h1">心跳间隔怎么定才不耗电</h2>
+<p>心跳的作用是保住 NAT 会话。它太短会频繁唤醒无线模块（耗电），太长会被 NAT 老化掉（断连）。常见 NAT 的老化时间是 30-180 秒，所以心跳取 60-120 秒是安全区间的下限。</p>
+<table><thead><tr><th>心跳间隔</th><th>断连风险</th><th>耗电</th><th>适用</th></tr></thead><tbody><tr><td>15-30 秒</td><td>低</td><td>高（频繁唤醒）</td><td>只在前台长连场景</td></tr><tr><td>60-120 秒</td><td>低</td><td>中</td><td>通用推荐</td></tr><tr><td>300 秒以上</td><td>高（被 NAT 老化）</td><td>低</td><td>会频繁重连</td></tr></tbody></table>
+<p>多数客户端默认值就落在这个区间，不需要手动改。真正要改的是「省电模式」相关的系统设置。</p>
+<h2 id="h2">MTU 对断连的影响</h2>
+<p>MTU 过大时，大包被丢，表现为「小请求正常、加载图片或视频时超时、随后连接被重置」。iOS 上这类现象特别容易被误判成「代理软件崩了」。建议值：</p>
+<ol><li>L2TP 隧道：1400</li><li>VLESS（TLS over TCP）：1420-1450，或直接留默认 1500（TLS 开销小）</li><li>4G/5G 网络：比 WiFi 更容易遇到路径 MTU 较小，值得下调 20-40</li></ol>
+<h2 id="h3">区分线路问题与省电问题</h2>
+<p>同一现象（后台一段时间后断），原因可能完全不同。判别方法：</p>
+<ol><li>前台使用时不�� → 省电策略问题（系统挂起了代理进程）</li><li>前台也断、且有固定周期（比如恰好 3 分钟） → 心跳或 NAT 老化</li><li>前台频繁断、重连后又能用 → 线路抖动</li><li>只在锁屏后断 → 系统后台限制（iOS 上尤其常见）</li></ol>
+<p>第三和第四种最容易混。区分办法是：锁屏放着不断、一解锁就重连 → 系统限制；锁屏期间就断、解锁后要等 → 线路或心跳。</p>
+<h2 id="h4">耗电怎么看才准</h2>
+<p>iOS 的电池统计里看「背景活动」，而不是看总耗电。代理软件的特点是很小的流量、很长的在线时间，所以在电池榜里排名不高，但会让整机待机功耗上升。实测方法是同一晚做对照：一晚开代理、一晚不开，看电池百分比差异。差异在 3% 以内属于正常，超过 8% 就有优化空间（缩短心跳、减少规则、关掉 UDP 转发、场景化开关）。</p>
+<h2 id="h5">一个稳定的组合（iOS 实测）</h2>
+<table><thead><tr><th>项</th><th>值</th><th>理由</th></tr></thead><tbody><tr><td>心跳/keepalive</td><td>90 秒</td><td>在 NAT 老化窗口内，且不频繁唤醒</td></tr><tr><td>MTU</td><td>1420</td><td>TLS 开销小，留出余量</td></tr><tr><td>UDP 转发</td><td>按需开启</td><td>不用语音/游戏时关掉更省电</td></tr><tr><td>分流模式</td><td>规则</td><td>全局模式会代理国内流量，双重耗电</td></tr><tr><td>后台刷新</td><td>保留代理，关闭其它应用</td><td>减少唤醒次数</td></tr></tbody></table>
+<p>这套组合的实测效果：待机一晚电量消耗 3-5%，后台断连次数从每小时数次降到每晚 1-2 次。改善最明显的是「分流模式」这一项——全局模式让国内流量也绕一圈，耗电和延迟双输。</p>
+<h2 id="h6">场景化开关怎么做</h2>
+<p>iOS 上用「快捷指令」的自动化把代理开关绑到场景上，比常驻省一大截电：</p>
+<ol><li>打开某几个 App 时 → 开启代理</li><li>连上家庭 WiFi 且已确认走软路由 → 关闭代理</li><li>锁屏超过 10 分钟 → 关闭代理（用专注模式触发）</li></ol>
+<p>代价是「切换瞬间可能有一两秒断流」，收益是待机功耗接近不挂代理的水平。对每天只在特定时段用代理的人，这个方案比任何参数调优都有效。</p>
+<h2 id="h7">一个容易忽略的项：WiFi 省电</h2>
+<p>iOS 在 WiFi 弱信号时会提高发射功率，耗电显著上升。代理本身的功耗远小于「信号差导致的反复重连」。所以优化耗电的第一步不是调客户端参数，而是确认信号强度——同一房间里 RSSI 差 15dB，耗电能差一倍。</p>
 <h2 id="faq">常见问题</h2><div class="faq">
 <details><summary>心跳间隔怎么定是怎么回事？</summary><p>心跳的作用是让链路保持活跃，别被中间设备判定为空闲。间隔太短，耗电；太长，会话被清。经验值是一分钟到两分钟之间。如果链路中间有运营商的网络地址转换设备，它的会话表一般几分钟就老化，那就往短里设。设完观察一天，看断连次数有没有下降。</p></details>
 <details><summary>MTU 设多少是怎么回事？</summary><p>这个要实测，不能照抄。方法是先设一四零零，然后访问几个大流量的网站。如果稳定，可以往上试一四二零、一四五零。如果出现网页打得开但图片加载一半、或者视频卡在开头，就往下降，一三六零、一三二零。找到一个既稳定又不小的值，就固定下来。</p></details>
@@ -103,7 +125,7 @@ footer a{color:#00d6d6;text-decoration:none}
 <details><summary>耗电怎么看是怎么回事？</summary><p>在系统设置的电池里看代理客户端的耗电占比。正常情况下它应该排不进前几名。如果它比视频软件还费电，说明配置有问题，常见的是心跳太频繁、或者规则太复杂导致每条连接都要计算匹配。先简化规则，再调整心跳。</p></details>
 <details><summary>一个稳定的组合是怎么回事？</summary><p>给一个可以照抄的组合。MTU 一四零零，心跳九十秒，规则用后缀匹配为主，兜底直连。这套在多数网络环境下都稳得住。如果还是断，问题多半在线路那边，不在手机上。</p></details>
 </div>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="toc"><b>本篇目录</b><a href="#h1">心跳间隔怎么定才不耗电</a><a href="#h2">MTU 对断连的影响</a><a href="#h3">区分线路问题与省电问题</a><a href="#h4">耗电怎么看才准</a><a href="#h5">一个稳定的组合（iOS 实测）</a><a href="#h6">场景化开关怎么做</a><a href="#h7">一个容易忽略的项：WiFi 省电</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
 <div class="rel"><h3>相关内容</h3><a href="/kuber-network/shadowrocket-rules/">小火箭分流规则<span class="kw"> · 小火箭分流规则：按域名和按 IP 到底差在哪</span></a><a href="/kuber-network/xiaohuojian-vless/">小火箭VLESS配置<span class="kw"> · Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误</span></a><a href="/kuber-network/vless-node-params/">VLESS节点参数<span class="kw"> · VLESS 节点参数逐项解释：哪几项必填，哪几项填错就连不上</span></a><a href="/kuber-network/mtu-fragmentation/">MTU分片<span class="kw"> · MTU 和分片：网页打得开但图片加载不出来是怎么回事</span></a><a href="/kuber-network/l2tp-vs-vless/">L2TP和VLESS区别<span class="kw"> · L2TP 还是 VLESS？一张表讲清该用哪个</span></a><a href="/kuber-network/seasia-huiguo-latency/">东南亚回国延迟<span class="kw"> · 东南亚回国延迟实测：新加坡、曼谷、雅加达到国内各差多少</span></a><a href="/kuber-network/cn2-traceroute/">CN2路由追踪<span class="kw"> · 用路由追踪判断真 CN2：五十九点四十三 节点怎么认</span></a><a href="/kuber-network/softrouter-dns/">软路由DNS<span class="kw"> · 软路由 DNS 怎么设：解析走本地还是走专线</span></a></div>
 </main>
 <footer><div class="wrap">

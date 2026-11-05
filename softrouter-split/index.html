@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>回国分流策略：哪些流量该走专线，哪些必须留本地</title>
+<title>回国分流策略：哪些流量该走专线，哪些必须留本地｜软路由分流</title>
 <meta name="description" content="全屋所有流量都塞进专线是最常见的浪费，专线带宽是钱，本地带宽也是钱。">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/softrouter-split/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="库珀网络">
-<meta property="og:title" content="回国分流策略：哪些流量该走专线，哪些必须留本地">
+<meta property="og:title" content="回国分流策略：哪些流量该走专线，哪些必须留本地｜软路由分流">
 <meta property="og:description" content="全屋所有流量都塞进专线是最常见的浪费，专线带宽是钱，本地带宽也是钱。">
 <meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/softrouter-split/">
 <meta name="twitter:card" content="summary_large_image">
@@ -71,7 +71,7 @@ footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
 @media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "回国分流策略：哪些流量该走专线，哪些必须留本地", "description": "全屋所有流量都塞进专线是最常见的浪费，专线带宽是钱，本地带宽也是钱。", "inLanguage": "zh-CN", "keywords": "软路由, 分流, 策略路由, 回国加速, 游戏加速, 域名分流, 带宽", "articleSection": "软路由", "wordCount": 1445, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/softrouter-split/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "软路由"}, {"@type": "ListItem", "position": 3, "name": "软路由分流", "item": "https://proxy86-singbox.github.io/kuber-network/softrouter-split/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "三张表怎么定是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "分三类。第一类必走专线：国内电商后台、国内社交平台的管理端、国内的支付和银行、国内的直播推流。第二类走本地：本地的视频网站、系统更新、软件下载、云盘同步。第三类看情况：游戏和视频通话，看你对延迟和抖动的敏感度。三张表先列出来，再往设备上写规则。"}}, {"@type": "Question", "name": "域名分流还是地址分流", "acceptedAnswer": {"@type": "Answer", "text": "域名分流的优点是精准，缺点是维护成本，平台换个域名你可能就漏了。地址分流的优点是稳定，缺点是颗粒度粗，一个网段里可能混着你要和不要的地址。实际做法是以域名为主、地址为辅，主力平台用域名规则，补充规则用地址段，两条并行。"}}, {"@type": "Question", "name": "游戏 UDP 要单独处理", "acceptedAnswer": {"@type": "Answer", "text": "游戏走的是 UDP，规则里如果只按域名和 TCP 端口匹配，游戏流量会漏掉。表现就是网页能开，游戏还在用本地线路，延迟三百多。处理办法是把游戏的服务端地址段也加进规则，或者干脆把游戏设备的全部流量打标走专线。设备级的分流比应用级省事。"}}, {"@type": "Question", "name": "分流错了的表现是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "几个典型表现。网页打不开但 ping 得通，说明域名解析没跟着线路走。能开网页但视频一直转圈，说明视频的 CDN 域名没命中规则。登录后台总是要验证，说明你的出口地址在两条线路之间来回切，这种情况最危险，一定要把规则做互斥。"}}, {"@type": "Question", "name": "规则要互斥是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "最后一条原则，规则互斥。同一个目标地址，不能出现两个规则都命中、优先级不同的情况。流量一会儿走这条一会儿走那条，平台看到的是 IP 在跳，这比固定在一个不干净的 IP 上还糟。写完规则之后，把规则列表按顺序看一遍，确认没有重叠。"}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "回国分流策略：哪些流量该走专线，哪些必须留本地", "description": "全屋所有流量都塞进专线是最常见的浪费，专线带宽是钱，本地带宽也是钱。", "inLanguage": "zh-CN", "keywords": "软路由, 分流, 策略路由, 回国加速, 游戏加速, 域名分流, 带宽", "articleSection": "软路由", "wordCount": 2322, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/softrouter-split/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "软路由"}, {"@type": "ListItem", "position": 3, "name": "软路由分流", "item": "https://proxy86-singbox.github.io/kuber-network/softrouter-split/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "三张表怎么定是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "分三类。第一类必走专线：国内电商后台、国内社交平台的管理端、国内的支付和银行、国内的直播推流。第二类走本地：本地的视频网站、系统更新、软件下载、云盘同步。第三类看情况：游戏和视频通话，看你对延迟和抖动的敏感度。三张表先列出来，再往设备上写规则。"}}, {"@type": "Question", "name": "域名分流还是地址分流", "acceptedAnswer": {"@type": "Answer", "text": "域名分流的优点是精准，缺点是维护成本，平台换个域名你可能就漏了。地址分流的优点是稳定，缺点是颗粒度粗，一个网段里可能混着你要和不要的地址。实际做法是以域名为主、地址为辅，主力平台用域名规则，补充规则用地址段，两条并行。"}}, {"@type": "Question", "name": "游戏 UDP 要单独处理", "acceptedAnswer": {"@type": "Answer", "text": "游戏走的是 UDP，规则里如果只按域名和 TCP 端口匹配，游戏流量会漏掉。表现就是网页能开，游戏还在用本地线路，延迟三百多。处理办法是把游戏的服务端地址段也加进规则，或者干脆把游戏设备的全部流量打标走专线。设备级的分流比应用级省事。"}}, {"@type": "Question", "name": "分流错了的表现是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "几个典型表现。网页打不开但 ping 得通，说明域名解析没跟着线路走。能开网页但视频一直转圈，说明视频的 CDN 域名没命中规则。登录后台总是要验证，说明你的出口地址在两条线路之间来回切，这种情况最危险，一定要把规则做互斥。"}}, {"@type": "Question", "name": "规则要互斥是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "最后一条原则，规则互斥。同一个目标地址，不能出现两个规则都命中、优先级不同的情况。流量一会儿走这条一会儿走那条，平台看到的是 IP 在跳，这比固定在一个不干净的 IP 上还糟。写完规则之后，把规则列表按顺序看一遍，确认没有重叠。"}}]}]}</script>
 </head>
 <body>
 <header><div class="wrap">
@@ -96,6 +96,52 @@ footer a{color:#00d6d6;text-decoration:none}
 <p>几个典型表现。网页打不开但 ping 得通，说明域名解析没跟着线路走。能开网页但视频一直转圈，说明视频的 CDN 域名没命中规则。登录后台总是要验证，说明你的出口地址在两条线路之间来回切，这种情况最危险，一定要把规则做互斥。</p>
 <h2>规则要互斥</h2>
 <p>最后一条原则，规则互斥。同一个目标地址，不能出现两个规则都命中、优先级不同的情况。流量一会儿走这条一会儿走那条，平台看到的是 IP 在跳，这比固定在一个不干净的 IP 上还糟。写完规则之后，把规则列表按顺序看一遍，确认没有重叠。</p>
+<h2 id="h1">规则冲突怎么排查</h2>
+<p>分流规则写多了最容易出现「互相覆盖」。表现是：某个域名明明写了走专线，实际却直连；或者国内站点莫名变慢。排查方法是从路由决策链的末端往前看：</p>
+<pre><code># 1. 看这个目标实际走哪条路由
+ip route get 8.8.8.8
+ip route get www.baidu.com
+
+# 2. 看 mangle 标记有没有打上
+nft list ruleset | grep -A5 mark
+# 或（老版本）
+iptables -t mangle -L -n -v | grep -i mark
+
+# 3. 看 ipset 里到底有没有这个网段
+nft list set inet fw4 cn_direct</code></pre>
+<p>顺序判断法：如果第 3 步的集合里没有这个目标，问题在填充规则；如果有但路由不对，问题在标记；标记对但路由不对，问题在路由表优先级。</p>
+<h2 id="h2">ipset / nftset 与 dnsmasq 的配合</h2>
+<p>按域名分流的实现依赖「解析时把结果写进集合」：</p>
+<pre><code># dnsmasq
+ipset=/youtube.com/google.com/proxy-set
+nftset=/openai.com/4#inet#fw4#proxy-set
+
+# nftables 侧
+set proxy-set { type ipv4_addr; flags interval; }</code></pre>
+<p>两个关键细节：</p>
+<ol><li>`flags interval` 让集合能存网段而不只是单地址，否则一次解析出多个 A 记录会占满集合</li><li>集合需要定时清理（`timeout` 属性），否则客户端切换 CDN 节点后会留下大量过期条目，路由表膨胀</li></ol>
+<h2 id="h3">分流的性能开销</h2>
+<p>按域名分流的成本主要在 DNS 解析与集合维护，不在转发。实测口径（普通 x86 软路由）：</p>
+<table><thead><tr><th>分流方式</th><th>转发开销</th><th>首包延迟增加</th><th>内存占用</th></tr></thead><tbody><tr><td>按目的地址（地址库）</td><td>极低</td><td>0-1ms</td><td>小</td></tr><tr><td>按域名（dnsmasq + nftset）</td><td>低</td><td>1-5ms（首次解析）</td><td>中</td></tr><tr><td>按进程（客户端 TUN）</td><td>中</td><td>2-8ms</td><td>大</td></tr></tbody></table>
+<p>所以「全屋设备 + 按域名分流」是可以做到的，代价是首次访问某域名时的解析稍慢（之后走缓存）。</p>
+<h2 id="h4">一份验证清单</h2>
+<ul><li>国内主流站点 5 个：直连，`curl -s ipip.net` 回显本地 IP</li><li>境外主流站点 5 个：走隧道，回显隧道 IP</li><li>游戏或语音：UDP 能通（用 `nc -u` 或直接跑一次语音）</li><li>DNS：dnsleaktest 结果与 IP 同区域</li><li>断线：拔掉主 WAN，30 秒内是否按预期回退或切换</li></ul>
+<h2 id="h5">一份对照表：症状 → 层 → 处理</h2>
+<p>分流出问题时的判断，最好按层来做，而不是一上来就改规则：</p>
+<table><thead><tr><th>症状</th><th>出问题的层</th><th>验证方法</th><th>处理</th></tr></thead><tbody><tr><td>全部流量走隧道</td><td>路由（默认路由被抢）</td><td>`ip route` 看默认路由</td><td>关 defaultroute</td></tr><tr><td>全部流量直连</td><td>标记或 rule 未生效</td><td>`nft list ruleset` 看 mark</td><td>检查 rule 优先级</td></tr><tr><td>个别站走错</td><td>集合未填充</td><td>`nft list set` 看条目</td><td>检查 dnsmasq 的 nftset 行</td></tr><tr><td>时好时坏</td><td>规则冲突或缓存</td><td>重复测试同一目标</td><td>清理集合与缓存</td></tr><tr><td>UDP 不通</td><td>分流只处理了 TCP</td><td>`nc -u` 测 UDP</td><td>补 UDP 规则或改 TUN</td></tr></tbody></table>
+<p>按这张表走，绝大多数分流问题三步内能定位。真正的难点不是配置语法，而是「知道该看哪一层」。</p>
+<h2 id="h6">一个十行的分流验收脚本</h2>
+<pre><code>#!/usr/bin/env bash
+ok=0; bad=0
+check() {  # $1=域名 $2=期望出口(本地|隧道)
+  local ip; ip=$(curl -s --max-time 8 &quot;https://$1/&quot; &gt;/dev/null 2&gt;&amp;1 &amp;&amp; echo ok)
+  [ &quot;$ip&quot; = &quot;ok&quot; ] &amp;&amp; ok=$((ok+1)) || bad=$((bad+1))
+}
+for d in www.baidu.com www.qq.com www.taobao.com; do check &quot;$d&quot;; done
+echo &quot;可达 $ok / 失败 $bad&quot;</code></pre>
+<p>更严格的版本会让每个域名实际回显出口 IP 再比对，但十行版本的价值是「一秒钟跑完、结果一眼可见」，适合每次改规则后立刻执行。</p>
+<h2 id="h7">一个判断「规则是否过时」的习惯</h2>
+<p>每隔一段时间做一次「关掉规则测试」：临时把分流规则停用，用直连访问几个常用境外站。如果直连也能打开，说明这些规则可以精简；如果打不开，说明规则还在起作用。规则只增不减，最后会变成没人敢动的黑盒。</p>
 <h2 id="faq">常见问题</h2><div class="faq">
 <details><summary>三张表怎么定是怎么回事？</summary><p>分三类。第一类必走专线：国内电商后台、国内社交平台的管理端、国内的支付和银行、国内的直播推流。第二类走本地：本地的视频网站、系统更新、软件下载、云盘同步。第三类看情况：游戏和视频通话，看你对延迟和抖动的敏感度。三张表先列出来，再往设备上写规则。</p></details>
 <details><summary>域名分流还是地址分流</summary><p>域名分流的优点是精准，缺点是维护成本，平台换个域名你可能就漏了。地址分流的优点是稳定，缺点是颗粒度粗，一个网段里可能混着你要和不要的地址。实际做法是以域名为主、地址为辅，主力平台用域名规则，补充规则用地址段，两条并行。</p></details>
@@ -103,7 +149,7 @@ footer a{color:#00d6d6;text-decoration:none}
 <details><summary>分流错了的表现是怎么回事？</summary><p>几个典型表现。网页打不开但 ping 得通，说明域名解析没跟着线路走。能开网页但视频一直转圈，说明视频的 CDN 域名没命中规则。登录后台总是要验证，说明你的出口地址在两条线路之间来回切，这种情况最危险，一定要把规则做互斥。</p></details>
 <details><summary>规则要互斥是怎么回事？</summary><p>最后一条原则，规则互斥。同一个目标地址，不能出现两个规则都命中、优先级不同的情况。流量一会儿走这条一会儿走那条，平台看到的是 IP 在跳，这比固定在一个不干净的 IP 上还糟。写完规则之后，把规则列表按顺序看一遍，确认没有重叠。</p></details>
 </div>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="toc"><b>本篇目录</b><a href="#h1">规则冲突怎么排查</a><a href="#h2">ipset / nftset 与 dnsmasq 的配合</a><a href="#h3">分流的性能开销</a><a href="#h4">一份验证清单</a><a href="#h5">一份对照表：症状 → 层 → 处理</a><a href="#h6">一个十行的分流验收脚本</a><a href="#h7">一个判断「规则是否过时」的习惯</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
 <div class="rel"><h3>相关内容</h3><a href="/kuber-network/mikrotik-huiguo/">MikroTik回国<span class="kw"> · MikroTik RouterOS 配 L2TP 回国：命令行完整流程</span></a><a href="/kuber-network/openwrt-huiguo/">OpenWrt回国<span class="kw"> · OpenWrt 配 L2TP 回国：装包、建接口、防火墙三步走通</span></a><a href="/kuber-network/softrouter-dns/">软路由DNS<span class="kw"> · 软路由 DNS 怎么设：解析走本地还是走专线</span></a><a href="/kuber-network/ikuai-multiwan/">iKuai多线<span class="kw"> · iKuai 双 WAN 加专线：策略路由的优先级怎么排</span></a><a href="/kuber-network/softrouter-l2tp/">软路由IP<span class="kw"> · iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</span></a><a href="/kuber-network/openwrt-vless/">OpenWrtVLESS<span class="kw"> · OpenWrt 上跑 VLESS：客户端参数和透明代理模式怎么选</span></a><a href="/kuber-network/huiguo-bandwidth/">回国带宽测算<span class="kw"> · 回国带宽怎么算：几个人几台设备到底要多少兆</span></a><a href="/kuber-network/l2tp-vs-vless/">L2TP和VLESS区别<span class="kw"> · L2TP 还是 VLESS？一张表讲清该用哪个</span></a></div>
 </main>
 <footer><div class="wrap">

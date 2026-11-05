@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>L2TP 频繁掉线：七个原因和正确的排查顺序</title>
+<title>L2TP 频繁掉线：七个原因和正确的排查顺序｜L2TP掉线</title>
 <meta name="description" content="掉线的原因很多，但排查有顺序。顺序错了，你会把时间花在最不可能的地方。">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/l2tp-disconnect/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="库珀网络">
-<meta property="og:title" content="L2TP 频繁掉线：七个原因和正确的排查顺序">
+<meta property="og:title" content="L2TP 频繁掉线：七个原因和正确的排查顺序｜L2TP掉线">
 <meta property="og:description" content="掉线的原因很多，但排查有顺序。顺序错了，你会把时间花在最不可能的地方。">
 <meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/l2tp-disconnect/">
 <meta name="twitter:card" content="summary_large_image">
@@ -71,7 +71,7 @@ footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
 @media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "L2TP 频繁掉线：七个原因和正确的排查顺序", "description": "掉线的原因很多，但排查有顺序。顺序错了，你会把时间花在最不可能的地方。", "inLanguage": "zh-CN", "keywords": "L2TP, 掉线, 排错, 软路由, 日志, 协议, 隧道", "articleSection": "排障", "wordCount": 1303, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/l2tp-disconnect/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "排障"}, {"@type": "ListItem", "position": 3, "name": "L2TP掉线", "item": "https://proxy86-singbox.github.io/kuber-network/l2tp-disconnect/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "排查从哪一层开始是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "顺序是从下往上。先确认物理链路正常，能上网。再看拨号日志有没有发送和接收。再看隧道建立之后能不能 ping 通对端。再看能不能访问外网。最后看分流规则有没有冲突。每一层通了再往上一层，不要跳着查。"}}, {"@type": "Question", "name": "日志里看哪几行是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "重点看三个时间点。断开之前最后一行是什么，是收到对端的断开请求，还是超时。重连的间隔有多长，是立刻重连还是过了很久。重连之后有没有报认证失败。这三条信息能直接区分是网络问题还是配置问题。"}}, {"@type": "Question", "name": "账号被踢的判断是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "如果日志里显示认证成功之后立刻断开，而且每次都是你另一台设备上线的时间点，那就是账号被踢。这种情况不是线路问题，是账号允许的并发数只有一个。解决办法是给每台设备单独的账号，别共用一个。"}}, {"@type": "Question", "name": "什么时候该换协议是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "三种情况建议换。一，本地网络对 UDP 有限制，而你又改不了。二，掉线在换了三组参数、两个时段测试之后依然存在。三，你需要更细的分流控制，L2TP 给不了。这几种情况换成基于 TCP 或 TLS 的方案，稳定性会明显不一样。"}}, {"@type": "Question", "name": "参数调整的两个安全值", "acceptedAnswer": {"@type": "Answer", "text": "在不清楚原因的时候，先把两个参数调到保守值再观察。保持连接间隔设十秒，MTU 设一四零零。这两个值不追求性能，追求稳定。观察二十四小时，如果掉线次数明显下降，再慢慢往上调其中一个，一次只调一个。"}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "L2TP 频繁掉线：七个原因和正确的排查顺序", "description": "掉线的原因很多，但排查有顺序。顺序错了，你会把时间花在最不可能的地方。", "inLanguage": "zh-CN", "keywords": "L2TP, 掉线, 排错, 软路由, 日志, 协议, 隧道", "articleSection": "排障", "wordCount": 2411, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/l2tp-disconnect/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "排障"}, {"@type": "ListItem", "position": 3, "name": "L2TP掉线", "item": "https://proxy86-singbox.github.io/kuber-network/l2tp-disconnect/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "排查从哪一层开始是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "顺序是从下往上。先确认物理链路正常，能上网。再看拨号日志有没有发送和接收。再看隧道建立之后能不能 ping 通对端。再看能不能访问外网。最后看分流规则有没有冲突。每一层通了再往上一层，不要跳着查。"}}, {"@type": "Question", "name": "日志里看哪几行是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "重点看三个时间点。断开之前最后一行是什么，是收到对端的断开请求，还是超时。重连的间隔有多长，是立刻重连还是过了很久。重连之后有没有报认证失败。这三条信息能直接区分是网络问题还是配置问题。"}}, {"@type": "Question", "name": "账号被踢的判断是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "如果日志里显示认证成功之后立刻断开，而且每次都是你另一台设备上线的时间点，那就是账号被踢。这种情况不是线路问题，是账号允许的并发数只有一个。解决办法是给每台设备单独的账号，别共用一个。"}}, {"@type": "Question", "name": "什么时候该换协议是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "三种情况建议换。一，本地网络对 UDP 有限制，而你又改不了。二，掉线在换了三组参数、两个时段测试之后依然存在。三，你需要更细的分流控制，L2TP 给不了。这几种情况换成基于 TCP 或 TLS 的方案，稳定性会明显不一样。"}}, {"@type": "Question", "name": "参数调整的两个安全值", "acceptedAnswer": {"@type": "Answer", "text": "在不清楚原因的时候，先把两个参数调到保守值再观察。保持连接间隔设十秒，MTU 设一四零零。这两个值不追求性能，追求稳定。观察二十四小时，如果掉线次数明显下降，再慢慢往上调其中一个，一次只调一个。"}}]}]}</script>
 </head>
 <body>
 <header><div class="wrap">
@@ -94,6 +94,39 @@ footer a{color:#00d6d6;text-decoration:none}
 <p>三种情况建议换。一，本地网络对 UDP 有限制，而你又改不了。二，掉线在换了三组参数、两个时段测试之后依然存在。三，你需要更细的分流控制，L2TP 给不了。这几种情况换成基于 TCP 或 TLS 的方案，稳定性会明显不一样。</p>
 <h2>参数调整的两个安全值</h2>
 <p>在不清楚原因的时候，先把两个参数调到保守值再观察。保持连接间隔设十秒，MTU 设一四零零。这两个值不追求性能，追求稳定。观察二十四小时，如果掉线次数明显下降，再慢慢往上调其中一个，一次只调一个。</p>
+<h2 id="h1">七个原因的结构化排查</h2>
+<table><thead><tr><th>#</th><th>原因</th><th>特征</th><th>处理</th></tr></thead><tbody><tr><td>1</td><td>UDP 被拦或 QoS</td><td>完全拨不上，或每次连 30-60 秒后断</td><td>换端口，或改 VLESS</td></tr><tr><td>2</td><td>服务端并发限制</td><td>同一账号在另一台设备登录后本机掉线</td><td>关闭多端同时在线</td></tr><tr><td>3</td><td>服务端维护窗口</td><td>每天固定时间断，可预测</td><td>与服务商核对时段</td></tr><tr><td>4</td><td>NAT 会话老化</td><td>空闲一段时间后断，有流量就不断</td><td>开 keepalive，间隔 60-120 秒</td></tr><tr><td>5</td><td>MTU 不匹配</td><td>大流量时断，小流量正常</td><td>设 1400，开 MSS clamp</td></tr><tr><td>6</td><td>IPsec 重协商失败</td><td>约每 8 小时断一次</td><td>检查预共享密钥与 DPD 设置</td></tr><tr><td>7</td><td>本地硬件问题</td><td>断线时 CPU 满载或高温</td><td>检查散热与单核占用</td></tr></tbody></table>
+<h2 id="h2">日志里看哪几行</h2>
+<pre><code># OpenWrt
+logread | grep -iE &quot;pppd|xl2tpd|l2tp&quot; | tail -30
+
+# 关心的关键字
+#   LCP terminated by peer        → 对端主动断（并发限制或维护）
+#   no response to Echo-Request   → NAT 老化或链路丢包
+#   CHAP authentication failed    → 账号密码错
+#   peer is not responding        → UDP 不通
+#   Terminating on signal 15      → 本地进程被重启（配置重载）</code></pre>
+<p>判断顺序：先看有没有 `peer is not responding`（网络层），再看 `LCP terminated`（应用层），最后看 `signal 15`（本地操作）。这三类的处理方式完全不同，混在一起看会绕圈。</p>
+<h2 id="h3">账号被踢的判断</h2>
+<p>同一账号被多处使用时，服务端通常按「后来者覆盖」处理。特征是：本机断线的时间点，与另一台设备上线的时间点吻合。验证方法是只保留一台设备在线，观察一天——如果不再掉线，就是并发限制。</p>
+<h2 id="h4">参数调整的两个安全值</h2>
+<ol><li>keepalive / 心跳：60-120 秒。低于 30 秒会频繁唤醒（耗电），高于 300 秒会被 NAT 老化</li><li>重拨间隔：至少 30 秒。设太短（几秒）会在上游故障时反复重拨，反而触发对端的失败封禁</li></ol>
+<h2 id="h5">什么时候该换协议</h2>
+<p>三个信号说明不值得继续调 L2TP：</p>
+<ol><li>换过端口、换过服务器地址，仍然拨不上</li><li>能拨上但每天固定时段断，且服务商给不出原因</li><li>本地网络环境（公司、校园、酒店）明确限制 UDP</li></ol>
+<p>这三种情况换 VLESS（443/TCP）能直接解决，因为它们都是「协议特征被拦」的问题，不是配置问题。</p>
+<h2 id="h6">一个被忽视的原因：时间同步</h2>
+<p>L2TP over IPsec 的 IKE 协商依赖时间。设备时间偏差过大（超过几分钟）会导致协商失败或周期性重协商失败，表现是「每隔一段时间掉一次，重拨又能用」。</p>
+<p>检查方法：`date` 看设备时间与真实时间是否一致。软路由长期运行后时间漂移是常见的，尤其是没有 NTP 的小系统。修法是配置 NTP 客户端，指向可靠的时间源。</p>
+<p>这一项排在七个原因之后，但排查成本最低——一条命令就能排除。所以实际排查时，建议先看时间，再看日志。</p>
+<h2 id="h7">一份排障时间线</h2>
+<p>按这个顺序走，通常 20 分钟内能定位：</p>
+<ol><li>0-2 分钟：看设备时间是否准确（排除时间同步问题）</li><li>2-5 分钟：`logread | grep -i pppd`，看最后一次断开前的最后三行</li><li>5-10 分钟：判断断线是否有规律（固定时段 / 固定间隔 / 随机）</li><li>10-15 分钟：换一条网络（手机热点）复测，区分本地与线路</li><li>15-20 分钟：只保留单端在线，排除并发限制</li><li>仍未定位：换协议（VLESS）验证是否协议特征被拦</li></ol>
+<p>顺序的意义在于「每一步都排除一整类原因」，而不是随机改参数。改参数只能碰运气，排除法才能收敛。</p>
+<h2 id="h8">一个反直觉的经验</h2>
+<p>掉线最频繁的时段，往往不是网络最拥塞的晚高峰，而是凌晨的维护窗口。原因很简单：服务商在凌晨做变更与重启。所以「每天凌晨固定掉一次」不必惊慌，先确认是不是维护窗口，再决定要不要换。</p>
+<h2 id="h9">一个检查顺序的提醒</h2>
+<p>先看「有没有规律」，再看「日志写了什么」。有规律的断线（固定时间、固定间隔）几乎都有明确原因；随机断线才需要逐层排查。这个顺序能让你把大部分问题在五分钟内归类。</p>
 <h2 id="faq">常见问题</h2><div class="faq">
 <details><summary>排查从哪一层开始是怎么回事？</summary><p>顺序是从下往上。先确认物理链路正常，能上网。再看拨号日志有没有发送和接收。再看隧道建立之后能不能 ping 通对端。再看能不能访问外网。最后看分流规则有没有冲突。每一层通了再往上一层，不要跳着查。</p></details>
 <details><summary>日志里看哪几行是怎么回事？</summary><p>重点看三个时间点。断开之前最后一行是什么，是收到对端的断开请求，还是超时。重连的间隔有多长，是立刻重连还是过了很久。重连之后有没有报认证失败。这三条信息能直接区分是网络问题还是配置问题。</p></details>
@@ -101,7 +134,7 @@ footer a{color:#00d6d6;text-decoration:none}
 <details><summary>什么时候该换协议是怎么回事？</summary><p>三种情况建议换。一，本地网络对 UDP 有限制，而你又改不了。二，掉线在换了三组参数、两个时段测试之后依然存在。三，你需要更细的分流控制，L2TP 给不了。这几种情况换成基于 TCP 或 TLS 的方案，稳定性会明显不一样。</p></details>
 <details><summary>参数调整的两个安全值</summary><p>在不清楚原因的时候，先把两个参数调到保守值再观察。保持连接间隔设十秒，MTU 设一四零零。这两个值不追求性能，追求稳定。观察二十四小时，如果掉线次数明显下降，再慢慢往上调其中一个，一次只调一个。</p></details>
 </div>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="toc"><b>本篇目录</b><a href="#h1">七个原因的结构化排查</a><a href="#h2">日志里看哪几行</a><a href="#h3">账号被踢的判断</a><a href="#h4">参数调整的两个安全值</a><a href="#h5">什么时候该换协议</a><a href="#h6">一个被忽视的原因：时间同步</a><a href="#h7">一份排障时间线</a><a href="#h8">一个反直觉的经验</a><a href="#h9">一个检查顺序的提醒</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
 <div class="rel"><h3>相关内容</h3><a href="/kuber-network/mtu-fragmentation/">MTU分片<span class="kw"> · MTU 和分片：网页打得开但图片加载不出来是怎么回事</span></a><a href="/kuber-network/l2tp-vs-vless/">L2TP和VLESS区别<span class="kw"> · L2TP 还是 VLESS？一张表讲清该用哪个</span></a><a href="/kuber-network/mikrotik-huiguo/">MikroTik回国<span class="kw"> · MikroTik RouterOS 配 L2TP 回国：命令行完整流程</span></a><a href="/kuber-network/openwrt-huiguo/">OpenWrt回国<span class="kw"> · OpenWrt 配 L2TP 回国：装包、建接口、防火墙三步走通</span></a><a href="/kuber-network/softrouter-l2tp/">软路由IP<span class="kw"> · iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</span></a><a href="/kuber-network/huiguo-bandwidth/">回国带宽测算<span class="kw"> · 回国带宽怎么算：几个人几台设备到底要多少兆</span></a><a href="/kuber-network/softrouter-dns/">软路由DNS<span class="kw"> · 软路由 DNS 怎么设：解析走本地还是走专线</span></a><a href="/kuber-network/openwrt-vless/">OpenWrtVLESS<span class="kw"> · OpenWrt 上跑 VLESS：客户端参数和透明代理模式怎么选</span></a></div>
 </main>
 <footer><div class="wrap">

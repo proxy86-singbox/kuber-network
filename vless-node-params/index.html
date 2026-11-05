@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VLESS 节点参数逐项解释：哪几项必填，哪几项填错就连不上</title>
+<title>VLESS节点参数｜VLESS 节点参数逐项解释</title>
 <meta name="description" content="VLESS 的参数看着多，真正决定能不能连上的只有五个。">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/vless-node-params/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="库珀网络">
-<meta property="og:title" content="VLESS 节点参数逐项解释：哪几项必填，哪几项填错就连不上">
+<meta property="og:title" content="VLESS节点参数｜VLESS 节点参数逐项解释">
 <meta property="og:description" content="VLESS 的参数看着多，真正决定能不能连上的只有五个。">
 <meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/vless-node-params/">
 <meta name="twitter:card" content="summary_large_image">
@@ -71,7 +71,7 @@ footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
 @media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "VLESS 节点参数逐项解释：哪几项必填，哪几项填错就连不上", "description": "VLESS 的参数看着多，真正决定能不能连上的只有五个。", "inLanguage": "zh-CN", "keywords": "VLESS, 节点配置, TLS, SNI, WS, UUID, 代理", "articleSection": "代理协议", "wordCount": 1355, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/vless-node-params/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "代理协议"}, {"@type": "ListItem", "position": 3, "name": "VLESS节点参数", "item": "https://proxy86-singbox.github.io/kuber-network/vless-node-params/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "TLS 和 SNI 的关系", "acceptedAnswer": {"@type": "Answer", "text": "开了 TLS 之后，SNI 这一项必须和服务端证书上的域名一致。SNI 是握手时你告诉服务器你要访问哪个域名，服务器拿它去选证书。SNI 填错，服务器找不到对应证书，握手直接失败。客户端表现是一直转圈，日志里是握手超时或者证书错误。"}}, {"@type": "Question", "name": "WS 路径的坑是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "WS 模式下有个路径参数，这个路径必须以斜杠开头，而且要和服端配置完全一致。常见的错误是客户端填的时候少一个斜杠，或者多一个结尾斜杠。结果就是握手能成，但请求返回四零三或者四零四。这个错误特别难查，因为看起来都填了。"}}, {"@type": "Question", "name": "握手成功但立即断开", "acceptedAnswer": {"@type": "Answer", "text": "这种情况一般是三个原因。第一，用户标识不对，服务端验不过就断。第二，流控参数开了但服务端不支持。第三，时间不同步，服务端和你本地时间差太多。前两个改配置，第三个校时。排查顺序就按这个来，从改起来最省事的开始。"}}, {"@type": "Question", "name": "一套最小可用配置是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "给你一套最保守的配置思路。传输方式用 TCP，安全层开 TLS，SNI 写服务端证书域名，端口用服务商给的那个。这套配置性能最好，兼容性也最广，先把它跑通。跑通之后再考虑换 WS 增加伪装性，或者换其他传输方式做优化。"}}, {"@type": "Question", "name": "连上之后才算完成一半", "acceptedAnswer": {"@type": "Answer", "text": "能连上只是一半。第二半是确认流量真的走了这条线，以及分流规则是不是按你要的生效。先查出口地址，再看访问速度，最后看有没有部分网站打不开。三步都过，这条节点才算能日常用。"}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "VLESS 节点参数逐项解释：哪几项必填，哪几项填错就连不上", "description": "VLESS 的参数看着多，真正决定能不能连上的只有五个。", "inLanguage": "zh-CN", "keywords": "VLESS, 节点配置, TLS, SNI, WS, UUID, 代理", "articleSection": "代理协议", "wordCount": 2358, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/vless-node-params/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "代理协议"}, {"@type": "ListItem", "position": 3, "name": "VLESS节点参数", "item": "https://proxy86-singbox.github.io/kuber-network/vless-node-params/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "TLS 和 SNI 的关系", "acceptedAnswer": {"@type": "Answer", "text": "开了 TLS 之后，SNI 这一项必须和服务端证书上的域名一致。SNI 是握手时你告诉服务器你要访问哪个域名，服务器拿它去选证书。SNI 填错，服务器找不到对应证书，握手直接失败。客户端表现是一直转圈，日志里是握手超时或者证书错误。"}}, {"@type": "Question", "name": "WS 路径的坑是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "WS 模式下有个路径参数，这个路径必须以斜杠开头，而且要和服端配置完全一致。常见的错误是客户端填的时候少一个斜杠，或者多一个结尾斜杠。结果就是握手能成，但请求返回四零三或者四零四。这个错误特别难查，因为看起来都填了。"}}, {"@type": "Question", "name": "握手成功但立即断开", "acceptedAnswer": {"@type": "Answer", "text": "这种情况一般是三个原因。第一，用户标识不对，服务端验不过就断。第二，流控参数开了但服务端不支持。第三，时间不同步，服务端和你本地时间差太多。前两个改配置，第三个校时。排查顺序就按这个来，从改起来最省事的开始。"}}, {"@type": "Question", "name": "一套最小可用配置是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "给你一套最保守的配置思路。传输方式用 TCP，安全层开 TLS，SNI 写服务端证书域名，端口用服务商给的那个。这套配置性能最好，兼容性也最广，先把它跑通。跑通之后再考虑换 WS 增加伪装性，或者换其他传输方式做优化。"}}, {"@type": "Question", "name": "连上之后才算完成一半", "acceptedAnswer": {"@type": "Answer", "text": "能连上只是一半。第二半是确认流量真的走了这条线，以及分流规则是不是按你要的生效。先查出口地址，再看访问速度，最后看有没有部分网站打不开。三步都过，这条节点才算能日常用。"}}]}]}</script>
 </head>
 <body>
 <header><div class="wrap">
@@ -94,6 +94,38 @@ footer a{color:#00d6d6;text-decoration:none}
 <p>给你一套最保守的配置思路。传输方式用 TCP，安全层开 TLS，SNI 写服务端证书域名，端口用服务商给的那个。这套配置性能最好，兼容性也最广，先把它跑通。跑通之后再考虑换 WS 增加伪装性，或者换其他传输方式做优化。</p>
 <h2>连上之后才算完成一半</h2>
 <p>能连上只是一半。第二半是确认流量真的走了这条线，以及分流规则是不是按你要的生效。先查出口地址，再看访问速度，最后看有没有部分网站打不开。三步都过，这条节点才算能日常用。</p>
+<h2 id="h1">分享链接怎么拆成参数</h2>
+<p>服务商给的链接形如：</p>
+<pre><code>vless://UUID@域名:443?encryption=none&amp;security=tls&amp;sni=域名&amp;type=ws&amp;path=%2Fabc&amp;host=域名#备注</code></pre>
+<p>逐段对应：</p>
+<table><thead><tr><th>链接片段</th><th>对应参数</th><th>说明</th></tr></thead><tbody><tr><td>`UUID@`</td><td>UUID</td><td>账号身份，缺失或错误直接拒</td></tr><tr><td>`:443`</td><td>端口</td><td>与 TLS 状态必须匹配</td></tr><tr><td>`encryption=none`</td><td>加密</td><td>VLESS 固定 none（加密交给 TLS）</td></tr><tr><td>`security=tls`</td><td>TLS</td><td>也有 reality 与 none</td></tr><tr><td>`sni=域名`</td><td>SNI</td><td>必须与证书域名一致</td></tr><tr><td>`type=ws`</td><td>传输</td><td>ws / tcp / grpc</td></tr><tr><td>`path=%2Fabc`</td><td>路径</td><td>`%2F` 是 `/` 的转义，路径必须以 `/` 开头</td></tr><tr><td>`host=域名`</td><td>Host 头</td><td>WS 模式下常与 SNI 相同</td></tr></tbody></table>
+<p>手工搬运时最容易丢的是 `path` 的转义：把 `%2Fabc` 写成 `abc`，连接就 403。</p>
+<h2 id="h2">常见报错对照表</h2>
+<table><thead><tr><th>客户端表现</th><th>服务端侧可能</th><th>处理</th></tr></thead><tbody><tr><td>一直转圈，超时</td><td>端口不通 / 防火墙</td><td>先用 `nc -vz 域名 443` 测通断</td></tr><tr><td>立刻断开</td><td>UUID 不匹配</td><td>复制粘贴，不要手抄</td></tr><tr><td>握手失败</td><td>SNI 与证书不符</td><td>SNI 改成证书域名</td></tr><tr><td>403 / 404</td><td>WS 路径错</td><td>路径必须以 `/` 开头</td></tr><tr><td>能连但无流量</td><td>flow 配置不匹配</td><td>服务端开了 vision 才填 flow</td></tr><tr><td>部分站点能开、部分不能</td><td>分流规则或 DNS</td><td>见「小火箭分流规则」一篇</td></tr></tbody></table>
+<h2 id="h3">一套最小可用配置</h2>
+<p>不确定服务端开了什么时，用这套最保守的组合开始，通了再逐项开：</p>
+<pre><code>类型 VLESS
+地址 你的域名
+端口 443
+UUID 服务商给的
+传输 TCP
+TLS 开
+SNI 你的域名
+flow 留空</code></pre>
+<p>跑通之后，如果服务端支持 WS 或 Reality，再按服务商说明逐项改。一次改一个参数，改了不通就退回去——这是排障里最省时间的纪律。</p>
+<h2 id="h4">连上之后才算完成一半</h2>
+<p>能连上只说明协议对了，还要确认三件事：出口 IP 是节点 IP、DNS 与出口同区域、分流规则按预期生效。三项都过，才叫可用。</p>
+<h2 id="h5">一个判据：握手成功但无流量的三种情况</h2>
+<table><thead><tr><th>现象</th><th>原因</th><th>验证</th></tr></thead><tbody><tr><td>握手完成，连接立即关闭</td><td>UUID 错或 flow 不匹配</td><td>服务端日志看拒绝原因</td></tr><tr><td>握手完成，能连但不通</td><td>服务端 outbound 配置错</td><td>用服务商给的分享链接对照</td></tr><tr><td>部分协议通、部分不通</td><td>服务端未开 UDP 或仅支持 TCP</td><td>客户端关 UDP 复测</td></tr></tbody></table>
+<p>第三种最容易被误判成「节点不稳定」。判别方法很简单：只开 TCP 相关的应用（网页）能正常，涉及 UDP 的（语音、游戏、QUIC）失败——这就是服务端侧的问题，不是你的客户端。此时找服务商开 UDP 转发，比在客户端改参数有效。</p>
+<h2 id="h6">跨客户端迁移参数的三个坑</h2>
+<p>同一个节点在小火箭能用、在 Clash 不能用，多数不是节点问题：</p>
+<ol><li>路径与 Host：Clash 的配置里 `path` 和 `Host` 是两个字段，小火箭里常合并为一个「路径」，迁移时必须拆开</li><li>`flow`：只有服务端启用了 XTLS-Vision 才需要填，填错会「连上即断」</li><li>`servername` 与 `sni`：不同客户端用不同字段名，写错就等于没设 SNI</li></ol>
+<p>迁移的正确做法是「不要手抄」：从分享链接导入，或者让客户端互相导出配置再检查一遍这三个字段。</p>
+<h2 id="h7">一个稳妥的验证顺序</h2>
+<p>不要一次验证所有能力。按「能否连上 → 能否出网 → 出口是否正确 → 分流是否正确 → UDP 是否可用」五步依次验。每一步只回答一个问题，出问题时立刻知道停在哪一层。这比「连上就打开十个网站试」要快得多。</p>
+<h2 id="h8">一个习惯：先抄再改</h2>
+<p>拿到能用的配置后，第一件事是导出或截图留档。任何改动之后如果出问题，先回到这份留档，再逐个加回改动。这个习惯能把「配置漂移」导致的疑难问题减少一大半——因为你知道自己改了什么。</p>
 <h2 id="faq">常见问题</h2><div class="faq">
 <details><summary>TLS 和 SNI 的关系</summary><p>开了 TLS 之后，SNI 这一项必须和服务端证书上的域名一致。SNI 是握手时你告诉服务器你要访问哪个域名，服务器拿它去选证书。SNI 填错，服务器找不到对应证书，握手直接失败。客户端表现是一直转圈，日志里是握手超时或者证书错误。</p></details>
 <details><summary>WS 路径的坑是怎么回事？</summary><p>WS 模式下有个路径参数，这个路径必须以斜杠开头，而且要和服端配置完全一致。常见的错误是客户端填的时候少一个斜杠，或者多一个结尾斜杠。结果就是握手能成，但请求返回四零三或者四零四。这个错误特别难查，因为看起来都填了。</p></details>
@@ -101,7 +133,7 @@ footer a{color:#00d6d6;text-decoration:none}
 <details><summary>一套最小可用配置是怎么回事？</summary><p>给你一套最保守的配置思路。传输方式用 TCP，安全层开 TLS，SNI 写服务端证书域名，端口用服务商给的那个。这套配置性能最好，兼容性也最广，先把它跑通。跑通之后再考虑换 WS 增加伪装性，或者换其他传输方式做优化。</p></details>
 <details><summary>连上之后才算完成一半</summary><p>能连上只是一半。第二半是确认流量真的走了这条线，以及分流规则是不是按你要的生效。先查出口地址，再看访问速度，最后看有没有部分网站打不开。三步都过，这条节点才算能日常用。</p></details>
 </div>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="toc"><b>本篇目录</b><a href="#h1">分享链接怎么拆成参数</a><a href="#h2">常见报错对照表</a><a href="#h3">一套最小可用配置</a><a href="#h4">连上之后才算完成一半</a><a href="#h5">一个判据：握手成功但无流量的三种情况</a><a href="#h6">跨客户端迁移参数的三个坑</a><a href="#h7">一个稳妥的验证顺序</a><a href="#h8">一个习惯：先抄再改</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
 <div class="rel"><h3>相关内容</h3><a href="/kuber-network/xiaohuojian-vless/">小火箭VLESS配置<span class="kw"> · Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误</span></a><a href="/kuber-network/l2tp-vs-vless/">L2TP和VLESS区别<span class="kw"> · L2TP 还是 VLESS？一张表讲清该用哪个</span></a><a href="/kuber-network/shadowrocket-rules/">小火箭分流规则<span class="kw"> · 小火箭分流规则：按域名和按 IP 到底差在哪</span></a><a href="/kuber-network/openwrt-vless/">OpenWrtVLESS<span class="kw"> · OpenWrt 上跑 VLESS：客户端参数和透明代理模式怎么选</span></a><a href="/kuber-network/proxy-battery-disconnect/">代理耗电断连<span class="kw"> · iOS 上代理耗电和后台断连：MTU 和心跳怎么调</span></a><a href="/kuber-network/softrouter-dns/">软路由DNS<span class="kw"> · 软路由 DNS 怎么设：解析走本地还是走专线</span></a><a href="/kuber-network/ikuai-multiwan/">iKuai多线<span class="kw"> · iKuai 双 WAN 加专线：策略路由的优先级怎么排</span></a><a href="/kuber-network/seasia-huiguo-latency/">东南亚回国延迟<span class="kw"> · 东南亚回国延迟实测：新加坡、曼谷、雅加达到国内各差多少</span></a></div>
 </main>
 <footer><div class="wrap">

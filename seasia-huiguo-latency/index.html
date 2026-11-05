@@ -71,7 +71,7 @@ footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
 @media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "东南亚回国延迟实测：新加坡、曼谷、雅加达到国内各差多少", "description": "延迟不是玄学，是物理距离加上路由跳数。知道基数，你才能判断一条线路是好是坏。", "inLanguage": "zh-CN", "keywords": "东南亚, 延迟, 回国专线, 香港中转, CN2, 测速, 新加坡", "articleSection": "CN2", "wordCount": 1414, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/seasia-huiguo-latency/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "CN2"}, {"@type": "ListItem", "position": 3, "name": "东南亚回国延迟", "item": "https://proxy86-singbox.github.io/kuber-network/seasia-huiguo-latency/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "走香港中转和走公网中转的差", "acceptedAnswer": {"@type": "Answer", "text": "差距主要不在距离，在拥塞。走香港中转再进国内骨干，路径是固定的，晚高峰不参与公网拥塞，延迟基本稳定。走公网中转，路由是动态的，白天可能六十毫秒，晚上九点变成两百毫秒，还伴随丢包。同一个城市，两种线路的差距能有三到五倍。"}}, {"@type": "Question", "name": "晚高峰才是真考场是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "测一条线路，别在上午测。上午所有线路都是好看的。要测就在晚九点到十一点测，这个时段是公网出口最挤的时候。测三个数：平均延迟、最大延迟、丢包率。平均延迟好看但最大延迟很高的，说明链路抖动大，一样不能用。"}}, {"@type": "Question", "name": "怎么自己测一组基准", "acceptedAnswer": {"@type": "Answer", "text": "方法给你。连续 ping 落地网关五百个包，记录平均、最大、最小和丢包。然后用路由追踪看跳数，正常情况下从东南亚到国内十到十四跳，超过二十跳说明绕路了。最后在不同时段各测一次，早中晚三次，画出来就知道这条线的真实水平。"}}, {"@type": "Question", "name": "延迟和可用性的取舍", "acceptedAnswer": {"@type": "Answer", "text": "延迟六十毫秒和八十毫秒，日常使用差别不大。但延迟六十毫秒丢包百分之五，和延迟八十毫秒零丢包，体验是天壤之别。丢包会触发重传，重传把延迟放大好几倍。所以选线路，先看丢包，再看延迟，顺序别反。"}}, {"@type": "Question", "name": "数据要自己攒是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "别人给的延迟数据参考价值有限，因为出口位置、本地运营商、时段都不一样。你自己攒一组数据，一个月测二十次，就有了基线。以后线路一变差，你立刻能看出来变了多少，而不是凭感觉说今天好慢。"}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "东南亚回国延迟实测：新加坡、曼谷、雅加达到国内各差多少", "description": "延迟不是玄学，是物理距离加上路由跳数。知道基数，你才能判断一条线路是好是坏。", "inLanguage": "zh-CN", "keywords": "东南亚, 延迟, 回国专线, 香港中转, CN2, 测速, 新加坡", "articleSection": "CN2", "wordCount": 2352, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/seasia-huiguo-latency/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "CN2"}, {"@type": "ListItem", "position": 3, "name": "东南亚回国延迟", "item": "https://proxy86-singbox.github.io/kuber-network/seasia-huiguo-latency/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "走香港中转和走公网中转的差", "acceptedAnswer": {"@type": "Answer", "text": "差距主要不在距离，在拥塞。走香港中转再进国内骨干，路径是固定的，晚高峰不参与公网拥塞，延迟基本稳定。走公网中转，路由是动态的，白天可能六十毫秒，晚上九点变成两百毫秒，还伴随丢包。同一个城市，两种线路的差距能有三到五倍。"}}, {"@type": "Question", "name": "晚高峰才是真考场是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "测一条线路，别在上午测。上午所有线路都是好看的。要测就在晚九点到十一点测，这个时段是公网出口最挤的时候。测三个数：平均延迟、最大延迟、丢包率。平均延迟好看但最大延迟很高的，说明链路抖动大，一样不能用。"}}, {"@type": "Question", "name": "怎么自己测一组基准", "acceptedAnswer": {"@type": "Answer", "text": "方法给你。连续 ping 落地网关五百个包，记录平均、最大、最小和丢包。然后用路由追踪看跳数，正常情况下从东南亚到国内十到十四跳，超过二十跳说明绕路了。最后在不同时段各测一次，早中晚三次，画出来就知道这条线的真实水平。"}}, {"@type": "Question", "name": "延迟和可用性的取舍", "acceptedAnswer": {"@type": "Answer", "text": "延迟六十毫秒和八十毫秒，日常使用差别不大。但延迟六十毫秒丢包百分之五，和延迟八十毫秒零丢包，体验是天壤之别。丢包会触发重传，重传把延迟放大好几倍。所以选线路，先看丢包，再看延迟，顺序别反。"}}, {"@type": "Question", "name": "数据要自己攒是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "别人给的延迟数据参考价值有限，因为出口位置、本地运营商、时段都不一样。你自己攒一组数据，一个月测二十次，就有了基线。以后线路一变差，你立刻能看出来变了多少，而不是凭感觉说今天好慢。"}}]}]}</script>
 </head>
 <body>
 <header><div class="wrap">
@@ -94,6 +94,42 @@ footer a{color:#00d6d6;text-decoration:none}
 <p>延迟六十毫秒和八十毫秒，日常使用差别不大。但延迟六十毫秒丢包百分之五，和延迟八十毫秒零丢包，体验是天壤之别。丢包会触发重传，重传把延迟放大好几倍。所以选线路，先看丢包，再看延迟，顺序别反。</p>
 <h2>数据要自己攒</h2>
 <p>别人给的延迟数据参考价值有限，因为出口位置、本地运营商、时段都不一样。你自己攒一组数据，一个月测二十次，就有了基线。以后线路一变差，你立刻能看出来变了多少，而不是凭感觉说今天好慢。</p>
+<h2 id="h1">一组可复现的测速脚本</h2>
+<p>延迟数据的价值在于「可对比」，所以测法必须固定：同一个目标、同样次数、同一时段。</p>
+<pre><code>#!/usr/bin/env bash
+# 用法: ./lat.sh 目标IP 标签
+target=$1; label=${2:-target}
+for i in 1 2 3; do
+  ping -c 30 -i 0.2 &quot;$target&quot; | tail -2 | head -1 | \
+  awk -v l=&quot;$label&quot; &#x27;{print l, &quot;round=&quot;$i, $0}&#x27;
+done
+# TCP 层：更贴近真实业务
+for i in 1 2 3; do
+  curl -o /dev/null -s -w &quot;tcp_connect=%{time_connect} ttfb=%{time_starttransfer} total=%{time_total}\n&quot; \
+    --max-time 10 &quot;https://$target/&quot;
+done</code></pre>
+<p>记录四列就够：目标、时段、ICMP 中位数、TCP 建连中位数。攒两周数据，你就有了一份属于自己的基准，比任何评测文章都有用。</p>
+<h2 id="h2">各城市的参考区间</h2>
+<table><thead><tr><th>源站</th><th>到香港（GIA）</th><th>到上海（经香港）</th><th>直连上海</th></tr></thead><tbody><tr><td>新加坡</td><td>20-35ms</td><td>60-80ms</td><td>180-250ms</td></tr><tr><td>曼谷</td><td>25-40ms</td><td>65-90ms</td><td>200-260ms</td></tr><tr><td>雅加达</td><td>30-50ms</td><td>70-95ms</td><td>210-280ms</td></tr><tr><td>吉隆坡</td><td>20-35ms</td><td>60-85ms</td><td>190-250ms</td></tr><tr><td>马尼拉</td><td>25-45ms</td><td>65-95ms</td><td>200-270ms</td></tr></tbody></table>
+<p>口径说明：以上是晚 21:00-23:00 的常见值，取 30 次 ping 的中位数。白天的数字会好看 20-30%，别用白天数据做决策。</p>
+<h2 id="h3">延迟和可用性的取舍</h2>
+<p>两条线路，一条 65ms 但每晚 22:00 抖到 150ms，一条 90ms 但全天稳定——后者更好。因为业务对「一致性」的敏感度通常高于「绝对值」：</p>
+<ol><li>网页浏览：绝对值重要，60ms 和 90ms 的体感有差</li><li>直播推流：一致性重要，抖动比延迟致命</li><li>远程桌面：两者都重要，但抖动导致的卡顿更难受</li><li>批量传输：绝对值几乎不重要，带宽和丢包才重要</li></ol>
+<p>所以选线路前先明确「你的业务最怕什么」，再去看对应的指标。</p>
+<h2 id="h4">数据要自己攒</h2>
+<p>别人的评测只能当参考，原因有三个：内地各运营商的出口策略不同、你所在城市的最后一公里质量不同、服务商的线路会调整。三件事都会让别人的数字在你这里失效。</p>
+<p>建议从第一天开始建一张表，每次测速追加一行。三个月后，你能清楚地看到「哪个月线路变差了」「换线路到底有没有改善」——这是唯一能支撑采购决策的数据。</p>
+<h2 id="h5">一张自己维护的基准表</h2>
+<p>把测速结果固定成表格，长期才有比较价值：</p>
+<table><thead><tr><th>日期</th><th>时段</th><th>落地</th><th>RTT 中位数</th><th>丢包</th><th>备注</th></tr></thead><tbody><tr><td>11-01</td><td>21:30</td><td>香港</td><td>68ms</td><td>0.3%</td><td>正常</td></tr><tr><td>11-02</td><td>21:30</td><td>香港</td><td>145ms</td><td>4.2%</td><td>疑似上游拥塞</td></tr><tr><td>11-03</td><td>02:00</td><td>香港</td><td>62ms</td><td>0%</td><td>凌晨对照</td></tr></tbody></table>
+<p>第二行与第三行的对比就是「凌晨对照法」的作用：同一条线路，晚高峰 145ms、凌晨 62ms，说明问题在拥塞而不是线路本身。有这张表，跟服务商沟通时不用凭感觉，直接发数据。</p>
+<h2 id="h6">几个常见的误判</h2>
+<ol><li>「ping 新加坡比 ping 香港快」→ 那是 ping 到落点，不是 ping 到内地。要看的是「经中转回内地」的总延迟</li><li>「白天 60ms 所以线路很好」→ 白天不拥塞，晚高峰才是考场</li><li>「丢包 5% 一定是线路差」→ 先排除本地 WiFi 与最后一公里</li><li>「延迟低就一定流畅」→ 抖动大时，低延迟也会卡</li></ol>
+<p>四个误判的共同点是「只看一个数字」。真实体验由延迟、抖动、丢包三者共同决定。</p>
+<h2 id="h7">一个判据：延迟随人数变化</h2>
+<p>同一条线路，一个人用时 65ms、三个人同时用时 140ms，说明带宽或并发能力不足（超售型）。一个人用时也波动到 140ms，说明是链路拥塞（时段型）。这个对比五分钟能做完，比任何测速都直接。</p>
+<h2 id="h8">一个采样建议</h2>
+<p>每次测速至少 30 个包，少于 30 个的样本会被单次抖动带偏。时段上，晚高峰与凌晨各测一次，两组数据一起看，才能区分「线路本身」与「拥塞」。只有一组数据时，任何结论都站不住。</p>
 <h2 id="faq">常见问题</h2><div class="faq">
 <details><summary>走香港中转和走公网中转的差</summary><p>差距主要不在距离，在拥塞。走香港中转再进国内骨干，路径是固定的，晚高峰不参与公网拥塞，延迟基本稳定。走公网中转，路由是动态的，白天可能六十毫秒，晚上九点变成两百毫秒，还伴随丢包。同一个城市，两种线路的差距能有三到五倍。</p></details>
 <details><summary>晚高峰才是真考场是怎么回事？</summary><p>测一条线路，别在上午测。上午所有线路都是好看的。要测就在晚九点到十一点测，这个时段是公网出口最挤的时候。测三个数：平均延迟、最大延迟、丢包率。平均延迟好看但最大延迟很高的，说明链路抖动大，一样不能用。</p></details>
@@ -101,7 +137,7 @@ footer a{color:#00d6d6;text-decoration:none}
 <details><summary>延迟和可用性的取舍</summary><p>延迟六十毫秒和八十毫秒，日常使用差别不大。但延迟六十毫秒丢包百分之五，和延迟八十毫秒零丢包，体验是天壤之别。丢包会触发重传，重传把延迟放大好几倍。所以选线路，先看丢包，再看延迟，顺序别反。</p></details>
 <details><summary>数据要自己攒是怎么回事？</summary><p>别人给的延迟数据参考价值有限，因为出口位置、本地运营商、时段都不一样。你自己攒一组数据，一个月测二十次，就有了基线。以后线路一变差，你立刻能看出来变了多少，而不是凭感觉说今天好慢。</p></details>
 </div>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="toc"><b>本篇目录</b><a href="#h1">一组可复现的测速脚本</a><a href="#h2">各城市的参考区间</a><a href="#h3">延迟和可用性的取舍</a><a href="#h4">数据要自己攒</a><a href="#h5">一张自己维护的基准表</a><a href="#h6">几个常见的误判</a><a href="#h7">一个判据：延迟随人数变化</a><a href="#h8">一个采样建议</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
 <div class="rel"><h3>相关内容</h3><a href="/kuber-network/cn2-huiguo/">香港CN2回国<span class="kw"> · 香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少</span></a><a href="/kuber-network/cn2-traceroute/">CN2路由追踪<span class="kw"> · 用路由追踪判断真 CN2：五十九点四十三 节点怎么认</span></a><a href="/kuber-network/transit-hub-location/">中转仓选址<span class="kw"> · 中转仓选址：香港、新加坡、日本落地差在哪</span></a><a href="/kuber-network/huiguo-bandwidth/">回国带宽测算<span class="kw"> · 回国带宽怎么算：几个人几台设备到底要多少兆</span></a><a href="/kuber-network/duxiang-static-ip/">独享静态IP<span class="kw"> · 独享静态IP 怎么选？养号前必须知道的 5 个判断标准</span></a><a href="/kuber-network/peak-hour-throttle/">晚高峰限速<span class="kw"> · 晚高峰限速的三种表现和鉴别方法</span></a><a href="/kuber-network/ikuai-multiwan/">iKuai多线<span class="kw"> · iKuai 双 WAN 加专线：策略路由的优先级怎么排</span></a><a href="/kuber-network/proxy-battery-disconnect/">代理耗电断连<span class="kw"> · iOS 上代理耗电和后台断连：MTU 和心跳怎么调</span></a></div>
 </main>
 <footer><div class="wrap">

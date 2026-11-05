@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MikroTik RouterOS 配 L2TP 回国：命令行完整流程</title>
+<title>MikroTik RouterOS 配 L2TP 回国：命令行完整流程｜MikroTik回国</title>
 <meta name="description" content="RouterOS 配 L2TP 客户端只要四条命令，但防火墙和 NAT 不配就是白配。">
 <link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/mikrotik-huiguo/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="库珀网络">
-<meta property="og:title" content="MikroTik RouterOS 配 L2TP 回国：命令行完整流程">
+<meta property="og:title" content="MikroTik RouterOS 配 L2TP 回国：命令行完整流程｜MikroTik回国">
 <meta property="og:description" content="RouterOS 配 L2TP 客户端只要四条命令，但防火墙和 NAT 不配就是白配。">
 <meta property="og:url" content="https://proxy86-singbox.github.io/kuber-network/mikrotik-huiguo/">
 <meta name="twitter:card" content="summary_large_image">
@@ -71,7 +71,7 @@ footer a{color:#00d6d6;text-decoration:none}
 .tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
 @media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}table{font-size:14px}th,td{padding:8px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "MikroTik RouterOS 配 L2TP 回国：命令行完整流程", "description": "RouterOS 配 L2TP 客户端只要四条命令，但防火墙和 NAT 不配就是白配。", "inLanguage": "zh-CN", "keywords": "MikroTik, RouterOS, L2TP, 软路由, 策略路由, NAT, 回国加速", "articleSection": "软路由", "wordCount": 1644, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/mikrotik-huiguo/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "软路由"}, {"@type": "ListItem", "position": 3, "name": "MikroTik回国", "item": "https://proxy86-singbox.github.io/kuber-network/mikrotik-huiguo/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "安全配置改哪几项是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "安全配置默认值不要照抄。认证方式一定要关掉明文密码那一项，只留质询握手，否则对端发了不安全的协商请求你也会接受。加密要求要打开，对端不支持就先问清楚。还有一条，别开对端的默认路由强制替换，RouterOS 里这个选项会把你本地网络整个带偏。"}}, {"@type": "Question", "name": "NAT 怎么配是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "NAT 这一条必须加。在地址伪装里加一条规则，出接口选你刚建的拨号接口，这样内网设备出去的时候源地址会被替换成拨号接口拿到的地址。不配这条，或者配错出接口，表现就是拨号状态是连上的，但内网一台设备都上不了网。"}}, {"@type": "Question", "name": "策略路由按地址表分流", "acceptedAnswer": {"@type": "Answer", "text": "分流的做法是策略路由。建一个路由表，把默认网关指向拨号接口的对端地址。然后建一条路由标记规则，把需要走专线的目标地址打上标记。最后在路由规则里，让带标记的流量查这个表。这样只有标记过的流量走专线，其他照常走本地宽带。"}}, {"@type": "Question", "name": "按域名分流要配合地址列表", "acceptedAnswer": {"@type": "Answer", "text": "RouterOS 本身不做域名匹配，所以要配合地址列表。思路是用脚本或者外部工具把域名解析成地址，动态写入地址列表，路由标记规则匹配这个列表。这种做法有个缺陷，域名换了地址之后有延迟，所以刷新周期别设太长，五分钟到十分钟比较合适。"}}, {"@type": "Question", "name": "掉线重连怎么看是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "掉线排查看两个地方。一是日志里的链路状态，看是主动断开还是对端无响应。二是接口状态里的运行时间，如果这个数字经常归零，说明链路在反复重建。常见原因是本地 UDP 端口被封、保持连接间隔设得太长、或者 MTU 不匹配。把保持连接间隔设成十秒，MTU 手动设成一四零零试试。"}}, {"@type": "Question", "name": "验收是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "配完这样验。在电脑上查出口地址，应该是落地端的。把地址列表里的某个域名加进去，访问一下，看是否走专线。再看路由表里那条标记规则有没有计数增长，计数不涨说明规则没命中，回去检查匹配条件。"}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://proxy86-singbox.github.io/kuber-network/#organization", "name": "库珀网络", "url": "https://proxy86-singbox.github.io/kuber-network", "description": "库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转"}, {"@type": "WebSite", "@id": "https://proxy86-singbox.github.io/kuber-network/#website", "url": "https://proxy86-singbox.github.io/kuber-network/", "name": "库珀网络 · 独享静态IP / 回国专线", "inLanguage": "zh-CN", "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}}, {"@type": "Article", "headline": "MikroTik RouterOS 配 L2TP 回国：命令行完整流程", "description": "RouterOS 配 L2TP 客户端只要四条命令，但防火墙和 NAT 不配就是白配。", "inLanguage": "zh-CN", "keywords": "MikroTik, RouterOS, L2TP, 软路由, 策略路由, NAT, 回国加速", "articleSection": "软路由", "wordCount": 2222, "datePublished": "2026-11-05", "dateModified": "2026-11-05", "author": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "publisher": {"@id": "https://proxy86-singbox.github.io/kuber-network/#organization"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://proxy86-singbox.github.io/kuber-network/mikrotik-huiguo/"}, "isPartOf": {"@id": "https://proxy86-singbox.github.io/kuber-network/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "库珀网络", "item": "https://proxy86-singbox.github.io/kuber-network/"}, {"@type": "ListItem", "position": 2, "name": "软路由"}, {"@type": "ListItem", "position": 3, "name": "MikroTik回国", "item": "https://proxy86-singbox.github.io/kuber-network/mikrotik-huiguo/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "安全配置改哪几项是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "安全配置默认值不要照抄。认证方式一定要关掉明文密码那一项，只留质询握手，否则对端发了不安全的协商请求你也会接受。加密要求要打开，对端不支持就先问清楚。还有一条，别开对端的默认路由强制替换，RouterOS 里这个选项会把你本地网络整个带偏。"}}, {"@type": "Question", "name": "NAT 怎么配是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "NAT 这一条必须加。在地址伪装里加一条规则，出接口选你刚建的拨号接口，这样内网设备出去的时候源地址会被替换成拨号接口拿到的地址。不配这条，或者配错出接口，表现就是拨号状态是连上的，但内网一台设备都上不了网。"}}, {"@type": "Question", "name": "策略路由按地址表分流", "acceptedAnswer": {"@type": "Answer", "text": "分流的做法是策略路由。建一个路由表，把默认网关指向拨号接口的对端地址。然后建一条路由标记规则，把需要走专线的目标地址打上标记。最后在路由规则里，让带标记的流量查这个表。这样只有标记过的流量走专线，其他照常走本地宽带。"}}, {"@type": "Question", "name": "按域名分流要配合地址列表", "acceptedAnswer": {"@type": "Answer", "text": "RouterOS 本身不做域名匹配，所以要配合地址列表。思路是用脚本或者外部工具把域名解析成地址，动态写入地址列表，路由标记规则匹配这个列表。这种做法有个缺陷，域名换了地址之后有延迟，所以刷新周期别设太长，五分钟到十分钟比较合适。"}}, {"@type": "Question", "name": "掉线重连怎么看是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "掉线排查看两个地方。一是日志里的链路状态，看是主动断开还是对端无响应。二是接口状态里的运行时间，如果这个数字经常归零，说明链路在反复重建。常见原因是本地 UDP 端口被封、保持连接间隔设得太长、或者 MTU 不匹配。把保持连接间隔设成十秒，MTU 手动设成一四零零试试。"}}, {"@type": "Question", "name": "验收是怎么回事？", "acceptedAnswer": {"@type": "Answer", "text": "配完这样验。在电脑上查出口地址，应该是落地端的。把地址列表里的某个域名加进去，访问一下，看是否走专线。再看路由表里那条标记规则有没有计数增长，计数不涨说明规则没命中，回去检查匹配条件。"}}]}]}</script>
 </head>
 <body>
 <header><div class="wrap">
@@ -97,6 +97,51 @@ footer a{color:#00d6d6;text-decoration:none}
 <p>把保持连接间隔设成十秒，MTU 手动设成一四零零试试。</p>
 <h2>验收</h2>
 <p>配完这样验。在电脑上查出口地址，应该是落地端的。把地址列表里的某个域名加进去，访问一下，看是否走专线。再看路由表里那条标记规则有没有计数增长，计数不涨说明规则没命中，回去检查匹配条件。</p>
+<h2 id="h1">一份可回滚的完整配置</h2>
+<p>RouterOS 的好处是所有配置都能导出。先做备份，再动手：</p>
+<pre><code>/system backup save name=before-l2tp
+/export file=before-l2tp</code></pre>
+<p>核心配置（命令里的值换成你自己的）：</p>
+<pre><code># 1. 建 L2TP 客户端
+/interface l2tp-client add name=l2tp-out connect-to=服务器地址 \
+    user=账号 password=密码 profile=default-encryption \
+    add-default-route=no use-peer-dns=no disabled=no
+
+# 2. 确认隧道起来了
+/interface l2tp-client print
+/ip address print</code></pre>
+<p>`add-default-route=no` 是这里最关键的一项。RouterOS 默认会把这条连接的默认路由抢过来，导致所有流量都走隧道——如果服务端的带宽或策略不允许，表现就是「全网变慢」。保持 no，改用下面的策略路由。</p>
+<h2 id="h2">策略路由：地址表 + 标记</h2>
+<pre><code># 建一张单独的地址表
+/ip firewall address-list add list=to-proxy address=0.0.0.0/0
+
+# 把需要走隧道的目标放进这张表（示例：只代理特定网段）
+/ip firewall address-list add list=to-proxy address=8.8.8.8
+/ip firewall address-list add list=to-proxy address=1.1.1.0/24
+
+# 路由标记
+/ip route add dst-address=0.0.0.0/0 gateway=l2tp-out routing-mark=via-proxy \
+    distance=1 check-gateway=ping
+/ip route rule add src-address=192.168.88.0/24 action=lookup table=via-proxy
+
+# 或按目标地址标记（推荐，国内直连不受影响）
+/ip firewall mangle add chain=prerouting dst-address-list=to-proxy \
+    action=mark-routing new-routing-mark=via-proxy passthrough=no</code></pre>
+<p>顺序上有个坑：`/ip route rule` 的优先级高于 mangle 标记，如果规则写反，会出现「标记了但路由没生效」。排障时用 `/ip route check 8.8.8.8` 看实际选中的路由。</p>
+<h2 id="h3">掉线重连与健康检查</h2>
+<pre><code>/interface l2tp-client set l2tp-out keepalive-timeout=60
+/ip route set [find routing-mark=via-proxy] check-gateway=ping</code></pre>
+<p>`check-gateway=ping` 是 RouterOS 里最实用的一个选项：连续两次探测失败就把这条路由标为不可达，自动回退到其它路由。这比在脚本里轮询要稳。</p>
+<p>日志用 `/log print where topics~&quot;l2tp&quot;`。典型的两行：`peer is not responding`（UDP 被拦或对端挂了）、`terminating... - user request`（本地或服务端主动断开）。</p>
+<h2 id="h4">快照与回滚</h2>
+<p>配完之后再存一次快照，出问题时一条命令回到干净状态：</p>
+<pre><code>/system backup save name=after-l2tp
+# 出问题回滚
+/system backup load name=before-l2tp</code></pre>
+<p>这套流程的意义不在于配置本身，而在于「敢改」。很多人的 RouterOS 配坏了就重装，装完又回到起点。有快照，改错了三十秒回到上一版。</p>
+<h2 id="h5">两个容易被忽略的 RouterOS 细节</h2>
+<p>第一，`/ip firewall mangle` 的 `passthrough=no` 必须显式设置。默认是 yes，意味着标记之后规则继续往下匹配，后面的规则可能把标记覆盖掉。表现是「策略路由时好时坏」，而这种偶发性最难查。</p>
+<p>第二，`/ip route rule` 与路由表 mark 的匹配是「先到先得」。如果同时存在两条 rule（一条 src-address、一条 dst-address），先写的那条优先。排障时用 `/ip route check 目标IP` 看实际命中的路由，比读配置快。</p>
 <h2 id="faq">常见问题</h2><div class="faq">
 <details><summary>安全配置改哪几项是怎么回事？</summary><p>安全配置默认值不要照抄。认证方式一定要关掉明文密码那一项，只留质询握手，否则对端发了不安全的协商请求你也会接受。加密要求要打开，对端不支持就先问清楚。还有一条，别开对端的默认路由强制替换，RouterOS 里这个选项会把你本地网络整个带偏。</p></details>
 <details><summary>NAT 怎么配是怎么回事？</summary><p>NAT 这一条必须加。在地址伪装里加一条规则，出接口选你刚建的拨号接口，这样内网设备出去的时候源地址会被替换成拨号接口拿到的地址。不配这条，或者配错出接口，表现就是拨号状态是连上的，但内网一台设备都上不了网。</p></details>
@@ -105,7 +150,7 @@ footer a{color:#00d6d6;text-decoration:none}
 <details><summary>掉线重连怎么看是怎么回事？</summary><p>掉线排查看两个地方。一是日志里的链路状态，看是主动断开还是对端无响应。二是接口状态里的运行时间，如果这个数字经常归零，说明链路在反复重建。常见原因是本地 UDP 端口被封、保持连接间隔设得太长、或者 MTU 不匹配。把保持连接间隔设成十秒，MTU 手动设成一四零零试试。</p></details>
 <details><summary>验收是怎么回事？</summary><p>配完这样验。在电脑上查出口地址，应该是落地端的。把地址列表里的某个域名加进去，访问一下，看是否走专线。再看路由表里那条标记规则有没有计数增长，计数不涨说明规则没命中，回去检查匹配条件。</p></details>
 </div>
-<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="toc"><b>本篇目录</b><a href="#h1">一份可回滚的完整配置</a><a href="#h2">策略路由：地址表 + 标记</a><a href="#h3">掉线重连与健康检查</a><a href="#h4">快照与回滚</a><a href="#h5">两个容易被忽略的 RouterOS 细节</a><a href="#faq">常见问题</a></div><div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
 <div class="rel"><h3>相关内容</h3><a href="/kuber-network/openwrt-huiguo/">OpenWrt回国<span class="kw"> · OpenWrt 配 L2TP 回国：装包、建接口、防火墙三步走通</span></a><a href="/kuber-network/softrouter-split/">软路由分流<span class="kw"> · 回国分流策略：哪些流量该走专线，哪些必须留本地</span></a><a href="/kuber-network/ikuai-multiwan/">iKuai多线<span class="kw"> · iKuai 双 WAN 加专线：策略路由的优先级怎么排</span></a><a href="/kuber-network/softrouter-dns/">软路由DNS<span class="kw"> · 软路由 DNS 怎么设：解析走本地还是走专线</span></a><a href="/kuber-network/softrouter-l2tp/">软路由IP<span class="kw"> · iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</span></a><a href="/kuber-network/l2tp-vs-vless/">L2TP和VLESS区别<span class="kw"> · L2TP 还是 VLESS？一张表讲清该用哪个</span></a><a href="/kuber-network/l2tp-disconnect/">L2TP掉线<span class="kw"> · L2TP 频繁掉线：七个原因和正确的排查顺序</span></a><a href="/kuber-network/openwrt-vless/">OpenWrtVLESS<span class="kw"> · OpenWrt 上跑 VLESS：客户端参数和透明代理模式怎么选</span></a></div>
 </main>
 <footer><div class="wrap">
