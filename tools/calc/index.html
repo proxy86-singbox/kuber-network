@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>养号 IP 成本计算器 · 共享和独享到底差多少</title>
+<meta name="description" content="算清养号 IP 的真实成本：共享 IP 便宜但封号损失大，独享贵但号能活。输入你的账号数量和产值，看哪个更划算。">
+<style>
+:root{--bg:#080c14;--panel:#111a26;--line:#1e2b3d;--text:#e8eef6;--dim:#8fa3b8;--cyan:#00d6d6;--green:#3cdc96;--amber:#ffb24a;--red:#ff5860}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.75}
+.wrap{max-width:700px;margin:0 auto;padding:32px 20px 60px}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:26px}
+.brand i{width:8px;height:28px;background:var(--cyan);display:block}
+.brand b{font-size:17px;color:var(--cyan)}
+h1{font-size:27px;line-height:1.35;margin-bottom:8px}
+.sub{color:var(--dim);font-size:15px;margin-bottom:26px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;margin-bottom:18px}
+.field{margin-bottom:20px}
+.field:last-child{margin-bottom:0}
+label{display:block;font-size:15px;margin-bottom:8px}
+label small{color:var(--dim);font-size:13px;font-weight:400;display:block;margin-top:2px}
+input[type=range]{width:100%;height:6px;border-radius:3px;background:#0a1119;outline:none;-webkit-appearance:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--cyan);cursor:pointer}
+.val{float:right;color:var(--cyan);font-family:ui-monospace,monospace;font-size:15px}
+.result{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0}
+.card{border-radius:12px;padding:20px;border:2px solid}
+.card.shared{background:rgba(255,88,96,.06);border-color:rgba(255,88,96,.4)}
+.card.solo{background:rgba(60,220,150,.06);border-color:rgba(60,220,150,.4)}
+.card h3{font-size:16px;margin-bottom:14px}
+.card.shared h3{color:var(--red)}
+.card.solo h3{color:var(--green)}
+.line{display:flex;justify-content:space-between;font-size:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.line:last-child{border:0;font-weight:700;font-size:16px;padding-top:12px;margin-top:6px;border-top:1px solid rgba(255,255,255,.1)}
+.line span:last-child{font-family:ui-monospace,monospace}
+.verdict{background:linear-gradient(135deg,#0b2a2a,#0a1a26);border:1px solid #145;border-radius:14px;padding:24px;margin:20px 0}
+.verdict h3{font-size:19px;color:var(--cyan);margin-bottom:10px}
+.verdict p{color:var(--dim);font-size:14px;margin-bottom:8px}
+.verdict b{color:var(--text)}
+.cta{text-align:center;margin-top:24px}
+.cta a{display:inline-block;background:var(--cyan);color:#051018;padding:14px 32px;border-radius:9px;text-decoration:none;font-weight:700;font-size:16px}
+.note{color:var(--dim);font-size:13px;margin-top:14px;line-height:1.7}
+footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);color:var(--dim);font-size:13px;text-align:center}
+footer a{color:var(--cyan);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="brand"><i></i><b>库珀网络</b></div>
+<h1>养号 IP 到底该花多少钱</h1>
+<p class="sub">共享 IP 便宜，但封号的钱谁算过？拖动下面三个滑块，看真实成本。</p>
+
+<div class="panel">
+  <div class="field">
+    <label>你有多少个账号 <span class="val" id="v1">20</span><small>需要同时养的号数量</small></label>
+    <input type="range" id="n" min="1" max="500" value="20" step="1">
+  </div>
+  <div class="field">
+    <label>每个号每月产值 <span class="val" id="v2">¥800</span><small>一个号一个月能带来多少收入（或折算价值）</small></label>
+    <input type="range" id="rev" min="50" max="5000" value="800" step="50">
+  </div>
+  <div class="field">
+    <label>共享 IP 的月封号率 <span class="val" id="v3">35%</span><small>用共享出口时，一个月大概死多少比例</small></label>
+    <input type="range" id="ban" min="5" max="80" value="35" step="5">
+  </div>
+</div>
+
+<div class="result">
+  <div class="card shared">
+    <h3>共享 IP</h3>
+    <div class="line"><span>IP 成本</span><span id="s1">-</span></div>
+    <div class="line"><span>月封号</span><span id="s2">-</span></div>
+    <div class="line"><span>损失</span><span id="s3">-</span></div>
+    <div class="line"><span>合计</span><span id="s4">-</span></div>
+  </div>
+  <div class="card solo">
+    <h3>独享静态</h3>
+    <div class="line"><span>IP 成本</span><span id="t1">-</span></div>
+    <div class="line"><span>月封号</span><span id="t2">-</span></div>
+    <div class="line"><span>损失</span><span id="t3">-</span></div>
+    <div class="line"><span>合计</span><span id="t4">-</span></div>
+  </div>
+</div>
+
+<div class="verdict" id="verdict"></div>
+
+<div class="note">
+  假设：共享 IP 单价 ¥8/个/月，独享静态 ¥60/个/月；独享的月封号率按 5% 算（环境配好可以更低）。<br>
+  封号损失 = 被封数量 × 单号月产值 × 恢复周期（按 1 个月算，因为养一个新号至少要一个月才回到同等产值）。
+</div>
+
+<div class="cta">
+  <a href="https://t.me/huiguo_staticip">按我的量算个价 →</a>
+</div>
+
+<footer>
+  <a href="https://t.me/huiguo_staticip">@huiguo_staticip</a> · 独享静态IP · 回国专线
+</footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const SHARED_PRICE = 8, SOLO_PRICE = 60, SOLO_BAN = 0.05;
+
+function calc(){
+  const n = +$('n').value, rev = +$('rev').value, banRate = +$('ban').value / 100;
+  $('v1').textContent = n;
+  $('v2').textContent = '¥' + rev;
+  $('v3').textContent = Math.round(banRate*100) + '%';
+
+  const sIp = n * SHARED_PRICE;
+  const sBan = Math.round(n * banRate);
+  const sLoss = sBan * rev;
+  const sTotal = sIp + sLoss;
+
+  const tIp = n * SOLO_PRICE;
+  const tBan = Math.round(n * SOLO_BAN);
+  const tLoss = tBan * rev;
+  const tTotal = tIp + tLoss;
+
+  $('s1').textContent = '¥' + sIp.toLocaleString();
+  $('s2').textContent = sBan + ' 个';
+  $('s3').textContent = '¥' + sLoss.toLocaleString();
+  $('s4').textContent = '¥' + sTotal.toLocaleString();
+
+  $('t1').textContent = '¥' + tIp.toLocaleString();
+  $('t2').textContent = tBan + ' 个';
+  $('t3').textContent = '¥' + tLoss.toLocaleString();
+  $('t4').textContent = '¥' + tTotal.toLocaleString();
+
+  const diff = sTotal - tTotal;
+  const v = $('verdict');
+  if (diff > 0) {
+    v.innerHTML = `<h3>独享每月省 ¥${diff.toLocaleString()}</h3>
+      <p>你的 ${n} 个号，用共享 IP 每月总成本 <b>¥${sTotal.toLocaleString()}</b>，独享是 <b>¥${tTotal.toLocaleString()}</b>。</p>
+      <p>差距主要不在 IP 费，在<b>封号损失 ¥${sLoss.toLocaleString()}</b> —— 这笔钱大部分人不算，但它在账上是真实存在的。</p>
+      <p>一年下来差 <b>¥${(diff*12).toLocaleString()}</b>。</p>`;
+  } else {
+    v.innerHTML = `<h3>这个量级，共享更划算</h3>
+      <p>你的号少、产值低，共享 IP 的总成本反而更低（¥${sTotal.toLocaleString()} vs ¥${tTotal.toLocaleString()}）。</p>
+      <p>但注意：如果你的号开始频繁死，说明封号率估低了，把上面的滑块调高再算一次。</p>`;
+  }
+}
+
+['n','rev','ban'].forEach(id => $(id).addEventListener('input', calc));
+calc();
+</script>
+</body>
+</html>
