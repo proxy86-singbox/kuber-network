@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少</title>
+<meta name="description" content="CN2 是中国电信的下一代承载网，全称 China Telecom Next Carrying Network。它和其他线路的区别在于，它不参与公网拥塞。但 CN2 分两种，差价三倍，很多人被坑就在这里。">
+<link rel="canonical" href="https://proxy86-singbox.github.io/kuber-network/cn2-huiguo/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少">
+<meta property="og:description" content="CN2 是中国电信的下一代承载网，全称 China Telecom Next Carrying Network。它和其他线路的区别在于，它不参与公网拥塞。但 CN2 分两种，差价三倍，很多人被坑就在这里。">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<style>
+:root{--bg:#0a1018;--panel:#111a26;--line:#1e2b3d;--text:#e8eef6;--dim:#8fa3b8;--accent:#00d6d6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px}
+.wrap{max-width:820px;margin:0 auto;padding:0 24px}
+header{border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:48px}
+header .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.logo{font-size:20px;font-weight:700;color:var(--accent);text-decoration:none;letter-spacing:.5px}
+nav a{color:var(--dim);text-decoration:none;margin-left:20px;font-size:15px}
+nav a:hover{color:var(--accent)}
+h1{font-size:34px;line-height:1.35;margin:0 0 20px;letter-spacing:-.3px}
+h2{font-size:23px;margin:44px 0 16px;padding-left:14px;border-left:4px solid var(--accent)}
+h3{font-size:19px;margin:28px 0 12px;color:var(--accent)}
+p{margin:0 0 18px;color:#c5d3e2}
+.lead{font-size:19px;color:var(--text);background:var(--panel);border-left:4px solid var(--accent);padding:20px 24px;margin:0 0 36px;border-radius:0 6px 6px 0}
+ul,ol{margin:0 0 20px 24px;color:#c5d3e2}
+li{margin-bottom:10px}
+code{background:#1a2432;color:#5ce1e6;padding:2px 7px;border-radius:4px;font-size:15px;font-family:ui-monospace,Menlo,monospace}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px;overflow-x:auto;margin:0 0 22px}
+pre code{background:none;padding:0;color:#a8e6ea;font-size:14px;line-height:1.7}
+.meta{color:var(--dim);font-size:14px;margin-bottom:32px}
+.video{position:relative;padding-bottom:56.25%;height:0;margin:0 0 40px;background:var(--panel);border-radius:10px;overflow:hidden}
+.video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.video .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:15px}
+.cta{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:26px 28px;margin:48px 0}
+.cta h3{margin-top:0}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:28px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px;text-decoration:none;color:inherit;transition:border-color .2s}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;color:var(--accent);font-size:16px;margin-bottom:8px}
+.card span{color:var(--dim);font-size:14px}
+.rel{margin:56px 0 0;padding-top:28px;border-top:1px solid var(--line)}
+.rel h3{margin-bottom:16px}
+.rel a{display:block;color:#9fd8dd;text-decoration:none;margin-bottom:10px;font-size:16px}
+.rel a:hover{text-decoration:underline}
+footer{border-top:1px solid var(--line);margin-top:72px;padding:32px 0;color:var(--dim);font-size:14px}
+.tag{display:inline-block;background:#16202e;color:var(--dim);padding:3px 10px;border-radius:4px;font-size:13px;margin:0 6px 6px 0}
+@media(max-width:600px){h1{font-size:26px}h2{font-size:20px}body{font-size:16px}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少", "description": "CN2 是中国电信的下一代承载网，全称 China Telecom Next Carrying Network。它和其他线路的区别在于，它不参与公网拥塞。但 CN2 分两种，差价三倍，很多人被坑就在这里。", "inLanguage": "zh-CN", "dateModified": "2026-11-05", "author": {"@type": "Organization", "name": "库珀网络"}, "mainEntityOfPage": "https://proxy86-singbox.github.io/kuber-network/cn2-huiguo/"}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "GT 和 GIA", "acceptedAnswer": {"@type": "Answer", "text": "第一种叫 CN2 GT，Global Transit。它是半程 CN2，国际段走 CN2，回国段还是 163 骨干。晚高峰和普通线路一样堵。第二种叫 CN2 GIA，Global Internet Access。全程 CN2，回国段也是。晚高峰不掉速。这才是真专线。"}}, {"@type": "Question", "name": "怎么鉴别", "acceptedAnswer": {"@type": "Answer", "text": "鉴别方法是 traceroute，数 59 点 43 开头的跳数。如果只在出境段出现两到三跳，那是 GT。如果全程八到十五跳都是 59 点 43，那是 GIA。下次有人跟你说香港CN2中转，让他跑个 traceroute 发你。不敢发的，就是 GT 冒充 GIA。"}}, {"@type": "Question", "name": "东南亚实测", "acceptedAnswer": {"@type": "Answer", "text": "再说东南亚回国的实测。同一台机器，同一个时间点，晚上九点。直连回国的话，路由是新加坡到日本到美国到上海，一百八到两百五十毫秒，丢包百分之三到八。走香港中转的话，新加坡到香港走CN2到上海，六十到八十毫秒，丢包百分之一以内。"}}]}, {"@type": "VideoObject", "name": "香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少", "description": "CN2 是中国电信的下一代承载网，全称 China Telecom Next Carrying Network。它和其他线路的区别在于，它不参与公网拥塞。但 CN2 分两种，差价三倍，很多人被坑就在这里。", "embedUrl": "https://www.youtube.com/embed/DqAADCdL2pE"}]}</script>
+</head>
+<body>
+<header><div class="wrap">
+<a class="logo" href="/">库珀网络</a>
+<nav>
+<a href="/">首页</a>
+<a href="/duxiang-static-ip/">静态IP</a>
+<a href="/cn2-huiguo/">CN2回国</a>
+<a href="/softrouter-l2tp/">软路由</a>
+<a href="/yanghao-ip/">养号IP</a>
+</nav>
+</div></header>
+<main class="wrap">
+<h1>香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少</h1>
+<div class="meta"><span class="tag">CN2</span><span class="tag">香港CN2回国</span>更新于 2026-11-05</div>
+<p class="lead">CN2 是中国电信的下一代承载网，全称 China Telecom Next Carrying Network。它和其他线路的区别在于，它不参与公网拥塞。但 CN2 分两种，差价三倍，很多人被坑就在这里。</p>
+<div class="video"><iframe src="https://www.youtube.com/embed/DqAADCdL2pE" title="香港CN2回国专线：GT 和 GIA 的区别，实测数据告诉你差多少" allowfullscreen loading="lazy"></iframe></div>
+<h2>GT 和 GIA</h2>
+<p>第一种叫 CN2 GT，Global Transit。它是半程 CN2，国际段走 CN2，回国段还是 163 骨干。晚高峰和普通线路一样堵。第二种叫 CN2 GIA，Global Internet Access。</p>
+<p>全程 CN2，回国段也是。晚高峰不掉速。这才是真专线。</p>
+<h2>怎么鉴别</h2>
+<p>鉴别方法是 traceroute，数 59 点 43 开头的跳数。如果只在出境段出现两到三跳，那是 GT。如果全程八到十五跳都是 59 点 43，那是 GIA。下次有人跟你说香港CN2中转，让他跑个 traceroute 发你。</p>
+<p>不敢发的，就是 GT 冒充 GIA。</p>
+<h2>东南亚实测</h2>
+<p>再说东南亚回国的实测。同一台机器，同一个时间点，晚上九点。直连回国的话，路由是新加坡到日本到美国到上海，一百八到两百五十毫秒，丢包百分之三到八。走香港中转的话，新加坡到香港走CN2到上海，六十到八十毫秒，丢包百分之一以内。</p>
+<h2>为什么差这么多</h2>
+<p>为什么差这么多，看路由就明白了。直连的时候数据包先飞日本三十毫秒，再到美国一百二十毫秒，再回上海六十毫秒，加起来两百一十毫秒。香港中转是到香港三十毫秒，CN2 进内地三十毫秒，一共六十毫秒。</p>
+<p>物理距离决定下限，路由决定你实际拿到多少。</p>
+<h2>结论</h2>
+<p>所以东南亚回国，香港中转不是营销词，是物理最优解。曼谷、雅加达、吉隆坡同理。但前提是 GIA 不是 GT，这个必须验证。</p>
+<div class="cta"><h3>需要测一下你现在的线路？</h3><p>提供独享静态IP、回国专线、香港CN2/GIA中转，L2TP 与 VLESS 双协议。软路由（iKuai / OpenWrt / MikroTik）原生拨号，东南亚自有中转仓。</p><p>报你的场景（养什么平台 / 什么路由器 / 在哪个国家），按场景给方案，不推年付。</p><p style="margin-top:18px"><a href="https://t.me/huiguo_staticip" style="display:inline-block;background:#00d6d6;color:#061018;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700;margin-right:12px">频道 · 线路更新</a><a href="https://t.me/huiguo_chat" style="display:inline-block;border:1px solid #00d6d6;color:#00d6d6;padding:12px 26px;border-radius:6px;text-decoration:none;font-weight:700">交流群 · 技术答疑</a></p></div>
+<div class="rel"><h3>相关内容</h3><a href="/duxiang-static-ip/">独享静态IP 怎么选？养号前必须知道的 5 个判断标准</a><a href="/yanghao-ip/">养号IP 完全指南：为什么必须独享静态，三个平台视角讲透</a><a href="/softrouter-l2tp/">iKuai 软路由用 L2TP 拨号回国：完整配置，全屋设备自动走</a><a href="/xiaohuojian-vless/">Shadowrocket 小火箭配置 VLESS：参数怎么填，三个常见错误</a></div>
+</main>
+<footer><div class="wrap">
+库珀网络 · 独享静态IP / 回国专线 / 香港CN2中转<br>
+L2TP · VLESS · 软路由组网 · 东南亚自有中转仓<br><br><a href="https://t.me/huiguo_staticip" style="color:#00d6d6;text-decoration:none">Telegram 频道</a> · <a href="https://t.me/huiguo_chat" style="color:#00d6d6;text-decoration:none">技术交流群</a>
+</div></footer>
+</body>
+</html>
